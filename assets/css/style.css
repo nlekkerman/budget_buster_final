@@ -1,0 +1,858 @@
+@import url('https://fonts.googleapis.com/css2?family=Tienne:wght@400;700;900&display=swap&family=Lato&family=Montserrat&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Tienne:wght@400;700;900&display=swap');
+
+
+* {
+    /* background-color: #F9F0D9; */
+    background-color: #ffffff;
+    color: #262828;
+}
+html {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+}
+/* main element styles */
+main {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    width: 100%;
+    max-height: 100vh;
+
+}
+
+/* Body styles */
+body {
+    height: 100%;
+    display: flex;
+    min-width: 100%;
+    overflow: hidden;
+    min-height: 100vh;
+    justify-content: center; 
+    flex-direction: column;
+}
+/*fit to screen responsive div*/
+.fit-to-screen-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100%;
+    max-width: 64.5em;
+    margin: 0;
+}
+.active {
+    color: #EEB533 !important;
+    font-weight: 700;
+}
+
+/* LOGO */
+.logo-image {
+    height: 85px;
+}
+
+h1,
+h2,
+.section {
+    padding: 10px;
+    margin: 0;
+    background-color: #3D946E;
+}
+
+h3 {
+    text-align: center;
+}
+
+
+
+.navbar-toggler-icon {
+    background-color: white;
+}
+
+.navbar-nav .nav-link {
+    padding: 5px !important;
+}
+
+.goals-box {
+    padding: 15px;
+    border-radius: 4px;
+    border: 3px solid #3D946E;
+    background-color: #B8F3D9;
+
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.analytics-list-item {
+    border: 1px solid #ccc;
+    margin: 0px 0;
+    list-style: none;
+
+}
+
+/*expense section*/
+#expense-section {
+    flex: 1;
+    display: flex;
+    margin-top: 2rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-width: 100%;
+    overflow-x: scroll;
+    max-height: 100%;
+}
+
+#scrollable-container {
+    overflow-Y: auto; 
+    width: 100%;
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+#data-display-list {
+    display: flex;
+    flex-direction: column;
+    list-style-type: none; /* Remove default list styles */
+    padding: 0;
+    margin: 0;
+    display: flex; /* Use flexbox to arrange divs horizontally */
+}
+
+#data-display-list > div {
+    /* Adjust styles for each individual div */
+    border: 2px solid silver; /* Updated border style */
+    border-radius: 5px; /* Added border radius */
+    padding: 10px;
+    margin-top: 10px;
+    box-shadow: 2px 2px 5px #888888; /* Added box shadow */
+}
+#data-display-list > div:last-child {
+    border: 2px solid rgb(72, 72, 72); 
+}
+#display-data-inner-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+}
+
+#data-analytics-title {
+    width: 100%;
+    background-color: #EEB533;
+    justify-content: center;
+    display: flex;
+    text-align: center;
+}
+#goals-display-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+}
+
+#goals-display-list > div {
+    width: 100%;
+    margin: 0;
+    margin-bottom: 2px;
+    padding: 10px;
+    box-sizing: border-box;
+    border:3px solid #212529;
+}
+
+
+#cost-value-input {
+    display: block;
+    margin: 0 auto;
+    height: 1rem;
+    /* This will center the element horizontally */
+    text-align: center;
+}
+
+.expense-buttons h3 {
+    margin-bottom: 10px;
+}
+
+/*goals section*/
+#goals-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100;
+}
+
+/*goals text for empty goals container*/
+#goals-container p {
+    flex: 1;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 3em;
+    background: #EEB533;
+}
+/*display budget input*/
+#update-budget-container {
+
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+
+}
+
+/* Allow buttons to wrap into multiple rows */
+.expense-buttons {
+
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+#basic-needs-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+#luxury-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.buttons-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#basic-needs-buttons button {
+    width: 30%;
+    padding: 20px;
+    font-size: 0.8rem;
+    margin-bottom: 10px;
+}
+
+
+/* Footer styles */
+footer {
+    color: black;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 100000;
+    text-align: center;
+}
+
+/* Social media links styles */
+.social-links {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.social-links a {
+    color: #3D946E;
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 24px;
+}
+
+.fab:hover {
+    color: #EEB533 !important;
+}
+
+
+/* Additional styles for the footer paragraph */
+footer p {
+    margin-top: 10px;
+
+    font-size: 14px;
+
+}
+
+.foot-link {
+    color: #3D946E;
+}
+
+.foot-link:hover {
+    text-decoration: none;
+    font-weight: 700;
+    color: #EEB533;
+}
+
+h3,
+.card td {
+    background-color: #B8F3D9;
+   
+}
+
+
+.card-container {
+  
+    justify-content: center;
+  
+    overflow-x: scroll;
+}
+
+
+
+
+.card table {
+    max-width:100%;
+    border-collapse: collapse;
+}
+
+.card td {
+    padding: 6px;
+    text-align: center;
+}
+/* filter buttons*/
+.card button {
+    display: flex;
+    width: 20%;
+    text-align: center;
+    margin: 5px 0;
+    box-shadow: 4px 4px 10px 0 rgba(38, 40, 40, 0);
+    border-radius: 15px;
+    border: 2px solid #262828;
+   
+}
+
+.card button:hover {
+    background-color: #85CCAD;
+    /* background-color: #3D946E; */
+}
+
+.button-text {
+    font-family: 'Lato', sans-serif;
+}
+
+.input-type {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+
+}
+
+input,
+textarea#message {
+    padding: 5px;
+    border-radius: 3px;
+    border: 3px solid #EEB533;
+    height: 4em;
+}
+
+input {
+    width: 300px;
+}
+
+textarea {
+    height: 150px;
+}
+
+#update-budget-button {
+    width: 100%;
+    padding: 5px;
+    border-radius: 3px;
+    border: 3px solid #EEB533;
+}
+
+#main-input-value {
+    width: 300px;
+    text-align: center;
+}
+
+
+/*styles top regulate color displayed budget*/
+.positive-budget {
+    color: #3D946E;
+    font-family: 'Tienne', sans-serif;
+    font-size: 1.1rem;
+    text-align: center;
+    font-weight: bolder;
+}
+
+.negative-budget {
+    color: #f20e0e;
+    font-family: 'Tienne', sans-serif;
+    font-size: 24px;
+    font-weight: bolder;
+}
+
+/*animation for cost?budget number styles*/
+#input-animation-value-display {
+    position: absolute;
+    top: 20%;
+    right: 5%;
+    z-index: 10000;
+    transform: translateY(-50%);
+    margin-right: 20px;
+    padding: 5px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/*animations for expanse and budget inputs*/
+.fadeout-animation {
+    animation: fadeOut 1s ease-in-out forwards;
+}
+
+/* Updated calendar styles */
+#calendar {
+    max-width: 400px;
+    margin: 20px auto;
+    display: none;
+}
+
+#calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.day {
+    text-align: center;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.day:hover {
+    background-color: #e0e0e0;
+}
+
+.current-month {
+    grid-column: span 7;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-200%);
+    }
+}
+
+/* SCROLL TO TOP BUTTON */
+.scroll-top {
+    display: none;
+    position: fixed;
+    bottom: 25px;
+    right: 0px;
+    z-index: 999;
+    background-color: transparent;
+
+}
+
+#scroll-button {
+    border: 4px solid #EEB533;
+    border-radius: 50%;
+    margin-right: 15px;
+    width: 45px;
+    height: 45px;
+}
+
+#scroll-button:hover {
+    background-color: #B8F3D9;
+    border: 4px solid #262828;
+}
+
+.arrow {
+    font-size: 20px;
+    background-color: transparent;
+}
+
+
+/* JUMP TO SPECIFIC SECTION */
+a#aboutSection,
+a#contactSection,
+a#diarySection,
+a#insightsSection,
+a#setupSection {
+    color: #212529;
+}
+
+
+/* /* CONTACT US */
+.container {
+    width: 400px;
+    padding: 20px;
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+#contact-wraper{
+    display: none;
+color: white;
+align-items: center;
+justify-content: center;
+max-width: 100%;
+overflow: scroll;
+z-index: 100;
+width: 100%;
+height: 100%;
+position: absolute;
+}
+form #contact-form {
+    font-family: 'Tienne', sans-serif;
+    font-size: 16px;  
+
+    
+}
+
+label {
+    margin-bottom: 5px;
+}
+
+input,
+textarea {
+    margin-bottom: 15px;
+    padding: 10px;
+}
+
+input#file {
+    padding: 3px;
+}
+
+.submit-button {
+    width: 150px;
+    margin: 0 auto;
+    padding: 10px;
+    border-radius: 20px;
+    border: 3px solid #3D946E;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.submit-button:hover {
+    background-color: #B8F3D9;
+}
+
+/*navigation container*/
+#navigation-container{
+    display: none;
+}
+/*contact container*/
+#contact-container{
+   
+    display: block;
+    color: white;
+  
+    max-width: 100%;
+    overflow: scroll;
+    z-index: 100;
+    width: 100%;
+ 
+    position: absolute;
+}
+
+#about-section-wraper{
+display: none;
+color: white;
+align-items: center;
+justify-content: center;
+max-width: 100%;
+overflow: scroll;
+z-index: 100;
+width: 100%;
+height: 100%;
+position: absolute;
+}
+
+/*expenses container*/
+#wrap-expenses-container{
+    color: white;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+    max-height: 100%;
+    overflow-x: scroll;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 3;
+}
+/*INSIGHT SCREEN SECTION*/
+#insights-container {
+    color: white;
+    display: flex;
+    display: block;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 100400;
+}
+
+/*INSIGHST BUTTOONS*/
+#insight-navigation-buttons {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    text-align: center;
+}
+
+/*
+*styles fo goals and xspenses*
+**/
+
+/* Make the insight-content-container span the entire screen and use flex */
+#insight-content-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Make it fill the entire screen height */
+  }
+  
+  /* Make both children equally share the available space */
+  #tracker-body-container, #display-goals {
+    flex: 1;
+    border-bottom: 4PX solid grey;
+    overflow-y: auto; /* Add scrollbar if content overflows vertically */
+    padding: 20px; /* Add padding as needed */
+  }
+  
+/* Align #tracker-body-container to the top of its parent and set column layout */
+
+.goals-list-item {
+    margin-bottom: 8px; /* Adjust the margin as needed */
+}
+
+.goals-list-item strong {
+    font-weight: bold;
+    margin-right: 5px; /* Adjust the margin as needed */
+}
+
+.goals-list-item span {
+    font-weight: bold;
+}
+
+.goals-list-item .active {
+    color: green;
+    border: 1px solid #3D946E;
+}
+
+.goals-list-item .reached {
+    color: red;
+    border: 1px solid red;
+}
+#tracker-body-container{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+   
+    align-items: center;
+}
+#insights-buttons-container {
+    display: block;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
+    font-size: 0.6rem;
+    margin: 0;
+    justify-content: space-evenly;
+   
+}
+
+/* Style the data-analytics-title */
+#data-analytics-title {
+    margin-top: 0;
+    width: 90%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#goals-display-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#goals-display-list > li {
+   /* Set the font size to 23px for each list item */
+    margin: 0; /* Remove any margins */
+    /* Add other styles as needed */
+}
+
+
+/* Style the close button */
+#close-data-for-date-button {
+    margin: 0 auto;
+    padding: 10px;
+    display: none;
+    border-radius: 20px;
+    border: 3px solid #3D946E;
+    background-color: #85CCAD;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+  
+}
+
+#close-goals-button {
+    padding: 10px;
+    border-radius: 20px;
+    border: 3px solid #3D946E;
+    background-color: #85CCAD;
+    color: #262828;
+    font-size: 18px;
+    font-weight: 700;
+    width: 15rem;
+    cursor: pointer;
+    justify-content: center;
+    display: flex;
+    text-align: center;
+    margin: 0 auto;
+}
+
+#close-data-for-date-button:hover {
+    background-color: #FFFAED;
+    border: 3px solid #EEB533;
+
+}
+.insights-buttons{
+     margin: 5px;
+     padding: 10px;
+     background-color: white;
+     box-shadow: 4px 4px 8px 0 rgba(38, 40, 40, 0.7);
+     color:#3D946E ;
+     width: 12em;
+     text-align: center;
+     font-weight: 600;
+     border-radius: 26px;
+     cursor: pointer;
+     transition: background-color 0.3s ease;
+}
+/* Navbar styles */
+#navbar-nav {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-direction: row;
+    
+}
+
+.nav-link {
+    color: #fff;
+    padding: 5px 10px;
+    margin: 0 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 0.8em;
+}
+
+.nav-link:hover {
+    background-color: #EEB533; 
+
+}
+
+/* Active button style */
+.nav-link.active {
+    background-color: #262828; 
+
+}
+
+#nav-buttons-container{
+    width: 90%;
+}
+.contact-section {
+    margin-bottom: 80px;
+}
+
+/* TESTING CONTACT / SUCCESS MESSAGE */
+.message {
+    width: 100%;
+    position: relative;
+    margin-top: 0.5rem;
+    display: flex;
+    justify-content: center;
+}
+
+/*DEPOSIT AND GOALS STYLES*/
+#goals-popup {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+    border: 0.3rem solid #3D946E;
+    width: 80%;
+    position: fixed;
+    z-index: 4444444;
+}
+/*dosplay goals container*/
+#create-goal-form{
+    display: none;
+}
+#display-goals{
+    z-index: 1;
+   
+    display: flex;
+    display: block;
+    flex-direction: column;
+    top: 0;
+    width: 100%;
+   
+}
+
+#goals-analytics-title{
+    font-size: 1.3rem;
+}
+#goals-menu-title {
+    text-align: center;
+}
+
+.resize-buttons {
+    width: 50%;
+    margin-left: 25%;
+    margin-right: auto;
+}
+
+button#create-goal-button {
+    width: 80%;
+    background-color: #EEB533;
+    border: 2px solid #262828;
+    justify-content: center;
+    display: flex;
+    text-align: center;
+    margin: 0 auto;
+    border-radius: 20px;
+}
+
+p#no-goal-yet-message {
+    margin: 15px;
+    /* justify-content: center; */
+    text-align: inherit;
+}
