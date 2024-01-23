@@ -4,37 +4,290 @@ const homeButton = document.getElementById("homeButton");
 const insightsButton = document.getElementById("nav-link-insights");
 const aboutButton = document.getElementById("aboutButton");
 const contactButton = document.getElementById("contactButton");
-
-const analyticsPopupList = document.getElementById("analytics-popup-list");
-
-    const costBudgetInput = document.getElementById("cost-value-input");
-    const budgetDisplay = document.getElementById("budget-display");
-    const dataDisplayList = document.getElementById("data-display-list");
-    const getDataByDateButton = document.getElementById('get-data-by-date');
-    const getDataByTypeButton = document.getElementById('get-data-by-type');
-    const getDataByCategoryButton = document.getElementById('get-data-by-category');
-    const openExpensesScreen = document.getElementById('expense-section');
-    const insinghstScreen = document.getElementById('insights-container');
-    const contactScreen = document.getElementById('contact-wraper');
-    const aboutScreen = document.getElementById('about-section-wraper');
+ const analyticsPopupList = document.getElementById("analytics-popup-list");
     
-    const getDataGeneralButton = document.getElementById('get-data-general');
-    const dataTitle = document.getElementById("data-analytics-title");
-    const calendar = document.getElementById("calendar");
 
-    
+    const trackPopupContainer = document.getElementById("track-popup");
+   
     const createGoalForm = document.getElementById('create-goal-form')
-const filterDataButton = document.getElementById('tracker-data-button');
-const insightsNavContainer = document.getElementById('insight-navigation-buttons');
 const goalsButton = document.getElementById('goals-data-button');
 const displayGoals = document.getElementById('display-goals');
 const createGoalButton = document.getElementById('create-goal-button')
 const submitGoal = document.getElementById('submit-goal-button');
 const closeGoalScreenButton = document.getElementById('close-goals-button');
-const closePopup = document.getElementById('close-popup');
-const closeDataList = document.getElementById('close-data-for-date-button');
+const closePopupGoals = document.getElementById('close-popup');
+const closePopupInsights = document.getElementById('close-popup-insights');
+
+function displayData() {
+    // Get the data from local storage
+    const expenseTrackerDB = JSON.parse(localStorage.getItem('expense_tracker_DB')) || [];
+
+    // Log everything in the console
+    console.log("Expense Tracker Data:", expenseTrackerDB);
+
+    // Get the display list element
+    const dataDisplayList = document.getElementById("data-display-list");
+
+    // Clear existing content in the display list
+    dataDisplayList.innerHTML = "";
+
+    // Use sets to store unique values of expense_type and expense_category
+    const uniqueExpenseTypes = new Set();
+    const uniqueExpenseCategories = new Set();
+
+    // Iterate through the expenseTrackerDB array and add unique values to the sets
+    expenseTrackerDB.forEach(item => {
+        uniqueExpenseTypes.add(item.expense_type);
+        uniqueExpenseCategories.add(item.expense_category);
+    });
+
+    // Function to handle item click
+    function handleItemClick(itemType, itemValue) {
+        // Perform actions based on the clicked item type
+        switch (itemType) {
+            case "expenseType":
+                // Action for expense type clicked
+                console.log("Expense Type Clicked:", itemValue);
+                itemSelectedData(itemValue, expenseTrackerDB);
+                trackPopupContainer.style.display = "block";
+
+                // Add your specific actions for expense type here
+                break;
+            case "expenseCategory":
+                // Action for expense category clicked
+                console.log("Expense Category Clicked:", itemValue);
+                trackPopupContainer.style.display = "block";
+
+                // Add your specific actions for expense category here
+                break;
+            default:
+                // Default action
+                console.log("Unknown Item Type Clicked");
+                break;
+        }
+    }
+    
+    function itemSelectedData(expenseType, expenseTrackerDB) {
+        const filteredItems = expenseTrackerDB.filter(item => item.expense_type === expenseType);
+    
+        // Calculate the sum of all expense_type values
+        const sum = filteredItems.reduce((total, item) => total + item.expense_value, 0);
+    
+        // Log the sum of expense_type values
+        console.groupCollapsed(`Analyzing ${expenseType} Data`);
+        console.log(`Sum of ${expenseType} values: ${sum}`);
+    
+        // Calculate expenses per day
+        const expensesPerDay = filteredItems.reduce((acc, item) => {
+            const date = parseDate(item.expense_date);
+            if (date !== null) {
+                const formattedDate = date.toDateString();
+                acc[formattedDate] = (acc[formattedDate] || 0) + item.expense_value;
+            } else {
+                console.log(`Invalid Date: ${item.expense_date}`);
+            }
+            return acc;
+        }, {});
+    
+        // Calculate total expenses per day
+        const totalExpensesPerDay = Object.values(expensesPerDay).reduce((total, value) => total + value, 0);
+    
+        // Calculate and log expenses per day in percentage
+        Object.keys(expensesPerDay).forEach(date => {
+            const percentage = (expensesPerDay[date] / totalExpensesPerDay) * 100;
+            console.log(`${date}: ${expensesPerDay[date]} ( ${percentage.toFixed(2)}% )`);
+        });
+    
+        // Find the date with the most expenses
+        const mostExpensiveDate = Object.keys(expensesPerDay).reduce((maxDate, date) => {
+            return expensesPerDay[date] > expensesPerDay[maxDate] ? date : maxDate;
+        });
+    
+        // Log the date with the most expenses
+        console.log(`Date with the most expenses for ${expenseType}: ${mostExpensiveDate}`);
+        console.groupEnd();
+    
+        // Clear existing content in the analytics popup list
+        const analyticsPopupList = document.getElementById("analytics-popup-list");
+        analyticsPopupList.innerHTML = "";
+    
+        // Update the h3 element with the clicked expense type
+        const analyseTitle = document.getElementById("analyse-title");
+        analyseTitle.innerText = `Analysis for ${expenseType}`;
+    
+        // Create a list item for the sum of expense_type values
+        const sumListItem = document.createElement("li");
+        sumListItem.innerHTML = `Sum of ${expenseType} values: ${sum}`;
+        analyticsPopupList.appendChild(sumListItem);
+    
+        // Create list items for expenses per day in percentage and numbers
+        Object.keys(expensesPerDay).forEach(date => {
+            const percentage = (expensesPerDay[date] / totalExpensesPerDay) * 100;
+    
+            const listItem = document.createElement("li");
+            listItem.innerHTML = `${date}: ${expensesPerDay[date]} ( ${percentage.toFixed(2)}% )`;
+            analyticsPopupList.appendChild(listItem);
+        });
+    
+        // Create a list item for the date with the most expenses
+        const mostExpensiveDateListItem = document.createElement("li");
+        mostExpensiveDateListItem.innerHTML = `Date with the most expenses for ${expenseType}: ${mostExpensiveDate}`;
+        analyticsPopupList.appendChild(mostExpensiveDateListItem);
+    
+        // Get the track popup container
+        const trackPopupContainer = document.getElementById("track-popup");
+    
+        // Make the track-popup element visible
+        trackPopupContainer.style.display = "block";
+    }
+    
+    
+// Function to handle item click
+function handleItemClick(itemType, itemValue) {
+    // Perform actions based on the clicked item type
+    switch (itemType) {
+        case "expenseType":
+            // Action for expense type clicked
+            console.log("Expense Type Clicked:", itemValue);
+            itemSelectedData(itemValue, expenseTrackerDB);
+            trackPopupContainer.style.display = "block";
+            // Add your specific actions for expense type here
+            break;
+        case "expenseCategory":
+            // Action for expense category clicked
+            console.log("Expense Category Clicked:", itemValue);
+            itemSelectedDataByCategory(itemValue, expenseTrackerDB);
+            trackPopupContainer.style.display = "block";
+            // Add your specific actions for expense category here
+            break;
+        default:
+            // Default action
+            console.log("Unknown Item Type Clicked");
+            break;
+    }
+}
+
+function itemSelectedDataByCategory(expenseCategory, expenseTrackerDB) {
+    const filteredItems = expenseTrackerDB.filter(item => item.expense_category === expenseCategory);
+
+    const sum = filteredItems.reduce((total, item) => total + item.expense_value, 0);
+
+    const expensesPerDay = filteredItems.reduce((acc, item) => {
+        const date = parseDate(item.expense_date);
+        if (date !== null) {
+            const formattedDate = date.toDateString();
+            acc[formattedDate] = (acc[formattedDate] || 0) + item.expense_value;
+        } else {
+            console.log(`Invalid Date: ${item.expense_date}`);
+        }
+        return acc;
+    }, {});
+
+    const totalExpensesPerDay = Object.values(expensesPerDay).reduce((total, value) => total + value, 0);
+
+    const mostExpensiveDate = Object.keys(expensesPerDay).reduce((maxDate, date) => {
+        return expensesPerDay[date] > expensesPerDay[maxDate] ? date : maxDate;
+    });
+
+    const leastExpensiveDate = Object.keys(expensesPerDay).reduce((minDate, date) => {
+        return expensesPerDay[date] < expensesPerDay[minDate] ? date : minDate;
+    });
+
+    const analyticsPopupList = document.getElementById("analytics-popup-list");
+    analyticsPopupList.innerHTML = "";
+
+    const analyseTitle = document.getElementById("analyse-title");
+    analyseTitle.innerText = `Analysis for ${expenseCategory}`;
+
+    const highestExpensesDateItem = document.createElement("li");
+    highestExpensesDateItem.innerHTML = `<strong class="highlight-text">Day with the highest expenses:</strong> ${mostExpensiveDate}<br> € ${expensesPerDay[mostExpensiveDate].toFixed(2)} <br> ( ${(expensesPerDay[mostExpensiveDate] / totalExpensesPerDay * 100).toFixed(2)}% )`;
+    analyticsPopupList.appendChild(highestExpensesDateItem);
+
+    const lowestExpensesDateItem = document.createElement("li");
+    lowestExpensesDateItem.innerHTML = `<strong class="highlight-text">Day with the lowest expenses:</strong> ${leastExpensiveDate}<br> € ${expensesPerDay[leastExpensiveDate].toFixed(2)} <br>( ${(expensesPerDay[leastExpensiveDate] / totalExpensesPerDay * 100).toFixed(2)}% )`;
+    analyticsPopupList.appendChild(lowestExpensesDateItem);
+    
+    const sumListItem = document.createElement("li");
+    sumListItem.innerHTML = `<strong class="highlight-text">All Expenses per Category:</strong><br> € ${sum} (100%)`; // Assuming all expenses cover 100%
+    analyticsPopupList.appendChild(sumListItem);
+    
+    Object.keys(expensesPerDay).forEach(date => {
+        if (date !== mostExpensiveDate && date !== leastExpensiveDate) {
+            const expenseValue = expensesPerDay[date];
+            const percentage = (expenseValue / totalExpensesPerDay) * 100;
+
+          
+        }
+    });
+
+    const trackPopupContainer = document.getElementById("track-popup");
+    trackPopupContainer.style.display = "block";
+}
 
 
+// Helper function to parse date string in "M/D/YYYY" format
+function parseDate(dateString) {
+    const parts = dateString.split('/');
+    if (parts.length === 3) {
+        const month = parseInt(parts[0], 10) - 1;
+        const day = parseInt(parts[1], 10);
+        const year = parseInt(parts[2], 10);
+        return new Date(year, month, day);
+    }
+    return null;
+}
+
+    // Helper function to parse date string in "M/D/YYYY" format
+    function parseDate(dateString) {
+        const parts = dateString.split('/');
+        if (parts.length === 3) {
+            const month = parseInt(parts[0], 10) - 1;
+            const day = parseInt(parts[1], 10);
+            const year = parseInt(parts[2], 10);
+            return new Date(year, month, day);
+        }
+        return null;
+    }
+    
+    
+    // Create list items for unique expense_type values
+    uniqueExpenseTypes.forEach(expenseType => {
+        const listItem = document.createElement("li");
+
+        // Apply styles to the list item
+        listItem.style.padding = "10px";
+        listItem.style.border = "1px solid #ccc";
+        listItem.style.marginBottom = "5px";
+        listItem.style.backgroundColor = "#f8f8f8";
+        listItem.style.textAlign = "center";
+
+        listItem.innerHTML = `<strong>${expenseType}</strong>`;
+        dataDisplayList.appendChild(listItem);
+
+        // Add click event listener to the item
+        listItem.addEventListener("click", () => handleItemClick("expenseType", expenseType));
+    });
+
+    // Create list items for unique expense_category values
+    uniqueExpenseCategories.forEach(expenseCategory => {
+        const listItem = document.createElement("li");
+
+        // Apply styles to the list item
+        listItem.style.padding = "10px";
+        listItem.style.border = "1px solid #ccc";
+        listItem.style.marginBottom = "5px";
+        listItem.style.backgroundColor = "#f8f4f9";
+        listItem.style.textAlign = "center";
+
+        listItem.innerHTML = `<strong>${expenseCategory}</strong> `;
+        dataDisplayList.appendChild(listItem);
+
+        // Add click event listener to the item
+        listItem.addEventListener("click", () => handleItemClick("expenseCategory", expenseCategory));
+    });
+}
+
+displayData();
 /** NAvigation */
 
   
@@ -58,24 +311,6 @@ const closeDataList = document.getElementById('close-data-for-date-button');
   });
   
   
-  aboutButton.addEventListener("click", function() {
-    aboutScreen.style.display = 'block';
-    contactScreen.style.display = 'none'
-    insinghstScreen.style.display = 'none';
-    openExpensesScreen.style.display = 'none';
-  });
-  
-  
-  contactButton.addEventListener("click", function() {
-   contactScreen.style.display = 'block'
-   insinghstScreen.style.display = 'none';
-   openExpensesScreen.style.display = 'none';
-   aboutScreen.style.display = 'none';
-
-  })
-/** CODE FOR GOALS; SCREEN HANDELING
- * 
- */
 
 // Add an event listener to the button
 createGoalButton.addEventListener('click', function () {
@@ -101,25 +336,26 @@ closeGoalScreenButton.addEventListener('click', function () {
    
         displayGoals.style.display = 'none';
     
-    console.log('Create Goal button clicked!');
+    console.log('CLOSE Goal button clicked!');
 });
 
 
-closePopup.addEventListener('click', function () {
+closePopupGoals.addEventListener('click', function () {
    
     document.getElementById("goals-popup").style.display = "none";
 
 
-console.log('Create Goal button clicked!');
+console.log('closepopu!');
 });
-closeDataList.addEventListener('click', function () {
-   dataDisplayList.style.display = 'none'
-   closeDataList.style.display = 'none';
+
+closePopupInsights.addEventListener('click', function () {
    
+    document.getElementById("track-popup").style.display = "none";
 
-  
 
+console.log('closepopu!');
 });
+
 goalsButton.addEventListener('click', function () {
     // Toggle the visibility of the display-goals element
     if (displayGoals.style.display === 'none') {
@@ -149,7 +385,7 @@ function displayGoalsList() {
             let goalDiv = document.createElement("div");
             goalDiv.innerHTML =
                 "<strong>Goal:</strong> " + goalData.goalName + "<br>" +
-                "<strong>Status:</strong> " + goalData.goalStatus + "<br>" +  "<strong> //CLICK MORE DATA// </strong> "+"<br><br>";
+                "<strong>Status:</strong> " + goalData.goalStatus + "<br>" +"<br><br>";
 
             // Apply styles based on goal status
             if (goalData.goalStatus === "active") {
@@ -180,6 +416,7 @@ function displayChildrenOfGoalsDatabase(goalData) {
     console.log("Children of goals database for goal:", goalData);
     console.log("Child 1:", goalData.child1);
     console.log("Child 2:", goalData.child2);
+    console.log("Child 2:", goalData.child3);
     // ...
 }
 function populateGoalsDetailsList(listElement, goalData) {
@@ -227,7 +464,7 @@ function saveGoal() {
 
     // Get the current date formatted as day/month/year
     let currentDate = new Date();
-    let formattedCurrentDate = currentDate.toLocaleDateString("en-GB"); // Adjust the locale as needed
+    let formattedCurrentDate = currentDate.toLocaleDateString("en-US"); // Adjust the locale as needed
 
    
 
@@ -262,518 +499,12 @@ function clearGoalDatabase() {
 }
   // Refresh the goal list
   displayGoalsList();
-function generateCalendar(year, month) {
-    const firstDay = new Date(year, month, 1);
-    const lastDay = new Date(year, month + 1, 0);
-    const daysInMonth = lastDay.getDate();
-
-    // Clear previous calendar
-    calendarGrid.innerHTML = "";
-
-    // Add current month header
-    const currentMonthHeader = document.createElement("div");
-    currentMonthHeader.classList.add("current-month");
-    currentMonthHeader.textContent = new Intl.DateTimeFormat("en-US", { month: "long", year: "numeric" }).format(firstDay);
-    calendarGrid.appendChild(currentMonthHeader);
-
-    // Add day cells
-    for (let i = 0; i < firstDay.getDay(); i++) {
-        const emptyCell = document.createElement("div");
-        emptyCell.classList.add("day");
-        calendarGrid.appendChild(emptyCell);
-    }
-
-    for (let day = 1; day <= daysInMonth; day++) {
-        const dayCell = document.createElement("div");
-        dayCell.classList.add("day");
-        dayCell.textContent = day;
-        dayCell.addEventListener("click", () => handleDayClick(year, month, day));
-        calendarGrid.appendChild(dayCell);
-    }
-}
-
-function handleDayClick(year, month, day) {
-    const selectedDate = new Date(year, month, day).toLocaleDateString();
-    displayExpensesForSelectedDay(year, month, day);
-
-    calendar.style.display = 'none'
-
-}
-function displayExpensesForSelectedDay(selectedYear, selectedMonth, selectedDay) {
-    let savedData;
-    const storageKey = "expense_tracker_DB";
-
-    try {
-        savedData = JSON.parse(localStorage.getItem(storageKey)) || [];
-    } catch (error) {
-        console.error("Error parsing existing data:", error);
-        savedData = [];
-    }
-
-    // Filter entries for the selected date
-    const entriesForSelectedDate = savedData.filter(entry => {
-        const entryDate = new Date(entry.expense_date);
-        return (
-            entryDate.getFullYear() === selectedYear &&
-            entryDate.getMonth() === selectedMonth &&
-            entryDate.getDate() === selectedDay
-        );
-    });
-
-    // Check if there are entries for the selected date
-    if (entriesForSelectedDate.length === 0) {
-        alert(`No entries found for ${selectedYear}-${selectedMonth + 1}-${selectedDay}`);
-        calendarGrid.style.display = 'block'; // Show the calendar grid
-        return;
-    }
-
-    // Display the filtered entries
-    displayCostsList(entriesForSelectedDate);
-
-        // Update the title text
-    dataTitle.textContent = `Expenses on ${selectedDay}/${selectedMonth + 1}/${selectedYear}`;
-
-}
-
-// Function to display the filtered entries
-function displayCostsList(entries) {
-    const dataDisplayList = document.getElementById("data-display-list");
-
-    dataDisplayList.innerHTML = "";
-
-    // Display each entry in the list
-    entries.forEach(entry => {
-        const listItem = document.createElement("div");
-        listItem.classList.add("analytics-list-item"); 
-        listItem.innerHTML = `
-        <strong>Expense:</strong> 
-        <span style="color: ${entry.expense_value >= 0 ? 'green' : 'red'};">€${entry.expense_value.toFixed(2)}</span>, 
-        <strong>Category:</strong> ${entry.expense_category}, <strong>Type:</strong> ${entry.expense_type}, 
-     
-    `;
-
-       
-        dataDisplayList.appendChild(listItem);
-    });
-}
-// Initial rendering for the current month
-const currentDate = new Date();
-generateCalendar(currentDate.getFullYear(), currentDate.getMonth());
-  
-    let initialBudget = 0;
-    getDataByDateButton.addEventListener('click', function() {
-        toggleCalendar();
-       clearDataDisplayList();
-       dataTitle.innerHTML = "EXPENSES BY DATE";
-       dataDisplayList.style.display = 'block'
-       closeDataList.style.display = 'block';
-
-        console.log('Button Clicked:', getDataByDateButton.id);
-    });
-    getDataGeneralButton.addEventListener('click', function() { 
-        dataDisplayList.style.display ='block'       
-        displayAnalyticsData();
-        dataTitle.innerHTML = "GENERAL EXPENSES";
-        closeDataList.style.display = 'block';
-
-        console.log('Button Clicked:', getDataByDateButton.id);
-    });
-   
-    getDataByCategoryButton.addEventListener('click', function () {
-        // Retrieve your expense data from local storage
-        const savedData = JSON.parse(localStorage.getItem("expense_tracker_DB")) || [];
-        dataTitle.innerHTML = "EXPENSES BY CATEGORY";
-
-        closeDataList.style.display = 'block';
-
-        // Calculate analytics data for expense categories
-        const categoryAnalyticsData = calculateCategoryAnalyticsData(savedData);
-        dataDisplayList.style.display = 'block'
-
-        // Clear previous data in the list
-        dataDisplayList.innerHTML = "";
-    
-        // Display the analytics data for expense categories
-        displayCategoryAnalyticsList(categoryAnalyticsData);
-    });
-    
-   
-    getDataByTypeButton.addEventListener('click', function () {
-        // Retrieve your expense data from local storage
-        const savedTypeData = JSON.parse(localStorage.getItem("expense_tracker_DB")) || [];
-        dataDisplayList.style.display = 'block'
-        clearDataDisplayList();
-        dataTitle.innerHTML = "EXPENSES BY TYPE";
-        closeDataList.style.display = 'block';
-
-        // Call the function to display analytics data for expense types
-        const typeAnalyticsData = calculateTypeAnalyticsData(savedTypeData);
-
-        // Clear previous data in the list
-        dataDisplayList.innerHTML = "";
-    
-        // Display the analytics data for expense types
-        displayTypeAnalyticsList(typeAnalyticsData);
-    });
-    function manipulateExpenses(category, type) {
-        const costValue = parseFloat(costBudgetInput.value);
-
-        if (isNaN(costValue) || costValue <= 0) {
-            console.log("Please enter a valid amount.");
-            return;
-        }
-
-        const currentDate = new Date().toLocaleDateString();
-        const data = {
-            expense_date: currentDate,
-            expense_type: type,
-            expense_category: category,
-            expense_value: costValue,
-        };
-
-        let savedData;
-        const storageKey = "expense_tracker_DB";
-        try {
-            savedData = JSON.parse(localStorage.getItem(storageKey)) || [];
-        } catch (error) {
-            console.error("Error parsing existing data:", error);
-            savedData = [];
-        }
-
-        savedData.push(data);
-        localStorage.setItem(storageKey, JSON.stringify(savedData));
-
-        initialBudget -= costValue;
-        localStorage.setItem("budget", initialBudget);
-        displayBudget(initialBudget);
-        displayAnimationValue(costValue, "red", "-");
-
-        console.log(`Current content of "${storageKey}" database after manipulation:`);
-        console.log(localStorage.getItem(storageKey));
-
-        costBudgetInput.value = "";
-    }
-
- 
-   
-
-  
-
-
-
-function displayAnalyticsData() {
-    let savedData;
-    const storageKey = "expense_tracker_DB";
-
-    try {
-        savedData = JSON.parse(localStorage.getItem(storageKey)) || [];
-    } catch (error) {
-        console.error("Error parsing existing data:", error);
-        savedData = [];
-    }
-
-    const totalSpend = savedData.reduce((total, entry) => total + parseFloat(entry.expense_value), 0);
-    const analyticsData = calculateAnalyticsData(savedData, totalSpend);
-
-    // Call displayAnalyticsList with the obtained analyticsData
-    displayAnalyticsList(analyticsData);
-}
-   
-    /*clear data list*/
-    function clearDataDisplayList() {
-        const dataDisplayList = document.getElementById("data-display-list");
-        dataDisplayList.innerHTML = "";
-    }
-
-    function calculateAnalyticsData(data, totalSpend) {
-        const categories = {};
-        const types = {};
-        const remainingBudget = initialBudget - totalSpend;
-
-        data.forEach((entry) => {
-            // Calculate percentage spent
-            const percentage = (entry.expense_value / totalSpend) * 100;
-    
-            // Calculate remaining budget
-    
-            // Update category data
-            if (!categories[entry.expense_category]) {
-                categories[entry.expense_category] = {
-                    total: 0,
-                    percentage: 0,
-                };
-            }
-            categories[entry.expense_category].total += entry.expense_value;
-            categories[entry.expense_category].percentage = percentage;
-    
-            // Update type data
-            if (!types[entry.expense_type]) {
-                types[entry.expense_type] = {
-                    total: 0,
-                    percentage: 0,
-                };
-            }
-            types[entry.expense_type].total += entry.expense_value;
-            types[entry.expense_type].percentage = percentage;
-        });
-    
-        return {
-            categories,
-            types,
-            totalSpend,
-            remainingBudget,
-        };
-    }
-    
-    function displayAnalyticsList(analyticsData) {
-        const categories = analyticsData.categories;
-        const types = analyticsData.types;
-        const totalSpend = analyticsData.totalSpend;
-        const remainingBudget = analyticsData.remainingBudget;
-    
-        // Assuming you have a dataDisplayList element
-        const dataDisplayList = document.getElementById("data-display-list");
-        dataDisplayList.innerHTML = ""; // Clear previous data
-    
-        for (const category in categories) {
-            const categoryData = categories[category];
-            const categoryId = `category-${category}`; // Unique identifier
-            const categoryItem = document.createElement("div");
-            categoryItem.classList.add("analytics-item", "category-item");
-            categoryItem.id = categoryId; // Set the id
-            categoryItem.innerHTML = `<strong>${category}</strong>,<br>
-                Total: <span style="color: ${categoryData.total >= 0 ? 'green' : 'red'};">€${categoryData.total.toFixed(2)}</span>,<br>
-                Percentage: <span style="color: ${categoryData.percentage >= 0 ? 'green' : 'red'};">${categoryData.percentage.toFixed(2)}%</span>`;
-            dataDisplayList.appendChild(categoryItem);
-    
-            // Attach click event listener
-            categoryItem.addEventListener("click", () => logItemData(categoryId, categoryData));
-        }
-    
-        // Display type data
-        for (const type in types) {
-            const typeData = types[type];
-            const typeId = `type-${type}`; // Unique identifier
-            const typeItem = document.createElement("div");
-            typeItem.classList.add("analytics-item", "type-item");
-            typeItem.id = typeId; // Set the id
-            typeItem.innerHTML = `<strong>${type}</strong>:<br>
-                Total: <span style="color: ${typeData.total >= 0 ? 'green' : 'red'};">€${typeData.total.toFixed(2)}</span>,<br>
-                Percentage: <span style="color: ${typeData.percentage >= 0 ? 'green' : 'red'};">${typeData.percentage.toFixed(2)}%</span>`;
-            dataDisplayList.appendChild(typeItem);
-    
-            // Attach click event listener
-            typeItem.addEventListener("click", () => logItemData(typeId, typeData));
-        }
-    
-        // Display total spend and remaining budget
-        const totalSpendItem = document.createElement("div");
-        totalSpendItem.classList.add("analytics-item", "total-spend-item");
-        totalSpendItem.innerHTML = `<strong>Total Spent:</strong><br>
-            <span style="color: ${totalSpend >= 0 ? 'green' : 'red'};">€${totalSpend.toFixed(2)}</span>`;
-        dataDisplayList.appendChild(totalSpendItem);
-    
-        const remainingBudgetItem = document.createElement("div");
-        remainingBudgetItem.classList.add("analytics-item", "remaining-budget-item");
-        remainingBudgetItem.innerHTML = `<strong>Remaining Budget:</strong><br>
-            <span style="color: ${remainingBudget >= 0 ? 'green' : 'red'};">€${remainingBudget.toFixed(2)}</span>`;
-        dataDisplayList.appendChild(remainingBudgetItem);
-    }
-    
-    function logItemData(itemId, itemData) {
-        // Assuming you have an analyticsPopupList element
-        const analyticsPopupList = document.getElementById("analytics-popup-list");
-        analyticsPopupList.innerHTML = ""; // Clear previous data
-    
-        // Create a list item for each property in itemData
-        for (const property in itemData) {
-            const listItem = document.createElement("li");
-            listItem.innerHTML = `<strong>${property}:</strong> ${itemData[property]}`;
-            analyticsPopupList.appendChild(listItem);
-        }
-    
-        // Display the popup
-        displayPopup();
-    }
-    
-    function displayPopup() {
-        // Assuming you have a goalsPopup element
-        const goalsPopup = document.getElementById("goals-popup");
-        goalsPopup.style.display = "block"; // Adjust the display style as needed
-    }
-      /**
-     * code to get and display data for CATEGORIES of expense to get
-     */
-// Function to display analytics data for expense categories
-// Modify the event listener for the button
-
-// Function to calculate analytics data for expense categories
-function calculateCategoryAnalyticsData(data) {
-    const categories = {};
-    const totalSpend = data.reduce((total, entry) => total + parseFloat(entry.expense_value), 0);
-    const remainingBudget = initialBudget - totalSpend;
-
-    data.forEach((entry) => {
-        // Calculate percentage spent
-        const percentage = (entry.expense_value / totalSpend) * 100;
-
-        // Update category data
-        if (!categories[entry.expense_category]) {
-            categories[entry.expense_category] = {
-                total: 0,
-                percentage: 0,
-            };
-        }
-        categories[entry.expense_category].total += entry.expense_value;
-        categories[entry.expense_category].percentage = percentage;
-    });
-
-    return {
-        categories,
-        totalSpend,
-        remainingBudget,
-    };
-}
-
-// Function to display analytics data for expense categories
-function displayCategoryAnalyticsList(categoryAnalyticsData) {
-    const categories = categoryAnalyticsData.categories;
-    const totalSpend = categoryAnalyticsData.totalSpend;
-    const remainingBudget = categoryAnalyticsData.remainingBudget;
-
-    // Display category data
-    for (const category in categories) {
-        const categoryData = categories[category];
-        const categoryItem = document.createElement("li");
-        categoryItem.classList.add("analytics-list-item");
-        categoryItem.innerHTML = `<strong>${category}</strong>, 
-            Total: <span style="color: ${categoryData.total >= 0 ? 'green' : 'red'};">€${categoryData.total.toFixed(2)}</span>, 
-            Percentage: <span style="color: ${categoryData.percentage >= 0 ? 'green' : 'red'};">${categoryData.percentage.toFixed(2)}%</span>`;
-        dataDisplayList.appendChild(categoryItem);
-    }
-
-    // Display total spend and remaining budget for categories
-    const totalSpendItem = document.createElement("li");
-    totalSpendItem.classList.add("analytics-list-item");
-    totalSpendItem.innerHTML = `<strong>Total Spent:</strong> 
-        <span style="color: ${totalSpend >= 0 ? 'green' : 'red'};">€${totalSpend.toFixed(2)}</span>`;
-    dataDisplayList.appendChild(totalSpendItem);
-
-    const remainingBudgetItem = document.createElement("li");
-    remainingBudgetItem.classList.add("analytics-list-item");
-    remainingBudgetItem.innerHTML = `<strong>Remaining Budget:</strong> 
-        <span style="color: ${remainingBudget >= 0 ? 'green' : 'red'};">€${remainingBudget.toFixed(2)}</span>`;
-    dataDisplayList.appendChild(remainingBudgetItem);
-}
-displayAnalyticsData();
-
-
-    /**
-     * code to get and display data for TYPES of expense to get
-     */
-// Function to display analytics data for all expense types
-function displayTypeAnalyticsList(typeAnalyticsData) {
-    const types = typeAnalyticsData.types;
-    const totalSpend = typeAnalyticsData.totalSpend;
-    const remainingBudget = typeAnalyticsData.remainingBudget;
-
-    // Assuming you have a dataDisplayList element
-    const dataDisplayList = document.getElementById("data-display-list");
-    dataDisplayList.innerHTML = ""; // Clear previous data
-
-    // Display type data for all expense types
-    for (const expenseType in types) {
-        const typeData = types[expenseType];
-        const typeItem = document.createElement("div"); // Create a div element
-        typeItem.classList.add("analytics-list-item"); // Add a class to the div
-        typeItem.innerHTML = `<strong>${expenseType}</strong>: 
-            Total: <span style="color: ${typeData.total >= 0 ? 'green' : 'red'};">€${typeData.total.toFixed(2)}</span>, 
-            Percentage: <span style="color: ${typeData.percentage >= 0 ? 'green' : 'red'};">${typeData.percentage.toFixed(2)}%</span>`;
-        dataDisplayList.appendChild(typeItem);
-    }
-
-    // Display total spend and remaining budget for types
-    const totalSpendItem = document.createElement("div");
-    totalSpendItem.classList.add("analytics-list-item");
-    totalSpendItem.innerHTML = `<strong>Total Spent:</strong> 
-        <span style="color: ${totalSpend >= 0 ? 'green' : 'red'};">€${totalSpend.toFixed(2)}</span>`;
-    dataDisplayList.appendChild(totalSpendItem);
-
-    const remainingBudgetItem = document.createElement("div");
-    remainingBudgetItem.classList.add("analytics-list-item");
-    remainingBudgetItem.innerHTML = `<strong>Remaining Budget:</strong> 
-        <span style="color: ${remainingBudget >= 0 ? 'green' : 'red'};">€${remainingBudget.toFixed(2)}</span>`;
-    dataDisplayList.appendChild(remainingBudgetItem);
-}
-
-function toggleCalendar() {
-    const calendar = document.getElementById('calendar');
-    calendar.style.display = (calendar.style.display === 'none') ? 'block' : 'none';
-}
-
-
-function calculateTypeAnalyticsData(data) {
-    const types = {};
-    const totalSpend = data.reduce((total, entry) => total + parseFloat(entry.expense_value), 0);
-    const remainingBudget = initialBudget - totalSpend;
-
-    data.forEach((entry) => {
-        // Calculate percentage spent
-        const percentage = (entry.expense_value / totalSpend) * 100;
-
-        // Update type data
-        if (!types[entry.expense_type]) {
-            types[entry.expense_type] = {
-                total: 0,
-                percentage: 0,
-            };
-        }
-        types[entry.expense_type].total += entry.expense_value;
-        types[entry.expense_type].percentage = percentage;
-    });
-
-    return {
-        types,
-        totalSpend,
-        remainingBudget,
-    };
-}
-
-// Function to display analytics data for expense types
-function displayTypeAnalyticsList(typeAnalyticsData) {
-    const types = typeAnalyticsData.types;
-    const totalSpend = typeAnalyticsData.totalSpend;
-    const remainingBudget = typeAnalyticsData.remainingBudget;
-
-    // Display type data
-    for (const type in types) {
-        const typeData = types[type];
-        const typeItem = document.createElement("li");
-        typeItem.classList.add("analytics-list-item");
-        typeItem.innerHTML = `<strong>${type}</strong>: 
-            Total: <span style="color: ${typeData.total >= 0 ? 'green' : 'red'};">€${typeData.total.toFixed(2)}</span>, 
-            Percentage: <span style="color: ${typeData.percentage >= 0 ? 'green' : 'red'};">${typeData.percentage.toFixed(2)}%</span>`;
-        dataDisplayList.appendChild(typeItem);
-    }
-
-    // Display total spend and remaining budget for types
-    const totalSpendItem = document.createElement("li");
-    totalSpendItem.classList.add("analytics-list-item");
-    totalSpendItem.innerHTML = `<strong>Total Spent:</strong> 
-        <span style="color: ${totalSpend >= 0 ? 'green' : 'red'};">€${totalSpend.toFixed(2)}</span>`;
-    dataDisplayList.appendChild(totalSpendItem);
-
-    const remainingBudgetItem = document.createElement("li");
-    remainingBudgetItem.classList.add("analytics-list-item");
-    remainingBudgetItem.innerHTML = `<strong>Remaining Budget:</strong> 
-        <span style="color: ${remainingBudget >= 0 ? 'green' : 'red'};">€${remainingBudget.toFixed(2)}</span>`;
-    dataDisplayList.appendChild(remainingBudgetItem);
-}
-
-
-
 
 });
+
+/***
+ * FUNCTIONS TO CALCULATE AND MANIPULATE WITH DATA
+ */
 
 
     // SCROLL TO TOP FUNCTION

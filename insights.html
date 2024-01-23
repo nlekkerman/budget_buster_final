@@ -41,65 +41,65 @@
 <body>
 
 
-    <!-- Nav Bar -->
-    <nav class="navbar navbar-expand-lg navbar-light">
-      
-
-            <img class="logo-image" src="assets/images/logo-new.png" alt="Budget Wise logo" />
-      
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <div class="navbar-nav" id="navbar-nav">
-                    <button class="nav-link home" id="homeButton">Home</button>
-                    <button class="nav-link insights" id="nav-link-insights">Insights</button>
-                    <button class="nav-link about" id="aboutButton">About</button>
-                    <button class="nav-link contact" id="contactButton">Contact</button>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-
+   
     <main>
+ <!-- Nav Bar -->
+ <nav class="navbar navbar-expand-lg navbar-light">
+      
+
+    <img class="logo-image" src="assets/images/logo-new.png" alt="Budget Wise logo" />
+
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <div class="navbar-nav" id="navbar-nav">
+            <button class="nav-link home" id="homeButton">Home</button>
+            <button class="nav-link insights" id="nav-link-insights">Insights</button>
+            <button class="nav-link about" id="aboutButton">About</button>
+            <button class="nav-link contact" id="contactButton">Contact</button>
+        </div>
+    </div>
+</div>
+</nav>
+
 
         <div id="insight-content-container">
+            <h3 id="analyse-menu">Insights</h2>
+
             <div id="tracker-body-container">
-                <h3 id="analyse-menu">Insights</h2>
+             
+                <div id="scrollable-container-display-data-conatiner">
+                    <ul id="data-display-list"></ul>
 
-                <div id="insights-buttons-container" class="card insights-buttons">
-                    <button id="get-data-general" class="button-text">General</button>
-                    <button id="get-data-by-type" class="button-text">Type</button>
-                    <button id="get-data-by-category" class="button-text">Category</button>
-                    <button id="get-data-by-date" class="button-text">Date</button>
-                </div>
-                <div id="scrollable-container">
-                    <ul id="data-display-list">
                     </div>
-                </div>
-
                 <div id="track-popup">
+                    <h3 id="analyse-title"></h2>
+
                     <ul id="analytics-popup-list"></ul>
-                    <button id="close-popup" class="button-text insights-buttons resize-buttons">Close</button>
+                    <button id="close-popup-insights" class="button-text insights-buttons resize-buttons">CLOSE</button>
 
                 </div>
-                    </ul>
-                    <button id="close-data-for-date-button" class="">Close</button>
+                   
+                  
                 
             </div>
             <div id="display-goals">
                 <h4 id="goals-menu-title">GOALS</h4>
 
-
-                
-
                 <p id="no-goal-yet-message"></p>
 
                 <ul id="goals-display-list"></ul>
                 <button id="create-goal-button" class="">CREATE GOAL</button>
+              
+                <button id="close-goals-button" class="insights-buttons">CLOSE</button>
+
+ <div id="goals-popup">
+                <ul id="data-goals-details-list"></ul>
+                <button id="close-popup" class="button-text insights-buttons resize-buttons">Close</button> </div>
+
                 <div id="create-goal-form">
                     <form id="goal-form">
                         <label for="goal-name">Goal Name (max 12 characters):</label>
@@ -119,40 +119,36 @@
                    <button type="submit" id="submit-goal-button">SUBMIT</button>
                     </form>
                 </div>
-                <button id="close-goals-button" class="insights-buttons">CLOSE</button>
-
-
             </div>
+           
+            </div>
+
+            <div id="insights-container">
+               
+                <button id="goals-data-button" class="button-text insights-buttons">GOALS</button>
+          
+
+            <div id="display-data-inner-container">
+                <h5 id="data-analytics-title"></h5>
+                <div id="display-data">
+                    <h4 id="analyse-menu-title"></h4>
+                    <div class="calendar-container">
+                        <div id="calendar" class="calendar-class">
+                            <div id="calendar-grid"></div>
+                        </div>
+                    </div>
+                    <h3 id="data-analytics-title"></h3>
+                   
+                    
+                </div>
+            </div>
+
+           
+    </div>
+
         </div>
        
-        <div id="insights-container">
-               
-                    <button id="goals-data-button" class="button-text insights-buttons">GOALS</button>
-              
-
-                <div id="display-data-inner-container">
-                    <h5 id="data-analytics-title"></h5>
-                    <div id="display-data">
-                        <h4 id="analyse-menu-title"></h4>
-                        <div class="calendar-container">
-                            <div id="calendar" class="calendar-class">
-                                <div id="calendar-grid"></div>
-                            </div>
-                        </div>
-                        <h3 id="data-analytics-title"></h3>
-                       
-                        
-                    </div>
-                </div>
-
-                <div id="goals-popup">
-                    <ul id="data-goals-details-list"></ul>
-                    <button id="close-popup" class="button-text insights-buttons resize-buttons">Close</button>
-
-                </div>
-               
-        </div>
-
+       
         
        
   
