@@ -10,13 +10,10 @@ const contactButton = document.getElementById("contactButton");
     const trackPopupContainer = document.getElementById("track-popup");
    
     const createGoalForm = document.getElementById('create-goal-form')
-const goalsButton = document.getElementById('goals-data-button');
-const displayGoals = document.getElementById('display-goals');
+
 const createGoalButton = document.getElementById('create-goal-button')
 const submitGoal = document.getElementById('submit-goal-button');
-const closeGoalScreenButton = document.getElementById('close-goals-button');
 const closePopupGoals = document.getElementById('close-popup');
-const closePopupInsights = document.getElementById('close-popup-insights');
 
 function displayData() {
     // Get the data from local storage
@@ -66,81 +63,94 @@ function displayData() {
                 break;
         }
     }
-    
-    function itemSelectedData(expenseType, expenseTrackerDB) {
-        const filteredItems = expenseTrackerDB.filter(item => item.expense_type === expenseType);
-    
-        // Calculate the sum of all expense_type values
-        const sum = filteredItems.reduce((total, item) => total + item.expense_value, 0);
-    
-        // Log the sum of expense_type values
-        console.groupCollapsed(`Analyzing ${expenseType} Data`);
-        console.log(`Sum of ${expenseType} values: ${sum}`);
-    
-        // Calculate expenses per day
-        const expensesPerDay = filteredItems.reduce((acc, item) => {
-            const date = parseDate(item.expense_date);
-            if (date !== null) {
-                const formattedDate = date.toDateString();
-                acc[formattedDate] = (acc[formattedDate] || 0) + item.expense_value;
-            } else {
-                console.log(`Invalid Date: ${item.expense_date}`);
-            }
-            return acc;
-        }, {});
-    
-        // Calculate total expenses per day
-        const totalExpensesPerDay = Object.values(expensesPerDay).reduce((total, value) => total + value, 0);
-    
-        // Calculate and log expenses per day in percentage
-        Object.keys(expensesPerDay).forEach(date => {
-            const percentage = (expensesPerDay[date] / totalExpensesPerDay) * 100;
-            console.log(`${date}: ${expensesPerDay[date]} ( ${percentage.toFixed(2)}% )`);
-        });
-    
-        // Find the date with the most expenses
-        const mostExpensiveDate = Object.keys(expensesPerDay).reduce((maxDate, date) => {
-            return expensesPerDay[date] > expensesPerDay[maxDate] ? date : maxDate;
-        });
-    
-        // Log the date with the most expenses
-        console.log(`Date with the most expenses for ${expenseType}: ${mostExpensiveDate}`);
-        console.groupEnd();
-    
-        // Clear existing content in the analytics popup list
-        const analyticsPopupList = document.getElementById("analytics-popup-list");
-        analyticsPopupList.innerHTML = "";
-    
-        // Update the h3 element with the clicked expense type
-        const analyseTitle = document.getElementById("analyse-title");
-        analyseTitle.innerText = `Analysis for ${expenseType}`;
-    
-        // Create a list item for the sum of expense_type values
-        const sumListItem = document.createElement("li");
-        sumListItem.innerHTML = `Sum of ${expenseType} values: ${sum}`;
-        analyticsPopupList.appendChild(sumListItem);
-    
-        // Create list items for expenses per day in percentage and numbers
-        Object.keys(expensesPerDay).forEach(date => {
-            const percentage = (expensesPerDay[date] / totalExpensesPerDay) * 100;
-    
-            const listItem = document.createElement("li");
-            listItem.innerHTML = `${date}: ${expensesPerDay[date]} ( ${percentage.toFixed(2)}% )`;
-            analyticsPopupList.appendChild(listItem);
-        });
-    
-        // Create a list item for the date with the most expenses
-        const mostExpensiveDateListItem = document.createElement("li");
-        mostExpensiveDateListItem.innerHTML = `Date with the most expenses for ${expenseType}: ${mostExpensiveDate}`;
-        analyticsPopupList.appendChild(mostExpensiveDateListItem);
-    
-        // Get the track popup container
-        const trackPopupContainer = document.getElementById("track-popup");
-    
-        // Make the track-popup element visible
-        trackPopupContainer.style.display = "block";
+  function itemSelectedData(expenseType, expenseTrackerDB) {
+    const filteredItems = expenseTrackerDB.filter(item => item.expense_type === expenseType);
+
+    const sum = filteredItems.reduce((total, item) => total + item.expense_value, 0);
+
+    const expensesPerDay = filteredItems.reduce((acc, item) => {
+        const date = parseDate(item.expense_date);
+        if (date !== null) {
+            const formattedDate = date.toDateString();
+            acc[formattedDate] = (acc[formattedDate] || 0) + item.expense_value;
+        } else {
+            console.log(`Invalid Date: ${item.expense_date}`);
+        }
+        return acc;
+    }, {});
+
+    const totalExpensesPerDay = Object.values(expensesPerDay).reduce((total, value) => total + value, 0);
+
+    const mostExpensiveDate = Object.keys(expensesPerDay).reduce((maxDate, date) => {
+        return expensesPerDay[date] > expensesPerDay[maxDate] ? date : maxDate;
+    });
+
+    const leastExpensiveDate = Object.keys(expensesPerDay).reduce((minDate, date) => {
+        return expensesPerDay[date] < expensesPerDay[minDate] ? date : minDate;
+    });
+
+    // Clear existing content in the analytics popup list
+    const analyticsPopupList = document.getElementById("analytics-popup-list");
+    analyticsPopupList.innerHTML = "";
+
+    // Update the h3 element with the clicked expense type
+    const analyseTitle = document.getElementById("analyse-title");
+    analyseTitle.innerText = `Analysis for ${expenseType}`;
+
+      // Create a list item for the sum of expense_type values with percentage
+      const sumPercentage = (sum / totalExpensesPerDay) * 100;
+      const sumListItem = document.createElement("li");
+      sumListItem.innerHTML = `<strong class="highlight-text-popup">All ${expenseType} expenses:</strong><br>€ ${sum} ( ${sumPercentage.toFixed(2)}% )`;
+      analyticsPopupList.appendChild(sumListItem);
+  
+    // Create list items for expenses per day in percentage and numbers
+    Object.keys(expensesPerDay).forEach(date => {
+        const percentage = (expensesPerDay[date] / totalExpensesPerDay) * 100;
+        const listItem = document.createElement("li");
+
+        // Check if the current date is the most expensive or least expensive date
+        if (date === mostExpensiveDate) {
+            listItem.innerHTML = `<strong class="highlight-text-popup">Day with highest expenses:</strong> <br> ${date} <br>€  ${expensesPerDay[date]} ( ${percentage.toFixed(2)}% )`;
+        } else if (date === leastExpensiveDate) {
+            listItem.innerHTML = `<strong class="highlight-text-popup">Day with lowest expenses:</strong> <br> ${date} <br>€ ${expensesPerDay[date]} ( ${percentage.toFixed(2)}% )`;
+        } else {
+            listItem.innerHTML = `<strong class="highlight-text-popup">All expenses:</strong> <br> € ${date} <br> ${expensesPerDay[date]} ( ${percentage.toFixed(2)}% )`;
+        }
+
+        analyticsPopupList.appendChild(listItem);
+    });
+
+    // Get the track popup container
+    const trackPopupContainer = document.getElementById("track-popup");
+
+    // Make the track-popup element visible
+    trackPopupContainer.style.display = "block";
+}
+  // Function to handle item click
+    function handleItemClick(itemType, itemValue) {
+        // Perform actions based on the clicked item type
+        switch (itemType) {
+            case "expenseType":
+                // Action for expense type clicked
+                console.log("Expense Type Clicked:", itemValue);
+                itemSelectedData(itemValue, expenseTrackerDB);
+                trackPopupContainer.style.display = "block";
+
+                // Add your specific actions for expense type here
+                break;
+            case "expenseCategory":
+                // Action for expense category clicked
+                console.log("Expense Category Clicked:", itemValue);
+                trackPopupContainer.style.display = "block";
+
+                // Add your specific actions for expense category here
+                break;
+            default:
+                // Default action
+                console.log("Unknown Item Type Clicked");
+                break;
+        }
     }
-    
     
 // Function to handle item click
 function handleItemClick(itemType, itemValue) {
@@ -200,11 +210,11 @@ function itemSelectedDataByCategory(expenseCategory, expenseTrackerDB) {
     analyseTitle.innerText = `Analysis for ${expenseCategory}`;
 
     const highestExpensesDateItem = document.createElement("li");
-    highestExpensesDateItem.innerHTML = `<strong class="highlight-text">Day with the highest expenses:</strong> ${mostExpensiveDate}<br> € ${expensesPerDay[mostExpensiveDate].toFixed(2)} <br> ( ${(expensesPerDay[mostExpensiveDate] / totalExpensesPerDay * 100).toFixed(2)}% )`;
+    highestExpensesDateItem.innerHTML = `<strong class="highlight-text">Day with the highest expenses:</strong> <br> ${mostExpensiveDate}<br> € ${expensesPerDay[mostExpensiveDate].toFixed(2)} <br> ( ${(expensesPerDay[mostExpensiveDate] / totalExpensesPerDay * 100).toFixed(2)}% )`;
     analyticsPopupList.appendChild(highestExpensesDateItem);
 
     const lowestExpensesDateItem = document.createElement("li");
-    lowestExpensesDateItem.innerHTML = `<strong class="highlight-text">Day with the lowest expenses:</strong> ${leastExpensiveDate}<br> € ${expensesPerDay[leastExpensiveDate].toFixed(2)} <br>( ${(expensesPerDay[leastExpensiveDate] / totalExpensesPerDay * 100).toFixed(2)}% )`;
+    lowestExpensesDateItem.innerHTML = `<strong class="highlight-text">Day with the lowest expenses:</strong><br>  ${leastExpensiveDate}<br> € ${expensesPerDay[leastExpensiveDate].toFixed(2)} <br>( ${(expensesPerDay[leastExpensiveDate] / totalExpensesPerDay * 100).toFixed(2)}% )`;
     analyticsPopupList.appendChild(lowestExpensesDateItem);
     
     const sumListItem = document.createElement("li");
@@ -253,16 +263,25 @@ function parseDate(dateString) {
     // Create list items for unique expense_type values
     uniqueExpenseTypes.forEach(expenseType => {
         const listItem = document.createElement("li");
+// Apply styles to the list item
+listItem.style.padding = "10px";
+listItem.style.border = "2px solid #ccc";
+listItem.style.borderRadius = "25px";
+listItem.style.marginBottom = "5px";
+listItem.style.backgroundColor = "#f8f8f8";
+listItem.style.textAlign = "center";
+listItem.style.boxShadow = "0 4px 4px rgba(0, 0, 0, 0.1)";
 
-        // Apply styles to the list item
-        listItem.style.padding = "10px";
-        listItem.style.border = "1px solid #ccc";
-        listItem.style.marginBottom = "5px";
-        listItem.style.backgroundColor = "#f8f8f8";
-        listItem.style.textAlign = "center";
+// Apply styles to the text element
+const strongElement = document.createElement("strong");
+strongElement.textContent = expenseType;
+strongElement.style.backgroundColor = "#f8f8f8"; // Replace with the desired background color
 
-        listItem.innerHTML = `<strong>${expenseType}</strong>`;
-        dataDisplayList.appendChild(listItem);
+// Append the text element to the list item
+listItem.appendChild(strongElement);
+
+// Append the list item to the container (assuming dataDisplayList is the container)
+dataDisplayList.appendChild(listItem);
 
         // Add click event listener to the item
         listItem.addEventListener("click", () => handleItemClick("expenseType", expenseType));
@@ -272,15 +291,25 @@ function parseDate(dateString) {
     uniqueExpenseCategories.forEach(expenseCategory => {
         const listItem = document.createElement("li");
 
-        // Apply styles to the list item
-        listItem.style.padding = "10px";
-        listItem.style.border = "1px solid #ccc";
-        listItem.style.marginBottom = "5px";
-        listItem.style.backgroundColor = "#f8f4f9";
-        listItem.style.textAlign = "center";
+       // Apply styles to the list item
+listItem.style.padding = "10px";
+listItem.style.border = "1px solid #333";
+listItem.style.marginBottom = "15px";
+listItem.style.backgroundColor = "#ABE6F1";
+listItem.style.borderRadius = "25px";
+listItem.style.textAlign = "center";
+listItem.style.boxShadow = "0 4px 4px rgba(0, 0, 0, 0.1)";
 
-        listItem.innerHTML = `<strong>${expenseCategory}</strong> `;
-        dataDisplayList.appendChild(listItem);
+// Apply styles to the text element
+const strongElement = document.createElement("strong");
+strongElement.textContent = expenseCategory;
+strongElement.style.backgroundColor = "#ABE6F1"; // Replace with the desired background color
+
+// Append the text element to the list item
+listItem.appendChild(strongElement);
+
+// Append the list item to the container (assuming dataDisplayList is the container)
+dataDisplayList.appendChild(listItem);
 
         // Add click event listener to the item
         listItem.addEventListener("click", () => handleItemClick("expenseCategory", expenseCategory));
@@ -300,14 +329,6 @@ displayData();
   
   insightsButton.addEventListener("click", function() {
     window.location.href = 'insights.html';
-
-    // insinghstScreen.style.display = 'block';
-    // openExpensesScreen.style.display = 'none';
-    // aboutScreen.style.display = 'block';
-    // contactScreen.style.display = 'none'
-
-
-
   });
   
   
@@ -332,94 +353,24 @@ submitGoal.addEventListener('click', function () {
     console.log('Create Goal button clicked!');
 });
 
-closeGoalScreenButton.addEventListener('click', function () {
-   
-        displayGoals.style.display = 'none';
-    
-    console.log('CLOSE Goal button clicked!');
-});
-
 
 closePopupGoals.addEventListener('click', function () {
    
     document.getElementById("goals-popup").style.display = "none";
 
-
-console.log('closepopu!');
 });
 
-closePopupInsights.addEventListener('click', function () {
-   
-    document.getElementById("track-popup").style.display = "none";
 
 
-console.log('closepopu!');
-});
 
-goalsButton.addEventListener('click', function () {
-    // Toggle the visibility of the display-goals element
-    if (displayGoals.style.display === 'none') {
-        displayGoals.style.display = 'block';
-    } else {
-        displayGoals.style.display = 'none';
-    }
-});
 const calendarGrid = document.getElementById("calendar-grid");
     // Add a click event listener to the element
     insightsLink.addEventListener("click", function() {
        
     });
-function displayGoalsList() {
-    let goalListDiv = document.getElementById("goals-display-list");
-    let goalsPopupDiv = document.getElementById("goals-popup");
-    let dataGoalsDetailsList = document.getElementById("data-goals-details-list");
-
-    goalListDiv.innerHTML = ""; // Clear existing content
-
-    for (let i = 0; i < localStorage.length; i++) {
-        let key = localStorage.key(i);
-
-        if (key.startsWith("goal_")) {
-            let goalData = JSON.parse(localStorage.getItem(key));
-
-            let goalDiv = document.createElement("div");
-            goalDiv.innerHTML =
-                "<strong>Goal:</strong> " + goalData.goalName + "<br>" +
-                "<strong>Status:</strong> " + goalData.goalStatus + "<br>" +"<br><br>";
-
-            // Apply styles based on goal status
-            if (goalData.goalStatus === "active") {
-                goalDiv.style.color = "green"; 
-                goalDiv.style.border = "1px solid #3D946E"; 
-            } else if (goalData.goalStatus === "reached") {
-                goalDiv.style.color = "red"; 
-                goalDiv.style.border = "1px solid red";
-            }
-
-            goalDiv.addEventListener("click", function() {
-                console.log("Goal clicked:", goalData);
-                displayChildrenOfGoalsDatabase(goalData);
-
-                // Make the goals-popup visible
-                goalsPopupDiv.style.display = "block";
-
-                // Populate data-goals-details-list with data from the database
-                populateGoalsDetailsList(dataGoalsDetailsList, goalData);
-            });
-
-            goalListDiv.appendChild(goalDiv);
-        }
-    }
-}
-
-function displayChildrenOfGoalsDatabase(goalData) {
-    console.log("Children of goals database for goal:", goalData);
-    console.log("Child 1:", goalData.child1);
-    console.log("Child 2:", goalData.child2);
-    console.log("Child 2:", goalData.child3);
-    // ...
-}
-function populateGoalsDetailsList(listElement, goalData) {
+   
+// Modify populateGoalsDetailsList function
+function populateGoalsDetailsList(listElement, goalData, goalKey) {
     // Clear existing content in the list
     listElement.innerHTML = "";
 
@@ -435,8 +386,161 @@ function populateGoalsDetailsList(listElement, goalData) {
         }
     }
 
-    // You can customize the content and structure based on your needs
 }
+// Function to display the list of goals
+function displayGoalsList() {
+    let goalListDiv = document.getElementById("goals-display-list");
+    let goalsPopupDiv = document.getElementById("goals-popup");
+    let dataGoalsDetailsList = document.getElementById("data-goals-details-list");
+
+    goalListDiv.innerHTML = ""; // Clear existing content
+
+    // Check if localStorage is not null
+    if (localStorage) {
+        for (let i = 0; i < localStorage.length; i++) {
+            let key = localStorage.key(i);
+
+            if (key && key.startsWith("goal_")) {
+                let goalData = JSON.parse(localStorage.getItem(key));
+
+                // Create an ID based on the goalKey
+                let goalId = "goal_" + key.substring(5);
+
+                let goalDiv = document.createElement("div");
+                goalDiv.id = goalId; // Assign the ID to the goal element
+
+                let statusColor = ""; // Variable to hold the color for the goal status
+
+                if (goalData.goalStatus === "active") {
+                    statusColor = "red"; // Set color to red for "active"
+                } else if (goalData.goalStatus === "achieved") {
+                    statusColor = "green"; // Set color to green for "achieved"
+                    addAchievedIcon(goalDiv); // Add the achieved icon
+                }
+
+                goalDiv.innerHTML =
+                "<strong style='background-color: #E6E6FA; padding: 5px;'>Goal:</strong> " + goalData.goalName + "<br>" +
+                "<strong style='background-color: #E6E6FA; padding: 5px;'>Status:</strong> <span style='color: " + statusColor + "; background-color: #E6E6FA;'>" + goalData.goalStatus + "</span><br><br>";
+            
+                // Apply styles based on goal status
+                goalDiv.style.backgroundColor = "#E6E6FA"; // Set background color to lavender
+                goalDiv.style.color = "black"; // Default text color
+                goalDiv.style.border = "2px solid #333"; // Set border
+                goalDiv.style.borderRadius = "8px"; // Set border radius
+
+                goalDiv.addEventListener("click", function (event) {
+                    // Check if the clicked element is not the "Achieved" button or delete button
+                    if (!event.target.matches("button")) {
+                        console.log("Goal clicked:", goalData);
+                        displayChildrenOfGoalsDatabase(goalData);
+
+                        // Make the goals-popup visible
+                        goalsPopupDiv.style.display = "block";
+
+                        // Populate data-goals-details-list with data from the database
+                        populateGoalsDetailsList(dataGoalsDetailsList, goalData, goalId);
+                    }
+                });
+
+                goalListDiv.appendChild(goalDiv);
+                createDeleteButton(goalId); // Call createDeleteButton to add the delete button
+
+                createAchievedButton(goalId);
+            }
+        }
+    }
+}
+// Function to delete a goal
+function deleteGoal(goalId) {
+    // Add your logic to delete the goal from the database or perform any other necessary actions
+    console.log("Deleting goal with ID:", goalId);
+
+    // For example, you can remove the goal from localStorage
+    localStorage.removeItem(goalId);
+
+    // Refresh the displayed goals
+    displayGoalsList();
+}
+
+// Function to create a "Delete" button for a goal
+function createDeleteButton(goalId) {
+    let goalDiv = document.getElementById(goalId);
+
+    if (goalDiv) {
+        let deleteButton = document.createElement("button");
+        deleteButton.innerText = "Delete";
+        deleteButton.className = "delete-button"; // Add the class to the button
+        deleteButton.style.backgroundColor = "red"; // Set background color to red
+        deleteButton.style.marginTop = "10px"; // Add some spacing
+
+        deleteButton.addEventListener("click", function () {
+            // Handle the Delete button click
+            confirmDeleteGoal(goalId);
+        });
+
+        goalDiv.appendChild(deleteButton);
+    }
+}
+
+// Function to handle the Delete button click
+function confirmDeleteGoal(goalId) {
+    // You can customize this function to show a confirmation popup
+    // and handle the deletion of the goal from the database if confirmed.
+    let confirmDelete = confirm("Are you sure you want to delete this goal?");
+    if (confirmDelete) {
+        deleteGoal(goalId);
+    }
+}
+
+// Function to delete a goal from the database
+function deleteGoal(goalId) {
+    // Implement your logic to delete the goal from localStorage
+    localStorage.removeItem(goalId);
+
+    // Refresh the goal list after deletion
+    displayGoalsList();
+}
+
+function addAchievedIcon(goalDiv) {
+    let iconImg = document.createElement("img");
+    iconImg.src = "./assets/images/winner-badge-for-goals.png";
+    iconImg.alt = "Achieved Icon";
+    iconImg.style.width = "24px";
+    iconImg.style.height = "24px";
+    iconImg.style.backgroundColor = "#E6E6FA";
+    iconImg.style.float = "right";  // Float the icon to the right
+
+    // Insert the achieved icon at the beginning of the goalDiv
+    goalDiv.insertBefore(iconImg, goalDiv.firstChild);
+}
+
+
+// Modify markGoalAsAchieved function to update goalStatus in localStorage
+function markGoalAsAchieved(goalKey) {
+    // Retrieve the goal data from localStorage
+    let goalData = JSON.parse(localStorage.getItem(goalKey));
+
+    // Update the goal status to "Achieved"
+    goalData.goalStatus = "achieved";
+
+    // Store the updated goal data back in local storage
+    localStorage.setItem(goalKey, JSON.stringify(goalData));
+
+    // Refresh the goal list
+    displayGoalsList();
+}
+
+
+    
+function displayChildrenOfGoalsDatabase(goalData) {
+    console.log("Children of goals database for goal:", goalData);
+    console.log("Child 1:", goalData.child1);
+    console.log("Child 2:", goalData.child2);
+    console.log("Child 2:", goalData.child3);
+    // ...
+}
+
+
 
 // Helper function to add a styled list item
 function addListItem(listElement, label, value) {
@@ -466,8 +570,6 @@ function saveGoal() {
     let currentDate = new Date();
     let formattedCurrentDate = currentDate.toLocaleDateString("en-US"); // Adjust the locale as needed
 
-   
-
     // Create an object to represent the goal
     let goalData = {
         goalName: goalName,
@@ -476,7 +578,6 @@ function saveGoal() {
         goalStatus: "active",
         budget: budget,
         currentDate: formattedCurrentDate,
-      
     };
 
     // Store the goal data in local storage
@@ -484,7 +585,30 @@ function saveGoal() {
 
     // Refresh the goal list
     displayGoalsList();
+
+    // Create an "Achieved" button for the newly added goal
+    createAchievedButton(goalKey);
 }
+function createAchievedButton(goalKey) {
+    let goalDiv = document.getElementById(goalKey);
+
+    if (goalDiv) {
+        let achievedButton = document.createElement("button");
+        achievedButton.innerText = "Achieved";
+        achievedButton.className = "achieved-button"; // Add the class to the button
+        achievedButton.style.marginTop = "10px"; // Add some spacing
+
+        achievedButton.addEventListener("click", function() {
+            // Handle the Achieved button click
+            markGoalAsAchieved(goalKey);
+        });
+
+        goalDiv.appendChild(achievedButton);
+    }
+}
+
+
+
 function clearGoalDatabase() {
     for (let i = 0; i < localStorage.length; i++) {
         let key = localStorage.key(i);

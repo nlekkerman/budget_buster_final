@@ -28,7 +28,7 @@ body {
     height: 100%;
     display: flex;
     min-width: 100%;
-    overflow: hidden;
+    overflow: scroll;
     min-height: 100vh;
     justify-content: center; 
     flex-direction: column;
@@ -137,6 +137,9 @@ padding: 5px;
     font-weight: 500;
 }
 .highlight-text {
+    background-color: rgb(227, 192, 102);
+}
+.highlight-text-popup {
     background-color: rgb(227, 192, 102);
 }
 
@@ -378,10 +381,17 @@ h3,
 input,
 textarea#message {
     padding: 5px;
-    border-radius: 3px;
-    border: 3px solid #EEB533;
-    height: 4em;
+    border-radius: 25px;
+    border: 1px solid #EEB533;
+    
 }
+
+/*delect goal duration*/
+#duration {
+    border: 1px solid #EEB533;
+    
+}
+
 
 input {
     width: 300px;
@@ -444,7 +454,7 @@ textarea {
 #calendar {
     max-width: 400px;
     margin: 20px auto;
-    display: none;
+    display: block;
 }
 
 #calendar-grid {
@@ -638,7 +648,7 @@ position: absolute;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    z-index: 100400;
+    z-index: 100400000;
 }
 
 /*INSIGHST BUTTOONS*/
@@ -659,21 +669,36 @@ position: absolute;
 #insight-content-container {
     display: flex;
     flex-direction: column;
-    height: 100vh; /* Make it fill the entire screen height */
+    overflow-y: scroll;
+    height: 100%; /* Make it fill the entire screen height */
   }
   
   /* Make both children equally share the available space */
   #tracker-body-container, #display-goals {
-    flex: 1;
+   
     border-bottom: 4PX solid grey;
-    overflow-y: auto; /* Add scrollbar if content overflows vertically */
-    padding: 20px; /* Add padding as needed */
+    overflow-y: scroll; /* Add scrollbar if content overflows vertically */
+    padding: 5px; /* Add padding as needed */
   }
   
 /* Align #tracker-body-container to the top of its parent and set column layout */
 
 .goals-list-item {
     margin-bottom: 8px; /* Adjust the margin as needed */
+}
+
+/* Add more styles as needed */
+.achieved-button {
+    background-color: #4caf50; /* Green background color */
+    color: white; /* White text color */
+    border: none;
+    padding: 10px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
 }
 
 .goals-list-item strong {
@@ -697,8 +722,6 @@ position: absolute;
 #tracker-body-container{
     display: flex;
     flex-direction: column;
-    flex: 1;
-   
     align-items: center;
 }
 #insights-buttons-container {
@@ -840,17 +863,48 @@ position: absolute;
     position: fixed;
     z-index: 4444444;
 }
+#goal-form{
+    padding: 0px;
+    justify-content: center;
+    display: flex;
+    align-self: center;
+}
 /*dosplay goals container*/
 #create-goal-form{
+    transform: translate(-50%, -50%);
+    z-index: 999999;
+    border: 0.3rem solid #3D946E;
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    position: fixed;
+    display: flex;
     display: none;
+    flex-direction: column;
+    justify-content: center;
+
+}
+.delete-button {
+    /* Add your styles here */
+    /* For example: */
+    cursor: pointer;
+    font-weight: bold;
+}
+#submit-goal-button{
+    margin: 0 auto;
+    margin-bottom: 10px;
 }
 #display-goals{
     z-index: 1;
-   
     display: flex;
     display: block;
     flex-direction: column;
     top: 0;
+    width: 100%;
+   
+}
+#display-goals h3{
+    margin-top: 20px;
     width: 100%;
    
 }
@@ -869,7 +923,7 @@ position: absolute;
 }
 
 button#create-goal-button {
-    width: 80%;
+ 
     background-color: #EEB533;
     border: 2px solid #262828;
     justify-content: center;
@@ -879,8 +933,7 @@ button#create-goal-button {
     border-radius: 20px;
 }
 
-p#no-goal-yet-message {
+#no-goal-yet-message {
     margin: 15px;
-    /* justify-content: center; */
     text-align: inherit;
 }

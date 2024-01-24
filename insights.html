@@ -41,92 +41,88 @@
 <body>
 
 
-   
+
     <main>
- <!-- Nav Bar -->
- <nav class="navbar navbar-expand-lg navbar-light">
-      
-
-    <img class="logo-image" src="assets/images/logo-new.png" alt="Budget Wise logo" />
-
-<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-</button>
-<div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-        <div class="navbar-nav" id="navbar-nav">
-            <button class="nav-link home" id="homeButton">Home</button>
-            <button class="nav-link insights" id="nav-link-insights">Insights</button>
-            <button class="nav-link about" id="aboutButton">About</button>
-            <button class="nav-link contact" id="contactButton">Contact</button>
-        </div>
-    </div>
-</div>
-</nav>
+        <!-- Nav Bar -->
+        <nav class="navbar navbar-expand-lg navbar-light">
 
 
+            <img class="logo-image" src="assets/images/logo-new.png" alt="Budget Wise logo" />
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                    <div class="navbar-nav" id="navbar-nav">
+                        <button class="nav-link home" id="homeButton">Home</button>
+                        <button class="nav-link insights" id="nav-link-insights">Insights</button>
+                        <button class="nav-link about" id="aboutButton">About</button>
+                        <button class="nav-link contact" id="contactButton">Contact</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+       
         <div id="insight-content-container">
             <h3 id="analyse-menu">Insights</h2>
+                <div id="tracker-body-container">
 
-            <div id="tracker-body-container">
-             
-                <div id="scrollable-container-display-data-conatiner">
-                    <ul id="data-display-list"></ul>
+                    <div id="scrollable-container-display-data-conatiner">
+                        <ul id="data-display-list"></ul>
 
                     </div>
-                <div id="track-popup">
-                    <h3 id="analyse-title"></h2>
+                    <div id="track-popup">
+                        <h3 id="analyse-title">
+                            </h2>
 
-                    <ul id="analytics-popup-list"></ul>
-                    <button id="close-popup-insights" class="button-text insights-buttons resize-buttons">CLOSE</button>
-
+                            <ul id="analytics-popup-list"></ul>
+                            <button id="close-popup-insights"
+                                class="button-text insights-buttons resize-buttons">CLOSE</button>
+                    </div>
                 </div>
+                <div id="display-goals">
+                    <h3 id="goals-menu-title">GOALS</h3>
+                    <button id="create-goal-button" class="">CREATE GOAL</button>
+                    <p id="no-goal-yet-message"></p>
+
+                    <ul id="goals-display-list"></ul>
                    
+
+
+                    <div id="goals-popup">
+                        <ul id="data-goals-details-list"></ul>
+                        <button id="close-popup" class="button-text insights-buttons resize-buttons">Close</button>
+                    </div>
+
                   
-                
-            </div>
-            <div id="display-goals">
-                <h4 id="goals-menu-title">GOALS</h4>
-
-                <p id="no-goal-yet-message"></p>
-
-                <ul id="goals-display-list"></ul>
-                <button id="create-goal-button" class="">CREATE GOAL</button>
-              
-                <button id="close-goals-button" class="insights-buttons">CLOSE</button>
-
- <div id="goals-popup">
-                <ul id="data-goals-details-list"></ul>
-                <button id="close-popup" class="button-text insights-buttons resize-buttons">Close</button> </div>
-
-                <div id="create-goal-form">
-                    <form id="goal-form">
-                        <label for="goal-name">Goal Name (max 12 characters):</label>
-                        <input type="text" id="goal-name" maxlength="12" required>
-
-                        <label for="goal-amount">Goal Amount:</label>
-                        <input type="number" id="goal-amount" required>
-
-                        <label for="duration">Duration:</label>
-                        <select id="duration">
-                            <option value="1-month">1 Month</option>
-                            <option value="3-months">3 Months</option>
-                            <option value="6-months">6 Months</option>
-                            <option value="1-year">1 Year</option>
-                        </select>
-                        <p id="no-goal-yet-message"></p>   
-                   <button type="submit" id="submit-goal-button">SUBMIT</button>
-                    </form>
                 </div>
-            </div>
-           
-            </div>
+                
+        </div>
+        <div id="create-goal-form">
+            <form id="goal-form">
+                <label for="goal-name">Goal Name (max 22 characters):</label>
+                <input type="text" id="goal-name" maxlength="22" required placeholder="Enter your goal name...">
+                
+                <label for="goal-amount">Goal Amount:</label>
+                <input type="number" id="goal-amount" required placeholder="Enter the goal amount...">
+                
+                <label for="duration">Duration:</label>
+                <select id="duration">
+                    <option value="1-month">1 Month</option>
+                    <option value="3-months">3 Months</option>
+                    <option value="6-months">6 Months</option>
+                    <option value="1-year">1 Year</option>
+                </select>
+                <p id="no-goal-yet-message"></p>
+                <button type="submit" id="submit-goal-button" class="button-text insights-buttons resize-buttons">SUBMIT</button>
+            </form>
+        </div>
+        <div id="insights-container">
 
-            <div id="insights-container">
-               
-                <button id="goals-data-button" class="button-text insights-buttons">GOALS</button>
-          
+
 
             <div id="display-data-inner-container">
                 <h5 id="data-analytics-title"></h5>
@@ -138,20 +134,20 @@
                         </div>
                     </div>
                     <h3 id="data-analytics-title"></h3>
-                   
-                    
+
+
                 </div>
             </div>
 
-           
-    </div>
 
         </div>
-       
-       
-        
-       
-  
+
+        </div>
+
+
+
+
+
     </main>
 
 
