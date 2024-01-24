@@ -677,7 +677,6 @@ position: absolute;
   #tracker-body-container, #display-goals {
    
     border-bottom: 4PX solid grey;
-    overflow-y: scroll; /* Add scrollbar if content overflows vertically */
     padding: 5px; /* Add padding as needed */
   }
   
@@ -748,6 +747,7 @@ position: absolute;
     list-style: none;
     padding: 0;
     margin: 0;
+    margin-bottom: 20px;
 }
 
 #goals-display-list > li {
