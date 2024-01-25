@@ -43,10 +43,10 @@
 
     <!-- Nav Bar -->
     <nav class="navbar navbar-expand-lg navbar-light">
-      
 
-            <img class="logo-image" src="assets/images/logo-new.png" alt="Budget Wise logo" />
-      
+
+        <img class="logo-image" src="assets/images/logo-new.png" alt="Budget Wise logo" />
+
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -65,10 +65,10 @@
 
 
     <main>
-   
-            <!-- EXPENSE CONTAINER-->
+
+        <!-- EXPENSE CONTAINER-->
         <div id="wrap-expenses-container">
-            
+
             <div id="expense-section">
                 <!-- Elemets to display budget container -->
                 <div id="display-budget-container">
@@ -77,113 +77,96 @@
                     <p id="budget-display"></p>
                     <p id="input-animation-value-display" class="fadeout-animation"></p>
 
-                    <!--Button that add to the budget getting values from amount/type input not styled -->
+                    <div id="budget-goal-buttons">
                     <button id="update-budget-button">UPDATE BUDGET</button>
-                </div>
+             
+                    <button id="goal-deposit-button">GOAL DEPOSIT</button>
+                    
 
-                <div class="card-container">
-                    <div >
-                        <h3>Basic Needs</h3>
-                        <table>
-                            <tr>
-                                <td><button class="button-text basic-needs-buttons" id="food-button">Food</button></td>
-                                <td><button class="button-text basic-needs-buttons"
-                                        id="transport-button">Transport</button></td>
-                                <td><button class="button-text basic-needs-buttons"
-                                        id="education-button">Education</button></td>
-                            </tr>
-                            <tr>
-                                <td><button class="button-text basic-needs-buttons"
-                                        id="healthcare-button">Healthcare</button></td>
-                                <td><button class="button-text basic-needs-buttons" id="housing-button">Housing</button>
-                                </td>
-                                <td><button class="button-text basic-needs-buttons"
-                                        id="utilities-button">Utilities</button></td>
-                            </tr>
-                        </table>
-                    </div>
+                </div>
+                
+                </div>
+                <ul id="dropdown-goal-list"></ul>
+                <h3>Basic Needs</h3>
+                <div id="basic-needs-buttons">
+
+                    <button class="basic-needs-buttons insights-buttons" id="food-button">Food</button>
+                    <button class="basic-needs-buttons insights-buttons" id="transport-button">Transport</button>
+                    <button class="basic-needs-buttons insights-buttons" id="education-button">Education</button>
+                    <button class="basic-needs-buttons insights-buttons" id="healthcare-button">Healthcare</button>
+                    <button class="basic-needs-buttons insights-buttons" id="housing-button">Housing</button>
+                    <button class="basic-needs-buttons insights-buttons" id="utilities-button">Utilities</button>
                 </div>
                 <div class="input-type" id="main-content-container">
                     <input type="number" id="cost-value-input" placeholder="Enter amount & click type of cost...">
                     <p id="input-animation-value-display" class="fadeout-animation"></p>
-    
+
                 </div>
-                <div class="expense-buttons" id="luxury-buttons">
-                    <div class="card-container">
-                        <div class="card">
-                            <h3>Luxury</h3>
-                            <table>
-                                <tr>
-    
-                                    <td><button class="button-text luxury-buttons"
-                                            id="entertainment-button">Entertainment</button>
-                                    </td>
-                                    <td><button class="button-text luxury-buttons" id="travel-button">Travel</button></td>
-                                    <td><button class="button-text luxury-buttons" id="dining-button">Dining</button></td>
-                                </tr>
-                                <tr>
-                                    <td><button class="button-text luxury-buttons" id="gadgets-button">Gadgets</button></td>
-                                    <td><button class="button-text luxury-buttons" id="clothing-button">Clothing</button>
-                                    </td>
-                                    <td><button class="button-text luxury-buttons" id="beauty-button">Beauty</button></td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-    
+                <h3>Luxury</h3>
+
+                <div id="luxury-buttons">
+                    <button class="insights-buttons luxury-buttons" id="entertainment-button">Fun</button>
+                    <button class="insights-buttons luxury-buttons " id="travel-button">Travel</button>
+                    <button class="insights-buttons luxury-buttons" id="dining-button">Dining</button>
+                    <button class="insights-buttons luxury-buttons" id="gadgets-button">Gadgets</button>
+                    <button class="insights-buttons luxury-buttons" id="clothing-button">Clothing</button>
+                    <button class="insights-buttons luxury-buttons" id="beauty-button">Beauty</button>
                 </div>
-    
+
+
             </div>
 
-           
         </div>
-     
+
+
+        </div>
+
         <!-- CONTACT FORM -->
         <div id="contact-wraper">
-        <div id="contact-container" class="container">
-            <div class="contact-form">
-                <form onsubmit="return sendMail(this);">
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6">
-                            <label for="name">First name:</label>
-                            <input type="text" name="name" id="fullname" class="form-control" required />
-                            <br>
+            <div id="contact-container" class="container">
+                <div class="contact-form">
+                    <form onsubmit="return sendMail(this);">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6">
+                                <label for="name">First name:</label>
+                                <input type="text" name="name" id="fullname" class="form-control" required />
+                                <br>
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <label for="lname">Last name:</label>
+                                <input type="text" name="lname" id="lname" class="form-control" required />
+                            </div>
                         </div>
-                        <div class="col-lg-6 col-md-6">
-                            <label for="lname">Last name:</label>
-                            <input type="text" name="lname" id="lname" class="form-control" required />
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6">
+                                <label for="email">Email:</label>
+                                <input type="email" name="email" id="emailaddress" class="form-control" required />
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <label for="file">Attachment:</label>
+                                <br>
+                                <input type="file" name="file" id="file" class="form-control"
+                                    accept=".pdf, .doc, .docx, .jpg, .jpeg, .png">
+
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6">
-                            <label for="email">Email:</label>
-                            <input type="email" name="email" id="emailaddress" class="form-control" required />
-                        </div>
-                        <div class="col-lg-6 col-md-6">
-                            <label for="file">Attachment:</label>
-                            <br>
-                            <input type="file" name="file" id="file" class="form-control"
-                                accept=".pdf, .doc, .docx, .jpg, .jpeg, .png">
+                        <br>
+                        <label for="file">Message:</label>
+                        <textarea rows="5" name="message" id="message" class="form-control" required></textarea>
+                        <br>
+                        <div class="form-row text-center">
+                            <div class="col">
+                                <button type="submit" class="submit-button" onclick="submitForm()">Submit</button>
+
+                            </div>
 
                         </div>
-                    </div>
-                    <br>
-                    <label for="file">Message:</label>
-                    <textarea rows="5" name="message" id="message" class="form-control" required></textarea>
-                    <br>
-                    <div class="form-row text-center">
-                        <div class="col">
-                            <button type="submit" class="submit-button" onclick="submitForm()">Submit</button>
 
-                        </div>
-
-                    </div>
-
-                </form>
+                    </form>
+                </div>
             </div>
+            <!-- END CONTACT FORM -->
         </div>
-        <!-- END CONTACT FORM -->
-    </div>
         <div id="about-section-wraper">
 
             <!-- <section id="About" class="about-section yes-display"> -->
@@ -194,14 +177,15 @@
             </div>
             <div id="team-intro" class="">
                 <div class="profile-header">
-                    <i class="fas fa sack-dollar"></i>  <strong>Budget Wise</strong> <br>
-                    - The Budget Wise team was formed to rapidly build a prototype to help with January Budget Busting!! 
-                    Notwithstanding our dwindling numbers (we didn't budget for that!), 
-                    we are committed to helping you manage your finances using a helpful app which runs on the device of your choosing.
+                    <i class="fas fa sack-dollar"></i> <strong>Budget Wise</strong> <br>
+                    - The Budget Wise team was formed to rapidly build a prototype to help with January Budget Busting!!
+                    Notwithstanding our dwindling numbers (we didn't budget for that!),
+                    we are committed to helping you manage your finances using a helpful app which runs on the device of
+                    your choosing.
                 </div> <!-- end profile-header -->
             </div> <!-- end div team-intro -->
             <hr>
-               
+
             <section id="profiles" class="profile-body">
                 <div id="profile-container" class="profile-container">
                     <!-- <div id="container-team-profiles"> -->
@@ -216,15 +200,17 @@
                                 <h4>Kayla</h4>
                             </div>
                             <div class="profile-links">
-                            <a href="https://github.com/kaylaesmith" aria-label="Kayla's Github page" target="_blank">
-                                <i class="fab fa-github-square github-icon"></i>
-                            </a>
-                            <a href="https://www.linkedin.com/in/kayla-smith-ab1595101//" aria-label="Kayla's LinkedIn page" target="_blank">
-                                <i class="fab fa-linkedin linkedin-icon"></i>
-                            </a>
+                                <a href="https://github.com/kaylaesmith" aria-label="Kayla's Github page"
+                                    target="_blank">
+                                    <i class="fab fa-github-square github-icon"></i>
+                                </a>
+                                <a href="https://www.linkedin.com/in/kayla-smith-ab1595101//"
+                                    aria-label="Kayla's LinkedIn page" target="_blank">
+                                    <i class="fab fa-linkedin linkedin-icon"></i>
+                                </a>
                             </div>
                         </div> <!-- end card -->
-                    </div> <!-- end profile-card-container-->    
+                    </div> <!-- end profile-card-container-->
                     <!-- Nikolas' card -->
                     <div class="profile-card-container">
                         <div class="profile-card">
@@ -237,7 +223,8 @@
                                 <h4>Nikola</h4>
                             </div>
                             <div class="profile-links">
-                                <a href="https://github.com/nlekkerman" aria-label="Nikola's Github page" target="_blank">
+                                <a href="https://github.com/nlekkerman" aria-label="Nikola's Github page"
+                                    target="_blank">
                                     <i class="fab fa-github-square github-icon"></i>
                                 </a>
                                 <a href="https://www.linkedin.com" aria-label="Nikola's LinkedIn page" target="_blank">
@@ -258,10 +245,12 @@
                                 <h4>Caylin</h4>
                             </div>
                             <div class="profile-links">
-                                <a href="https://github.com/CaylinDewey" aria-label="Caylin's Github page" target="_blank">
+                                <a href="https://github.com/CaylinDewey" aria-label="Caylin's Github page"
+                                    target="_blank">
                                     <i class="fab fa-github-square github-icon"></i>
                                 </a>
-                                <a href="https://www.linkedin.com/in/caylin-dewey-info/" aria-label="Caylin's LinkedIn page" target="_blank">
+                                <a href="https://www.linkedin.com/in/caylin-dewey-info/"
+                                    aria-label="Caylin's LinkedIn page" target="_blank">
                                     <i class="fab fa-linkedin linkedin-icon"></i>
                                 </a>
                             </div>
@@ -278,20 +267,22 @@
                                 <h4>Deirdre</h4>
                             </div>
                             <div class="profile-links">
-                                <a href="https://github.com/DeeMcCart" aria-label="Deirdre's Github page" target="_blank">
+                                <a href="https://github.com/DeeMcCart" aria-label="Deirdre's Github page"
+                                    target="_blank">
                                     <i class="fab fa-github-square github-icon"></i>
                                 </a>
-                                <a href="https://www.linkedin.com/in/deirdre-mccarthy-2ba3b0a/" aria-label="Deirdre's LinkedIn page" target="_blank">
+                                <a href="https://www.linkedin.com/in/deirdre-mccarthy-2ba3b0a/"
+                                    aria-label="Deirdre's LinkedIn page" target="_blank">
                                     <i class="fab fa-linkedin linkedin-icon"></i>
                                 </a>
                             </div> <!-- end profile-links -->
                         </div> <!-- end card -->
                     </div> <!-- end profile-card-container -->
-        
-                <!-- </div> --><!-- end div container-team-profiles -->
+
+                    <!-- </div> --><!-- end div container-team-profiles -->
             </section> <!-- end section profile-body -->
         </div>
-        
+
     </main>
 
 
@@ -307,15 +298,7 @@
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="social-links">
-            <a href="https://github.com/Kaylaesmith1/budget_busters/" target="_blank" rel="noopener noreferrer"><i
-                    class="fab fa-github"></i></a>
-            <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer"><i
-                    class="fab fa-facebook"></i></a>
-            <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
-            <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer"><i
-                    class="fab fa-instagram"></i></a>
-        </div>
+       
         <p>&copy; 2024 Budget Wise</p>
     </footer>
 

@@ -1,93 +1,177 @@
 document.addEventListener("DOMContentLoaded", function () {
-const homeButton = document.getElementById("homeButton");
-const insightsButton = document.getElementById("nav-link-insights");
-const aboutButton = document.getElementById("aboutButton");
-const contactButton = document.getElementById("contactButton");
+    const homeButton = document.getElementById("homeButton");
+    const insightsButton = document.getElementById("nav-link-insights");
+    const aboutButton = document.getElementById("aboutButton");
+    const contactButton = document.getElementById("contactButton");
 
 
     const costBudgetInput = document.getElementById("cost-value-input");
     const budgetDisplay = document.getElementById("budget-display");
-    const dataDisplayList = document.getElementById("data-display-list");
     const openExpensesScreen = document.getElementById('expense-section');
     const insinghstScreen = document.getElementById('insights-container');
     const contactScreen = document.getElementById('contact-wraper');
     const aboutScreen = document.getElementById('about-section-wraper');
+    const goalDepositButton = document.getElementById("goal-deposit-button");
+
+
+
+    let dropdownGoalList = document.getElementById("dropdown-goal-list");
+
+
+    /** NAvigation */
+    // Add click event listeners to the buttons
+    homeButton.addEventListener("click", function () {
+        openExpensesScreen.style.display = 'block';
+        aboutScreen.style.display = 'none';
+        contactScreen.style.display = 'none'
+        insinghstScreen.style.display = 'none';
+
+
+    });
+
+    insightsButton.addEventListener("click", function () {
+        window.location.href = 'insights.html';
+    });
+
+
+    aboutButton.addEventListener("click", function () {
+        aboutScreen.style.display = 'block';
+        contactScreen.style.display = 'none'
+        insinghstScreen.style.display = 'none';
+        openExpensesScreen.style.display = 'none';
+    });
+
+
+    contactButton.addEventListener("click", function () {
+        contactScreen.style.display = 'block'
+        insinghstScreen.style.display = 'none';
+        openExpensesScreen.style.display = 'none';
+        aboutScreen.style.display = 'none';
+
+    })
+    goalDepositButton.addEventListener("click", function () {
+        dropdownGoalList.style.display = 'block'
+        displayGoalsList();
+
+
+    })
+    function displayGoalsList() {
+        const goalListDiv = document.getElementById("dropdown-goal-list");
     
-    const dataTitle = document.getElementById("data-analytics-title");
-    const calendar = document.getElementById("calendar");
+        goalListDiv.innerHTML = ""; // Clear existing content
+    
+        // Check if localStorage is not null
+        if (localStorage) {
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+    
+                if (key && key.startsWith("goal_")) {
+                    const goalData = JSON.parse(localStorage.getItem(key));
+    
+                    // Create an ID based on the goalKey
+                    const goalId = "goal_" + key.substring(5);
+    
+                    const goalDiv = document.createElement("div");
+                    goalDiv.id = goalId; // Assign the ID to the goal element
+    
+                    goalDiv.innerHTML = `
+                        <strong>${goalData.goalName}</strong><br><br>`;
+    
+                    goalDiv.addEventListener("click", function (event) {
+                        // Check if the clicked element is not the "Achieved" button or delete button
+                        if (!event.target.matches("button")) {
+                            // Call the function to deduct the cost from the budget
+                            deductCostFromBudget(goalId, goalData, goalDiv);
+                            dropdownGoalList.style.display = 'none'
+                            console.log("Goal clicked:", goalData);
 
+                        }
+                    });
+    
+                    goalListDiv.appendChild(goalDiv);
+                }
+            }
+        }
+    }
+    
+    function deductCostFromBudget(selectedGoalId, goalData, goalDiv) {
+       
+        const costValueInput = document.getElementById("cost-value-input");
+        let costValue = parseFloat(costValueInput.value) || 0; // Default to 0 if input is not a valid number
+    
+        let reference = goalData.goalLeftToPayAmount;
+    
+        // Check if deducting costValue exceeds the initial budget
+        if (initialBudget - costValue < 0) {
+            // Log a custom message or perform an action
+            console.error("Insufficient funds! Cannot deduct this amount.");
+            return; // Stop further execution
+        }
+    
+        // Deduct only the amount the user owes (up to the remaining amount in the goal)
+        let amountToDeduct = Math.min(costValue, goalData.goalLeftToPayAmount);
+    
+        // Update goalLeftToPayAmount
+        goalData.goalLeftToPayAmount = Math.max(0, goalData.goalLeftToPayAmount - amountToDeduct); // Ensure it doesn't go below zero
+    
+        // Update the budget by deducting the actual amount owed
+        initialBudget -= amountToDeduct;
+        updateBudget(initialBudget);
+    
+        // Check if the goal has been achieved
+        if (goalData.goalLeftToPayAmount === 0) {
+            alert("Congratulations! The goal has been achieved.");
+            // You may perform additional actions here if needed
+        }
+    
+        // Update the goalDiv content to reflect the changes
+        goalDiv.innerHTML = `
+            <strong>${goalData.goalName}</strong><br><br>`;
+    
+        // Clear the costValueInput
+        costValueInput.value = "";
+    
+        // Update the existing goal in localStorage
+        localStorage.setItem(selectedGoalId, JSON.stringify(goalData));
+    }
     
 
-const insightsButtonsContainer = document.getElementById('insights-buttons-container');
-const insightsNavContainer = document.getElementById('insight-navigation-buttons');
+    // Function to update the displayed budget
+    function updateBudget(newBudget) {
+        // Assuming you have a function called displayBudget to update the UI with the new budget
+        displayBudget(newBudget);
+    
+        // Additionally, you can store the updated budget in localStorage if needed
+        localStorage.setItem("budget", newBudget);
+        console.log(newBudget);
+    }
+    
 
-
-
-/** NAvigation */
-
-  
-  // Add click event listeners to the buttons
-  homeButton.addEventListener("click", function() {
-    openExpensesScreen.style.display = 'block';
-    aboutScreen.style.display = 'none';
-    contactScreen.style.display = 'none'
-    insinghstScreen.style.display = 'none';
-
-
-  });
-  
-  insightsButton.addEventListener("click", function() {
-    window.location.href = 'insights.html';
-
-    // insinghstScreen.style.display = 'block';
-    // openExpensesScreen.style.display = 'none';
-    // aboutScreen.style.display = 'block';
-    // contactScreen.style.display = 'none'
-
-
-
-  });
-  
-  
-  aboutButton.addEventListener("click", function() {
-    aboutScreen.style.display = 'block';
-    contactScreen.style.display = 'none'
-    insinghstScreen.style.display = 'none';
-    openExpensesScreen.style.display = 'none';
-  });
-  
-  
-  contactButton.addEventListener("click", function() {
-   contactScreen.style.display = 'block'
-   insinghstScreen.style.display = 'none';
-   openExpensesScreen.style.display = 'none';
-   aboutScreen.style.display = 'none';
-
-  })
-
-
-
-
-
-
-// Helper function to add a styled list item
-function addListItem(listElement, label, value) {
-    let listItem = document.createElement("li");
-    listItem.style.marginBottom = "8px"; // Adjust the margin as needed
-    listItem.innerHTML = `<strong>${label}:</strong> ${value}`;
-    listElement.appendChild(listItem);
-}
+    
+    
+    // Example usage:
+    // displayGoalsList(); // Call this function to display goals
+    // deductCostFromBudget("goal_1", goalData1, goalDiv1); // Call this function when a goal is clicked
+    
+    
+    // Helper function to add a styled list item
+    function addListItem(listElement, label, value) {
+        let listItem = document.createElement("li");
+        listItem.style.marginBottom = "8px"; // Adjust the margin as needed
+        listItem.innerHTML = `<strong>${label}:</strong> ${value}`;
+        listElement.appendChild(listItem);
+    }
 
 
     let initialBudget = 0;
-   
+
 
     function addButtonClickListeners(category, type) {
         document.getElementById(`${type.toLowerCase()}-button`).addEventListener("click", function () {
             manipulateExpenses(category, type);
         });
     }
-   
+
     function manipulateExpenses(category, type) {
         const costValue = parseFloat(costBudgetInput.value);
 
@@ -129,7 +213,7 @@ function addListItem(listElement, label, value) {
 
     function displayBudget(remainingBudget) {
         const formattedBudget = remainingBudget.toFixed(2);
-        budgetDisplay.textContent = `Remaining Budget: € ${formattedBudget}`;
+        budgetDisplay.textContent = `Budget: € ${formattedBudget}`;
 
         budgetDisplay.classList.remove("positive-budget", "negative-budget");
 
@@ -161,16 +245,16 @@ function addListItem(listElement, label, value) {
         initialBudget += plannedBudget;
         localStorage.setItem("budget", initialBudget);
         displayBudget(initialBudget);
-        displayAnimationValue(plannedBudget, "green","+");
+        displayAnimationValue(plannedBudget, "green", "+");
 
         costBudgetInput.value = "";
     }
     function displayAnimationValue(value, color, preSign) {
         const animationDisplay = document.getElementById("input-animation-value-display");
-    
+
         animationDisplay.textContent = `${preSign}${Math.abs(value)}`;
         animationDisplay.style.color = color;
-    
+
         animationDisplay.classList.remove("fadeout-animation");
         void animationDisplay.offsetWidth;
         animationDisplay.classList.add("fadeout-animation");
@@ -196,313 +280,72 @@ function addListItem(listElement, label, value) {
     document.getElementById("update-budget-button").addEventListener("click", setPlannedBudget);
 
 
-    /*display general data*/
-    function displayAnalyticsData() {
-        let savedData;
-        const storageKey = "expense_tracker_DB";
-        try {
-            savedData = JSON.parse(localStorage.getItem(storageKey)) || [];
-        } catch (error) {
-            console.error("Error parsing existing data:", error);
-            savedData = [];
-        }
-    
-        dataDisplayList.innerHTML = "";
-        const totalSpend = savedData.reduce((total, entry) => total + parseFloat(entry.expense_value), 0);
-        const analyticsData = calculateAnalyticsData(savedData, totalSpend);
-        displayAnalyticsList(analyticsData);
-    }
-    
-    /*clear data list*/
-    function clearDataDisplayList() {
-        const dataDisplayList = document.getElementById("data-display-list");
-        dataDisplayList.innerHTML = "";
-    }
-
-    function calculateAnalyticsData(data, totalSpend) {
-        const categories = {};
-        const types = {};
-        const remainingBudget = initialBudget - totalSpend;
-
-        data.forEach((entry) => {
-            // Calculate percentage spent
-            const percentage = (entry.expense_value / totalSpend) * 100;
-    
-            // Calculate remaining budget
-    
-            // Update category data
-            if (!categories[entry.expense_category]) {
-                categories[entry.expense_category] = {
-                    total: 0,
-                    percentage: 0,
-                };
-            }
-            categories[entry.expense_category].total += entry.expense_value;
-            categories[entry.expense_category].percentage = percentage;
-    
-            // Update type data
-            if (!types[entry.expense_type]) {
-                types[entry.expense_type] = {
-                    total: 0,
-                    percentage: 0,
-                };
-            }
-            types[entry.expense_type].total += entry.expense_value;
-            types[entry.expense_type].percentage = percentage;
-        });
-    
-        return {
-            categories,
-            types,
-            totalSpend,
-            remainingBudget,
-        };
-    }
-    
-    function displayAnalyticsList(analyticsData) {
-        const categories = analyticsData.categories;
-        const types = analyticsData.types;
-        const totalSpend = analyticsData.totalSpend;
-        const remainingBudget = analyticsData.remainingBudget;
-    
-        // Display category data
-        for (const category in categories) {
-            const categoryData = categories[category];
-            const categoryItem = document.createElement("li");
-            categoryItem.classList.add("analytics-list-item"); // Add a class to the list item
-            categoryItem.innerHTML = `<strong>${category}</strong>, 
-                Total: <span style="color: ${categoryData.total >= 0 ? 'green' : 'red'};">${categoryData.total.toFixed(2)}</span>, 
-                Percentage: <span style="color: ${categoryData.percentage >= 0 ? 'green' : 'red'};">${categoryData.percentage.toFixed(2)}%</span>`;
-            dataDisplayList.appendChild(categoryItem);
-        }
-    
-        // Display type data
-        for (const type in types) {
-            const typeData = types[type];
-            const typeItem = document.createElement("li");
-            typeItem.classList.add("analytics-list-item"); // Add a class to the list item
-            typeItem.innerHTML = `<strong>${type}</strong>: 
-                Total: <span style="color: ${typeData.total >= 0 ? 'green' : 'red'};">€${typeData.total.toFixed(2)}</span>, 
-                Percentage: <span style="color: ${typeData.percentage >= 0 ? 'green' : 'red'};">${typeData.percentage.toFixed(2)}%</span>`;
-            dataDisplayList.appendChild(typeItem);
-        }
-    
-        // Display total spend and remaining budget
-        const totalSpendItem = document.createElement("li");
-        totalSpendItem.classList.add("analytics-list-item"); // Add a class to the list item
-        totalSpendItem.innerHTML = `<strong>Total Spent:</strong> 
-            <span style="color: ${totalSpend >= 0 ? 'green' : 'red'};">€${totalSpend.toFixed(2)}</span>`;
-        dataDisplayList.appendChild(totalSpendItem);
-    
-        const remainingBudgetItem = document.createElement("li");
-        remainingBudgetItem.classList.add("analytics-list-item"); 
-        remainingBudgetItem.innerHTML = `<strong>Remaining Budget:</strong> 
-            <span style="color: ${remainingBudget >= 0 ? 'green' : 'red'};">€${remainingBudget.toFixed(2)}</span>`;
-        dataDisplayList.appendChild(remainingBudgetItem);
-    }
-      /**
-     * code to get and display data for CATEGORIES of expense to get
-     */
-// Function to display analytics data for expense categories
-// Modify the event listener for the button
-
-// Function to calculate analytics data for expense categories
-function calculateCategoryAnalyticsData(data) {
-    const categories = {};
-    const totalSpend = data.reduce((total, entry) => total + parseFloat(entry.expense_value), 0);
-    const remainingBudget = initialBudget - totalSpend;
-
-    data.forEach((entry) => {
-        // Calculate percentage spent
-        const percentage = (entry.expense_value / totalSpend) * 100;
-
-        // Update category data
-        if (!categories[entry.expense_category]) {
-            categories[entry.expense_category] = {
-                total: 0,
-                percentage: 0,
-            };
-        }
-        categories[entry.expense_category].total += entry.expense_value;
-        categories[entry.expense_category].percentage = percentage;
-    });
-
-    return {
-        categories,
-        totalSpend,
-        remainingBudget,
-    };
-}
-
-// Function to display analytics data for expense categories
-function displayCategoryAnalyticsList(categoryAnalyticsData) {
-    const categories = categoryAnalyticsData.categories;
-    const totalSpend = categoryAnalyticsData.totalSpend;
-    const remainingBudget = categoryAnalyticsData.remainingBudget;
-
-    // Display category data
-    for (const category in categories) {
-        const categoryData = categories[category];
-        const categoryItem = document.createElement("li");
-        categoryItem.classList.add("analytics-list-item");
-        categoryItem.innerHTML = `<strong>${category}</strong>, 
-            Total: <span style="color: ${categoryData.total >= 0 ? 'green' : 'red'};">€${categoryData.total.toFixed(2)}</span>, 
-            Percentage: <span style="color: ${categoryData.percentage >= 0 ? 'green' : 'red'};">${categoryData.percentage.toFixed(2)}%</span>`;
-        dataDisplayList.appendChild(categoryItem);
-    }
-
-    // Display total spend and remaining budget for categories
-    const totalSpendItem = document.createElement("li");
-    totalSpendItem.classList.add("analytics-list-item");
-    totalSpendItem.innerHTML = `<strong>Total Spent:</strong> 
-        <span style="color: ${totalSpend >= 0 ? 'green' : 'red'};">€${totalSpend.toFixed(2)}</span>`;
-    dataDisplayList.appendChild(totalSpendItem);
-
-    const remainingBudgetItem = document.createElement("li");
-    remainingBudgetItem.classList.add("analytics-list-item");
-    remainingBudgetItem.innerHTML = `<strong>Remaining Budget:</strong> 
-        <span style="color: ${remainingBudget >= 0 ? 'green' : 'red'};">€${remainingBudget.toFixed(2)}</span>`;
-    dataDisplayList.appendChild(remainingBudgetItem);
-}
-
-
-    /**
-     * code to get and display data for TYPES of expense to get
-     */
-// Function to display analytics data for all expense types
-function displayTypeAnalyticsList(typeAnalyticsData) {
-    const types = typeAnalyticsData.types;
-    const totalSpend = typeAnalyticsData.totalSpend;
-    const remainingBudget = typeAnalyticsData.remainingBudget;
-
-    // Assuming you have a dataDisplayList element
-    const dataDisplayList = document.getElementById("data-display-list");
-    dataDisplayList.innerHTML = ""; // Clear previous data
-
-    // Display type data for all expense types
-    for (const expenseType in types) {
-        const typeData = types[expenseType];
-        const typeItem = document.createElement("li");
-        typeItem.classList.add("analytics-list-item");
-        typeItem.innerHTML = `<strong>${expenseType}</strong>: 
-            Total: <span style="color: ${typeData.total >= 0 ? 'green' : 'red'};">€${typeData.total.toFixed(2)}</span>, 
-            Percentage: <span style="color: ${typeData.percentage >= 0 ? 'green' : 'red'};">${typeData.percentage.toFixed(2)}%</span>`;
-        dataDisplayList.appendChild(typeItem);
-    }
-
-    // Display total spend and remaining budget for types
-    const totalSpendItem = document.createElement("li");
-    totalSpendItem.classList.add("analytics-list-item");
-    totalSpendItem.innerHTML = `<strong>Total Spent:</strong> 
-        <span style="color: ${totalSpend >= 0 ? 'green' : 'red'};">€${totalSpend.toFixed(2)}</span>`;
-    dataDisplayList.appendChild(totalSpendItem);
-
-    const remainingBudgetItem = document.createElement("li");
-    remainingBudgetItem.classList.add("analytics-list-item");
-    remainingBudgetItem.innerHTML = `<strong>Remaining Budget:</strong> 
-        <span style="color: ${remainingBudget >= 0 ? 'green' : 'red'};">€${remainingBudget.toFixed(2)}</span>`;
-    dataDisplayList.appendChild(remainingBudgetItem);
-}
-
-function toggleCalendar() {
-    const calendar = document.getElementById('calendar');
-    calendar.style.display = (calendar.style.display === 'none') ? 'block' : 'none';
-}
-
-
-function calculateTypeAnalyticsData(data) {
-    const types = {};
-    const totalSpend = data.reduce((total, entry) => total + parseFloat(entry.expense_value), 0);
-    const remainingBudget = initialBudget - totalSpend;
-
-    data.forEach((entry) => {
-        // Calculate percentage spent
-        const percentage = (entry.expense_value / totalSpend) * 100;
-
-        // Update type data
-        if (!types[entry.expense_type]) {
-            types[entry.expense_type] = {
-                total: 0,
-                percentage: 0,
-            };
-        }
-        types[entry.expense_type].total += entry.expense_value;
-        types[entry.expense_type].percentage = percentage;
-    });
-
-    return {
-        types,
-        totalSpend,
-        remainingBudget,
-    };
-}
-
 
 
 
 });
 
 
-    // SCROLL TO TOP FUNCTION
-    const scrollToTopButton = document.getElementById('scroll-top');
-    const scrollButton = document.getElementById('scroll-button');
-    
-    // Show / hide button at 500px
-    function toggleScrollToTopButton() {
-      if (document.body.scrollTop > 500 || document.documentElement.scrollTop > 500) {
+// SCROLL TO TOP FUNCTION
+const scrollToTopButton = document.getElementById('scroll-top');
+const scrollButton = document.getElementById('scroll-button');
+
+// Show / hide button at 500px
+function toggleScrollToTopButton() {
+    if (document.body.scrollTop > 500 || document.documentElement.scrollTop > 500) {
         scrollToTopButton.style.display = 'block';
-      } else {
+    } else {
         scrollToTopButton.style.display = 'none';
-      }
     }
-    
-    // Return to top of page
-    function scrollToTop() {
-      document.body.scrollTop = 0; //Safari
-      document.documentElement.scrollTop = 0; //Other browsers
-    }
-    
-    // EventListener: toggles button visibility when scrolling
-    window.addEventListener('scroll', toggleScrollToTopButton);
-    
-    // EventListener: scroll to top when clicked
-    scrollButton.addEventListener('click', scrollToTop);
+}
+
+// Return to top of page
+function scrollToTop() {
+    document.body.scrollTop = 0; //Safari
+    document.documentElement.scrollTop = 0; //Other browsers
+}
+
+// EventListener: toggles button visibility when scrolling
+window.addEventListener('scroll', toggleScrollToTopButton);
+
+// EventListener: scroll to top when clicked
+scrollButton.addEventListener('click', scrollToTop);
 
 
 
-    // DIRECT TO CATEGORY ON HOMEPAGE
-    // Get the element by its class name
-    var elementToHide = document.querySelector('.about-text');
+// DIRECT TO CATEGORY ON HOMEPAGE
+// Get the element by its class name
+var elementToHide = document.querySelector('.about-text');
 
-    // Check if the element is found
-    if (elementToHide) {
-        // Set the style property to hide the element
-        elementToHide.style.display = 'none';
-    }
+// Check if the element is found
+if (elementToHide) {
+    // Set the style property to hide the element
+    elementToHide.style.display = 'none';
+}
 
-    
+
 
 
 // CONTACT FORM
 function sendMail(contactForm) {
-    emailjs.send("service_6a8xgnp","template_1nbot8m", {
-    "from_name": contactForm.name.value,
-    "from_lname": contactForm.lname.value,
-    "from_email": contactForm.emailaddress.value,
-    "file": contactForm.file.value,
-    "message": contactForm.message.value,
+    emailjs.send("service_6a8xgnp", "template_1nbot8m", {
+        "from_name": contactForm.name.value,
+        "from_lname": contactForm.lname.value,
+        "from_email": contactForm.emailaddress.value,
+        "file": contactForm.file.value,
+        "message": contactForm.message.value,
     })
-    .then(
-        function(response) {
-            console.log("Email successfully sent", response);
-        },
-        function(error) {
-            console.log("Email failed to send", error);
-        }
-    );
-        return false;
-    }
+        .then(
+            function (response) {
+                console.log("Email successfully sent", response);
+            },
+            function (error) {
+                console.log("Email failed to send", error);
+            }
+        );
+    return false;
+}
 
-    
 
-   
+
+

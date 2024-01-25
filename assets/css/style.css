@@ -1,9 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Tienne:wght@400;700;900&display=swap&family=Lato&family=Montserrat&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Tienne:wght@400;700;900&display=swap');
-
-
+/*<a href="https://www.freepik.com/free-ai-image/photorealistic-money-concept_94935424.htm#query=money%20bank&position=13&from_view=search&track=ais_ai_generated&uuid=89f916c5-971a-4198-9f48-2aef499a8c30">Image By freepik</a>
+*/
 * {
-    /* background-color: #F9F0D9; */
-    background-color: #ffffff;
+    
     color: #262828;
 }
 html {
@@ -25,6 +24,8 @@ main {
 
 /* Body styles */
 body {
+    background: url('../images/expense-background.jpg') no-repeat center center/cover;
+
     height: 100%;
     display: flex;
     min-width: 100%;
@@ -64,10 +65,9 @@ h3 {
     text-align: center;
 }
 
-
-
-.navbar-toggler-icon {
-    background-color: white;
+.navbar-toggler {
+    background-color: white !important;
+  
 }
 
 .navbar-nav .nav-link {
@@ -93,20 +93,36 @@ h3 {
     list-style: none;
 
 }
-
+#display-budget-container{
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    width: 100%;
+ 
+}
 /*expense section*/
 #expense-section {
     flex: 1;
     display: flex;
-    margin-top: 2rem;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
-    min-width: 100%;
-    overflow-x: scroll;
+    width: 95%;
+    overflow-y: scroll;
     max-height: 100%;
+    margin:0 auto;
+    padding-bottom: 3rem;
 }
 
+#expense-section h3{
+    width: 100%;
+    padding: 0.3rem;
+}
+#budget-display{
+    width: 100%;
+    padding: 1rem 0em;
+    font-size: 1.5rem;
+    background-color: #212529;
+}
 #scrollable-container-display-data-conatiner {
     overflow-Y: auto; 
     width: 100%;
@@ -199,7 +215,7 @@ padding: 5px;
     display: block;
     margin: 0 auto;
     height: 1rem;
-    /* This will center the element horizontally */
+  
     text-align: center;
 }
 
@@ -239,27 +255,26 @@ padding: 5px;
 
 /* Allow buttons to wrap into multiple rows */
 .expense-buttons {
-
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
 }
 
-#basic-needs-buttons {
+#basic-needs-buttons, #luxury-buttons{
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Adjust as needed */
+    max-width: 600px; /* Set a maximum width to control button distribution */
+    margin: 0 auto; 
+    margin-top: 1rem;
+   
+}
+.basic-needs-buttons, .luxury-buttons {
+    width: 30%; /* Adjust width as needed */
+    margin-bottom: 10px; /* Adjust margin as needed */
 }
 
-#luxury-buttons {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-}
+
 
 .buttons-container {
     display: flex;
@@ -267,18 +282,15 @@ padding: 5px;
     justify-content: center;
 }
 
-#basic-needs-buttons button {
-    width: 30%;
-    padding: 20px;
-    font-size: 0.8rem;
-    margin-bottom: 10px;
-}
+
 
 
 /* Footer styles */
 footer {
-    color: black;
+   
     position: fixed;
+    background-color: #212529;
+    color: white;
     bottom: 0;
     width: 100%;
     z-index: 100000;
@@ -307,7 +319,7 @@ footer {
 /* Additional styles for the footer paragraph */
 footer p {
     margin-top: 10px;
-
+color: white;
     font-size: 14px;
 
 }
@@ -330,9 +342,9 @@ h3,
 
 
 .card-container {
-  
+  height: 100%;
     justify-content: center;
-  
+  display: flex;
     overflow-x: scroll;
 }
 
@@ -350,9 +362,7 @@ h3,
 }
 /* filter buttons*/
 .card button {
-    display: flex;
-    width: 20%;
-    text-align: center;
+  
     margin: 5px 0;
     box-shadow: 4px 4px 10px 0 rgba(38, 40, 40, 0);
     border-radius: 15px;
@@ -375,17 +385,43 @@ h3,
     text-align: center;
     justify-content: center;
     align-items: center;
+    margin: 2em 0em;
 
 }
 
 input,
 textarea#message {
     padding: 5px;
-    border-radius: 25px;
-    border: 1px solid #EEB533;
+    border-radius: 5px;
+    border: 3px solid #3D946E;
     
 }
 
+/* Apply styles based on goal status */
+.goal-list-item {
+    background-color: #555988;
+    color: white;
+    text-align: center;
+    line-height: 1.5; /* Adjusted line height for better vertical alignment */
+    margin-bottom: 8px; /* Increased margin for better spacing */
+    border: 2px solid #333;
+    border-radius: 10px;
+}
+#dropdown-goal-list div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    margin-bottom: 8px;
+    border: 2px solid #333;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* Hover effect */
+#dropdown-goal-list div:hover {
+    background-color: #7388A6;
+}
 /*delect goal duration*/
 #duration {
     border: 1px solid #EEB533;
@@ -400,14 +436,26 @@ input {
 textarea {
     height: 150px;
 }
-
-#update-budget-button {
-    width: 100%;
+#budget-goal-buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content:center;
+}
+#goal-deposit-button {
+    width: 45%;
     padding: 5px;
     border-radius: 3px;
-    border: 3px solid #EEB533;
+    border: 2px solid #EEB533;
+    
 }
-
+#update-budget-button{
+    width: 45%;
+    padding: 5px;
+    margin-right: 3px;
+    border-radius: 3px;
+    border: 2px solid #EEB533;
+    
+}
 #main-input-value {
     width: 300px;
     text-align: center;
@@ -638,6 +686,7 @@ position: absolute;
     height: 100%;
     position: absolute;
     z-index: 3;
+
 }
 /*INSIGHT SCREEN SECTION*/
 #insights-container {
@@ -728,7 +777,6 @@ position: absolute;
     width: 100%;
     display: flex;
     flex-direction: row;
-    padding: 5px;
     font-size: 0.6rem;
     margin: 0;
     justify-content: space-evenly;
@@ -794,17 +842,22 @@ position: absolute;
 }
 .insights-buttons{
      margin: 5px;
-     padding: 10px;
-     background-color: white;
-     box-shadow: 4px 4px 8px 0 rgba(38, 40, 40, 0.7);
-     color:#3D946E ;
-     width: 12em;
+     padding: 7px 0px;
+     background-color: rgba(255, 255, 255, 0.7);
+     border: 3px solid rgb(255, 255, 255);
+     box-shadow: 2px 2px 8px 0 rgba(255, 255, 255, 0.3);
+     color:black;
      text-align: center;
      font-weight: 600;
      border-radius: 26px;
      cursor: pointer;
      transition: background-color 0.3s ease;
 }
+nav{
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+
 /* Navbar styles */
 #navbar-nav {
     display: flex;
@@ -832,7 +885,7 @@ position: absolute;
 
 /* Active button style */
 .nav-link.active {
-    background-color: #262828; 
+    background-color: white; 
 
 }
 
@@ -874,6 +927,7 @@ position: absolute;
     transform: translate(-50%, -50%);
     z-index: 999999;
     border: 0.3rem solid #3D946E;
+    background-color: rgba(0, 0, 0, 1);
     width: 100%;
     top: 50%;
     left: 50%;
