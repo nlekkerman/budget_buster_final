@@ -460,7 +460,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Apply styles based on goal status
                     goalDiv.style.backgroundColor = "rgba(0, 0, 0, 0.6)"; // Set background color to lavender
                     goalDiv.style.color = "black"; // Default text color
-                    goalDiv.style.border = "2px solid #333"; // Set border
+                    goalDiv.style.border = "2px solid #ccc"; // Set border
                     goalDiv.style.borderRadius = "8px"; // Set border radius
 
                     goalDiv.addEventListener("click", function (event) {

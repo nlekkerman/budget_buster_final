@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tesseract Example</title>
+
+    <!-- Tesseract.js script -->
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js/dist/tesseract.min.js" type="module"></script>
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- Your other scripts and styles go here -->
+    <!-- For example, you might include your camera-script.js file -->
+    <script src="assets/js/tesseract.js" type="module" defer></script>
+
+
+    <!-- Add any other stylesheets or scripts your project needs -->
+</head>
+
+<body>
+    <div id="title-cost-tracker-container">
+        <h3>basket:</h3>
+        <p id="cost-number-tracker">0</p>
+    </div>
+
+    <!-- Your HTML content goes here -->
+    <div id="camera-container">
+        <video id="camera" width="640" height="480" autoplay></video>
+
+        <div id="result">
+            <p id="number-found"></p>
+            <button type="button" id="add-to-chart">Add</button>
+        </div>
+
+    </div>
+    <button type="button" id="start-camera-scan">Scan</button>
+
+    <script type="module" src="assets/js/camera-script.js" defer></script>
+</body>
+
+</html>

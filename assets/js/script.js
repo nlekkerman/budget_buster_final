@@ -12,12 +12,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const contactScreen = document.getElementById('contact-wraper');
     const aboutScreen = document.getElementById('about-section-wraper');
     const goalDepositButton = document.getElementById("goal-deposit-button");
+    const goToTesseractButton = document.getElementById("go-to-tesseract");
 
-
+   
 
     let dropdownGoalList = document.getElementById("dropdown-goal-list");
 
-
+  
     /** NAvigation */
     // Add click event listeners to the buttons
     homeButton.addEventListener("click", function () {
@@ -40,7 +41,12 @@ document.addEventListener("DOMContentLoaded", function () {
         insinghstScreen.style.display = 'none';
         openExpensesScreen.style.display = 'none';
     });
+    goToTesseractButton.addEventListener("click", function () {
+        window.location.href = 'tesseract.html';
+        console.log("HSHHS")
 
+    });
+    
 
     contactButton.addEventListener("click", function () {
         contactScreen.style.display = 'block'
@@ -50,11 +56,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
     })
     goalDepositButton.addEventListener("click", function () {
-        dropdownGoalList.style.display = 'block'
-        displayGoalsList();
-
-
-    })
+        // Check if the dropdown is visible
+        const isDropdownVisible = getComputedStyle(dropdownGoalList).display !== 'none';
+    
+        if (isDropdownVisible) {
+            // If visible, close it
+            dropdownGoalList.style.display = 'none';
+        } else {
+            // If not visible, show and display the goals list
+            dropdownGoalList.style.display = 'block';
+            displayGoalsList();
+        }
+    });
     function displayGoalsList() {
         const goalListDiv = document.getElementById("dropdown-goal-list");
     
@@ -74,17 +87,19 @@ document.addEventListener("DOMContentLoaded", function () {
                     const goalDiv = document.createElement("div");
                     goalDiv.id = goalId; // Assign the ID to the goal element
     
+                    // Include "Achieved" label if goalStatus is achieved
+                    const achievedLabel = goalData.goalStatus === "achieved" ? " (Achieved)" : "";
+    
                     goalDiv.innerHTML = `
-                        <strong>${goalData.goalName}</strong><br><br>`;
+                        <strong>${goalData.goalName}${achievedLabel}</strong><br><br>`;
     
                     goalDiv.addEventListener("click", function (event) {
                         // Check if the clicked element is not the "Achieved" button or delete button
                         if (!event.target.matches("button")) {
                             // Call the function to deduct the cost from the budget
                             deductCostFromBudget(goalId, goalData, goalDiv);
-                            dropdownGoalList.style.display = 'none'
+                            dropdownGoalList.style.display = 'none';
                             console.log("Goal clicked:", goalData);
-
                         }
                     });
     
@@ -95,11 +110,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
     function deductCostFromBudget(selectedGoalId, goalData, goalDiv) {
-       
         const costValueInput = document.getElementById("cost-value-input");
         let costValue = parseFloat(costValueInput.value) || 0; // Default to 0 if input is not a valid number
-    
-        let reference = goalData.goalLeftToPayAmount;
     
         // Check if deducting costValue exceeds the initial budget
         if (initialBudget - costValue < 0) {
@@ -120,13 +132,17 @@ document.addEventListener("DOMContentLoaded", function () {
     
         // Check if the goal has been achieved
         if (goalData.goalLeftToPayAmount === 0) {
-            alert("Congratulations! The goal has been achieved.");
+            goalData.goalStatus = "achieved"; // Update goalStatus to "achieved"
+            alert(`Congratulations! The goal has been achieved. ${amountToDeduct} will be deducted from your budget.`);
+    
             // You may perform additional actions here if needed
         }
     
         // Update the goalDiv content to reflect the changes
         goalDiv.innerHTML = `
-            <strong>${goalData.goalName}</strong><br><br>`;
+            <strong>${goalData.goalName}</strong><br>
+            Goal Status: ${goalData.goalStatus}<br>
+            Goal Left To Pay: ${goalData.goalLeftToPayAmount}<br><br>`;
     
         // Clear the costValueInput
         costValueInput.value = "";
