@@ -6,23 +6,29 @@ async function initializeCamera() {
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ video: true });
             video.srcObject = stream;
-            await video.play(); // Add this line to ensure the video starts playing
-            isCameraInitialized = true;
 
-            video.style.width = "100%";
-            video.style.height = "100%";
-            video.style.display = "block";
-            video.style.border = "2px solid #ccc";
-            video.style.borderRadius = "5px";
-            video.style.backgroundColor = "rgba(0, 0, 0, 0.4)";
-            video.style.color = "white";
-            video.style.margin = "0";
-            video.style.padding = "0";
+            // Wait for the video to be loaded
+            video.addEventListener('loadedmetadata', async () => {
+                await video.play();
+                isCameraInitialized = true;
+
+                video.style.width = "100%";
+                video.style.height = "100%";
+                video.style.display = "block";
+                video.style.border = "2px solid #ccc";
+                video.style.borderRadius = "5px";
+                video.style.backgroundColor = "rgba(0, 0, 0, 0.4)";
+                video.style.color = "white";
+                video.style.margin = "0";
+                video.style.padding = "0";
+                video.style.marginTop = "50px";
+            });
         } catch (error) {
             console.error("Error accessing camera:", error);
         }
     }
 }
+
 
 // Check for camera support and request permission
 if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices) {

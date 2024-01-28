@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Tienne:wght@400;700;900&display=swap&family=Lato&family=Montserrat&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Tienne:wght@400;700;900&display=swap');
 /*<a href="https://www.freepik.com/free-ai-image/photorealistic-money-concept_94935424.htm#query=money%20bank&position=13&from_view=search&track=ais_ai_generated&uuid=89f916c5-971a-4198-9f48-2aef499a8c30">Image By freepik</a>
+<a href="https://www.freepik.com/icon/photo-camera_1298488#fromView=search&term=switch+camera&track=ais&page=1&position=54&uuid=083ac5eb-acb8-4b9b-9de2-b34e0f54152b">Icon by Freepik</a>
 */
 * {
     
@@ -18,6 +19,11 @@ main {
     display: flex;
     flex-direction: column;
     width: 100%;
+    max-width: 48em;
+margin: 0 auto;
+max-
+height: 100%;
+border: 3px solid white;
     max-height: 100vh;
     overflow: scroll; /* Ensure the background image is not visible outside the main container */
 }
@@ -1059,7 +1065,6 @@ margin: 0 auto;
     background-color: rgba(0, 0, 0, 1);
 }
 #start-camera-scan {
-    margin-top: 10px;
     padding: 10px;
     width: 60%; /* Adjust the width as needed */
     background-color: black;
@@ -1068,6 +1073,8 @@ margin: 0 auto;
     border-radius: 5px;
     cursor: pointer;
     margin: 0 auto; /* Center horizontally */
+    margin-top: 100px;
+
 }
 
 
