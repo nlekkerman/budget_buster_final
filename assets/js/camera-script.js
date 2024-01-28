@@ -16,7 +16,7 @@ async function initializeCamera() {
                 isCameraInitialized = true;
 
                 video.style.width = "100%";
-                video.style.height = "100%";
+                video.style.height = "150px";
                 video.style.display = "block";
                 video.style.border = "2px solid #ccc";
                 video.style.borderRadius = "5px";

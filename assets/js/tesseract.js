@@ -9,6 +9,8 @@ let totalExpenses = 0; // Variable to store the running total of expenses
 const homeButton = document.getElementById("homeButton");
 const insightsButton = document.getElementById("nav-link-insights");
 const trackerButton = document.getElementById("nav-link-tracker");
+
+initializeCamera();
 // Wait for the video to be ready
 video.addEventListener("canplay", function () {
     // Initialize camera
@@ -195,4 +197,7 @@ insightsButton.addEventListener("click", function () {
 
 homeButton.addEventListener("click", function () {
     window.location.href = 'index.html';
+});
+trackerButton.addEventListener("click", function () {
+    window.location.href = 'tesseract.html';
 });
