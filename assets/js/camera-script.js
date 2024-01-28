@@ -1,29 +1,36 @@
-// Create the "Switch Camera" image element
-const switchCameraImage = document.createElement("img");
-switchCameraImage.src = "assets/images/switch-camera.png"; // Replace with the actual path to your switch camera image
-switchCameraImage.alt = "Switch Camera";
-switchCameraImage.style.width = '2em';
-switchCameraImage.style.height = '2em';
-switchCameraImage.style.cursor = 'pointer';
-switchCameraImage.style.position = 'absolute';
-switchCameraImage.style.top = '150px';
-switchCameraImage.style.right = '10px';
-switchCameraImage.style.border = '2px solid white';
-switchCameraImage.style.zIndex = '10000000';
-switchCameraImage.addEventListener("click", function () {
-    // Log a message when the icon is clicked
-    console.log("Switch Camera icon clicked");
+const video = document.getElementById("camera");
+let isCameraInitialized = false;
 
-    // Toggle between front and back cameras
-    const video = document.getElementById("camera");
+async function initializeCamera() {
+    if (!isCameraInitialized) {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({
+                video: { facingMode: 'user' } // Use front camera initially
+            });
 
-    const constraints = {
-        video: { facingMode: (video.srcObject.getVideoTracks()[0].facingMode === 'user') ? 'environment' : 'user' }
-    };
+            video.srcObject = stream;
 
-    // Reinitialize the camera with updated constraints
-    initializeCamera(constraints);
-});
+            // Wait for the video to be loaded
+            video.addEventListener('loadedmetadata', async () => {
+                await video.play();
+                isCameraInitialized = true;
 
-// Append the switch camera image to the body
-document.body.appendChild(switchCameraImage);
+                video.style.width = "100%";
+                video.style.height = "150px";
+                video.style.display = "block";
+                video.style.border = "2px solid #ccc";
+                video.style.borderRadius = "5px";
+                video.style.backgroundColor = "rgba(0, 0, 0, 0.4)";
+                video.style.color = "white";
+                video.style.margin = "0";
+                video.style.padding = "0";
+                video.style.marginTop = "50px";
+            });
+        } catch (error) {
+            console.error("Error accessing camera:", error);
+        }
+    }
+}
+
+// Export the 'initializeCamera' function
+export { video, initializeCamera };

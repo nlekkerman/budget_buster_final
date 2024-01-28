@@ -10,7 +10,7 @@ const homeButton = document.getElementById("homeButton");
 const insightsButton = document.getElementById("nav-link-insights");
 const trackerButton = document.getElementById("nav-link-tracker");
 
-initializeCamera();
+//initializeCamera();
 // Wait for the video to be ready
 video.addEventListener("canplay", function () {
     // Initialize camera
