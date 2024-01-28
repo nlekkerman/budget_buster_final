@@ -65,22 +65,53 @@
         </div>
     </nav>
 
-    <div id="title-cost-tracker-container">
-        <h3>basket:</h3>
-        <p id="cost-number-tracker">0</p>
+   
+<div id="tracker-organizer-section">
+    <div id="organizer-button-container">
+    <button id="createShoppingBtn" class="tracker-buttons" >Create Shopping</button>
+    <button id="createNoteBtn" class="tracker-buttons">Create Note</button>
+</div>
+    <div id="latestShoppingList">
+        <h5 class="h5-shopping-list">Latest Shopping List</h5>
+        <ul class="shopping-list">
+            <li>Shopping Item 1</li>
+            <li>Shopping Item 2</li>
+        </ul>
     </div>
+    
+    <div id="latestNote">
+        <h5 class="h5-note-list">Latest Note</h5>
+        <ul class="note-list">
+            <li>Note Item 1</li>
+            <li>Note Item 2</li>
+        </ul>
+    </div>
+    
+</div>
 
-    <!-- Your HTML content goes here -->
-    <div id="camera-container">
+    <section id="camera-container">
+        <div id="title-cost-tracker-container">
+            <h3>basket:</h3>
+            <p id="cost-number-tracker">0</p>
+        </div>
         <video id="camera" width="640" height="250px" autoplay></video>
 
         <div id="result">
             <p id="number-found"></p>
             <button type="button" id="add-to-chart">Add</button>
         </div>
+        <button type="button" id="start-camera-scan">Scan</button>
 
-    </div>
-    <button type="button" id="start-camera-scan">Scan</button>
+    </section>
+   
+
+      <!-- Footer -->
+      <footer class="footer">
+       
+        <p>&copy; 2024 Budget Wise</p>
+    </footer>
+
+
 
     <script type="module" src="assets/js/camera-script.js" defer></script>
         <!-- Font Awesome CSS-->

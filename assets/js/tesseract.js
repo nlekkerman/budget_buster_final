@@ -10,7 +10,11 @@ const homeButton = document.getElementById("homeButton");
 const insightsButton = document.getElementById("nav-link-insights");
 const trackerButton = document.getElementById("nav-link-tracker");
 
-//initializeCamera();
+// Shopping list elements
+const createShoppingBtn = document.getElementById("createShoppingBtn");
+const groceryInput = document.createElement("input");
+const addButton = document.createElement("button");
+const latestShoppingList = document.getElementById("latestShoppingList");
 
 // Wait for the video to be ready
 video.addEventListener("canplay", function () {
@@ -42,6 +46,36 @@ if (!initializeCamera.isInitialized) {
 }
 initializeCamera();
 
+// Event listener for "Create Shopping" button
+createShoppingBtn.addEventListener("click", function () {
+    // Create input field for grocery item
+    groceryInput.type = "text";
+    groceryInput.placeholder = "Enter grocery item";
+    groceryInput.style.marginBottom = "10px";
+
+    // Create "Add" button
+    addButton.textContent = "Add";
+    addButton.style.margin = "5px";
+    addButton.style.padding = "5px";
+    addButton.style.fontSize = '1rem';
+
+    // Append input field and "Add" button to the container
+    document.getElementById("organizer-button-container").appendChild(groceryInput);
+    document.getElementById("organizer-button-container").appendChild(addButton);
+
+    // Event listener for "Add" button
+    addButton.addEventListener("click", function () {
+        const groceryItem = groceryInput.value.trim();
+        if (groceryItem !== "") {
+            // Update the grocery list
+            updateGroceryList(latestShoppingList, groceryItem);
+
+            // Clear the input field
+            groceryInput.value = "";
+        }
+    });
+});
+
 function captureFrameAndRecognize() {
     if (!shouldRecognize) {
         return; // Stop recognition if shouldRecognize is false
@@ -61,7 +95,7 @@ function captureFrameAndRecognize() {
         resultDiv.textContent = `Recognized text: ${text}`;
 
         // Find all numbers (including decimals) in the recognized text
-        const foundNumbers = findAllNumbers(text);
+        const foundNumbers = findAllNumbers(text, /[a-zA-Z]*\d+\.*\d*[a-zA-Z]*/g);
 
         if (foundNumbers.length > 0) {
             // Find the biggest number in terms of size (ignoring decimals)
@@ -70,9 +104,6 @@ function captureFrameAndRecognize() {
             // Update the biggest number if a larger one is found
             if (biggestNumber === null || currentBiggest.length > biggestNumber.length) {
                 biggestNumber = currentBiggest;
-
-                // Display a popup window with the found number and an "Add" button
-                showPopup(biggestNumber);
 
                 // Automatically stop recognition when the biggest number is found
                 stopRecognition();
@@ -90,8 +121,17 @@ function stopRecognition() {
 }
 
 // Function to find all numbers (including decimals) in a given text
-function findAllNumbers(text) {
-    const numberRegex = /[-+]?\d*\.?\d+/g;
+function findAllNumbers(text, suggestedOption = null) {
+    let numberRegex;
+
+    if (suggestedOption) {
+        // Use the suggested option if provided
+        numberRegex = new RegExp(suggestedOption, 'g');
+    } else {
+        // Use the default number regex if no suggested option is provided
+        numberRegex = /[-+]?\d*\.?\d+/g;
+    }
+
     return text.match(numberRegex) || [];
 }
 
@@ -102,75 +142,14 @@ function findBiggestNumber(numbers) {
     }, '');
 }
 
-// Function to display a popup window with the found number and an "Add" button
-function showPopup(foundNumber) {
-    // Create a modal overlay
-    const modalOverlay = document.createElement("div");
-    modalOverlay.classList.add("modal-overlay");
+// Function to update the grocery list displayed
+function updateGroceryList(list, item) {
+    const listItem = document.createElement("li");
+    listItem.textContent = item;
 
-    // Create the popup content
-    const popupContent = document.createElement("div");
-    popupContent.classList.add("popup-content");
-    popupContent.style.display = "flex";
-    popupContent.style.flexDirection = "column";
-    popupContent.style.alignItems = "center";
-
-    // Display the found number in the popup
-    const numberDisplay = document.createElement("p");
-    numberDisplay.textContent = `Number Found: ${foundNumber}`;
-    numberDisplay.style.color = 'white';
-    numberDisplay.style.textAlign = 'center';
-    numberDisplay.style.backgroundColor = 'black';
-    popupContent.appendChild(numberDisplay);
-    numberDisplay.style.fontSize = '1.2rem';
-
-    // Create the "Add" button
-    const addButton = document.createElement("button");
-    addButton.textContent = "Add";
-    addButton.style.border = "1px solid black";
-    addButton.style.borderRadius = "15px";
-    addButton.style.margin = "auto";
-    addButton.style.padding = "5px";
-    addButton.style.fontSize = '1.2rem';
-
-    addButton.addEventListener("click", function () {
-        // Update the value in the cost-number-tracker element
-        updateCostNumberTracker(foundNumber);
-        // Close the popup
-        closeModal();
-
-        // Reset variables (do not resume recognition automatically)
-        biggestNumber = null;
-        stopRecognition();
-        shouldRecognize = false; // Set shouldRecognize to false to prevent automatic recognition
-
-        // Optionally, you can display a message or UI element to indicate that the user needs to click "Scan" to start scanning again.
-    });
-    popupContent.appendChild(addButton);
-
-    // Append the popup content to the modal overlay
-    modalOverlay.appendChild(popupContent);
-
-    // Append the modal overlay to the body
-    document.body.appendChild(modalOverlay);
+    // Append the new grocery item to the list
+    list.querySelector(".shopping-list").appendChild(listItem);
 }
-
-// Function to update the value in the cost-number-tracker element
-function updateCostNumberTracker(value) {
-    const costNumberTracker = document.getElementById("cost-number-tracker");
-    totalExpenses += parseFloat(value); // Add the current value to the total
-    costNumberTracker.style.color = 'white'
-    costNumberTracker.style.textAlign = 'center'
-    costNumberTracker.textContent = `€ ${totalExpenses.toFixed(2)}`;
-}
-
-// Function to close the modal overlay
-function closeModal() {
-    const modalOverlay = document.querySelector(".modal-overlay");
-    modalOverlay.parentNode.removeChild(modalOverlay);
-}
-
-
 
 // Event listeners for buttons
 insightsButton.addEventListener("click", function () {

@@ -939,6 +939,62 @@ input#file {
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
+#organizer-button-container{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+.tracker-buttons {
+    margin: 5px;
+    padding: 7px 0px;
+    background-color: rgba(37, 4, 4, 0.7);
+    border: 3px solid rgb(255, 255, 255);
+    box-shadow: 2px 2px 8px 0 rgba(255, 255, 255, 0.3);
+    color: white;
+    text-align: center;
+    font-weight: 600;
+    width: 45%;
+    border-radius: 26px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+#tracker-organizer-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+
+#latestShoppingList, #latestNote {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f2f2f2;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 300px;
+}
+
+.h5-shopping-list, .h5-note-list {
+    text-align: center;
+    color: #333;
+    font-size: 1.2rem; /* Adjust the font size as needed */
+}
+
+.shopping-list, .note-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.shopping-list li, .note-list li {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Remove bottom border for the last item in the list */
+.shopping-list li:last-child, .note-list li:last-child {
+    border-bottom: none;
+}
 
 nav {
     background-color: rgba(0, 0, 0, 0.4);
@@ -1099,6 +1155,7 @@ camera styles ****/
 #camera-container {
     position: relative;
     width: 90%;
+    display: none;
     margin: 0 auto;
     margin-bottom: 20px;
     max-width: 640px;
