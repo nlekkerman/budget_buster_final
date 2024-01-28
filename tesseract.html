@@ -42,8 +42,8 @@
 
 <body>
 
-       <!-- Nav Bar -->
-       <nav class="navbar navbar-expand-lg navbar-light">
+    <!-- Nav Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
 
 
         <img class="logo-image" src="assets/images/logo-new.png" alt="Budget Wise logo" />
@@ -65,29 +65,49 @@
         </div>
     </nav>
 
-   
-<div id="tracker-organizer-section">
-    <div id="organizer-button-container">
-    <button id="createShoppingBtn" class="tracker-buttons" >Create Shopping</button>
-    <button id="createNoteBtn" class="tracker-buttons">Create Note</button>
-</div>
-    <div id="latestShoppingList">
-        <h5 class="h5-shopping-list">Latest Shopping List</h5>
-        <ul class="shopping-list">
-            <li>Shopping Item 1</li>
-            <li>Shopping Item 2</li>
-        </ul>
+
+    <div id="tracker-organizer-section">
+        <div id="organizer-button-container">
+            <button id="createShoppingBtn" class="tracker-buttons">Create Shopping</button>
+            <button id="createNoteBtn" class="tracker-buttons">Create Note</button>
+        </div>
+
+
+        <!-- shopping lists list-->
+        <div id="shopping-list-popup">
+            <button id="save-shopping-list-button">Save</button>
+            <ul class="shopping-list" id="shopping-list"></ul>
+
+            <input type="text" id="new-item-input" placeholder="Add new item">
+            <button id="add-to-shopping-list-button">Add to List</button>
+        </div>
+        <!-- creating shopping lists list-->
+        <div id="latestShopingList">
+            <h5 class="h5-shoping-list">Your Lists</h5>
+            <ul id="display-latest-shopping-list" class="shopping-list">
+            </ul>
+        </div>
+
+        <div id="update-start-shoping-shopping-list-screen">
+            <button id="close-action-shopping-list-button" class="tracker-buttons">close</button>
+
+            <h5 class="h5-shoping-list">Lists</h5>
+            <ul id="action-shopping-list" class="shopping-list">
+            </ul>
+            <div id="action-list-container">
+                <button id="update-shopping-list-button" class="tracker-buttons">Update List</button>
+                <button id="start-shopping-button" class="tracker-buttons">Start Shopping</button>
+            </div>
+        </div>
+        <div id="latestNote">
+            <h5 class="h5-note-list">Latest Note</h5>
+            <ul class="note-list">
+                <li>Note Item 1</li>
+                <li>Note Item 2</li>
+            </ul>
+        </div>
+
     </div>
-    
-    <div id="latestNote">
-        <h5 class="h5-note-list">Latest Note</h5>
-        <ul class="note-list">
-            <li>Note Item 1</li>
-            <li>Note Item 2</li>
-        </ul>
-    </div>
-    
-</div>
 
     <section id="camera-container">
         <div id="title-cost-tracker-container">
@@ -103,19 +123,19 @@
         <button type="button" id="start-camera-scan">Scan</button>
 
     </section>
-   
 
-      <!-- Footer -->
-      <footer class="footer">
-       
+
+    <!-- Footer -->
+    <footer class="footer">
+
         <p>&copy; 2024 Budget Wise</p>
     </footer>
 
 
 
     <script type="module" src="assets/js/camera-script.js" defer></script>
-        <!-- Font Awesome CSS-->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 
 </body>
 

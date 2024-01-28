@@ -9,12 +9,10 @@ let totalExpenses = 0; // Variable to store the running total of expenses
 const homeButton = document.getElementById("homeButton");
 const insightsButton = document.getElementById("nav-link-insights");
 const trackerButton = document.getElementById("nav-link-tracker");
+const closeActionScreen = document.getElementById('close-action-shopping-list-button')
+const updateStartShoppingListScreen = document.getElementById("update-start-shoping-shopping-list-screen");
 
-// Shopping list elements
-const createShoppingBtn = document.getElementById("createShoppingBtn");
-const groceryInput = document.createElement("input");
-const addButton = document.createElement("button");
-const latestShoppingList = document.getElementById("latestShoppingList");
+//initializeCamera();
 
 // Wait for the video to be ready
 video.addEventListener("canplay", function () {
@@ -46,36 +44,6 @@ if (!initializeCamera.isInitialized) {
 }
 initializeCamera();
 
-// Event listener for "Create Shopping" button
-createShoppingBtn.addEventListener("click", function () {
-    // Create input field for grocery item
-    groceryInput.type = "text";
-    groceryInput.placeholder = "Enter grocery item";
-    groceryInput.style.marginBottom = "10px";
-
-    // Create "Add" button
-    addButton.textContent = "Add";
-    addButton.style.margin = "5px";
-    addButton.style.padding = "5px";
-    addButton.style.fontSize = '1rem';
-
-    // Append input field and "Add" button to the container
-    document.getElementById("organizer-button-container").appendChild(groceryInput);
-    document.getElementById("organizer-button-container").appendChild(addButton);
-
-    // Event listener for "Add" button
-    addButton.addEventListener("click", function () {
-        const groceryItem = groceryInput.value.trim();
-        if (groceryItem !== "") {
-            // Update the grocery list
-            updateGroceryList(latestShoppingList, groceryItem);
-
-            // Clear the input field
-            groceryInput.value = "";
-        }
-    });
-});
-
 function captureFrameAndRecognize() {
     if (!shouldRecognize) {
         return; // Stop recognition if shouldRecognize is false
@@ -104,6 +72,9 @@ function captureFrameAndRecognize() {
             // Update the biggest number if a larger one is found
             if (biggestNumber === null || currentBiggest.length > biggestNumber.length) {
                 biggestNumber = currentBiggest;
+
+                // Display a popup window with the found number and an "Add" button
+                showPopup(biggestNumber);
 
                 // Automatically stop recognition when the biggest number is found
                 stopRecognition();
@@ -135,6 +106,7 @@ function findAllNumbers(text, suggestedOption = null) {
     return text.match(numberRegex) || [];
 }
 
+
 // Function to find the biggest number in terms of size (ignoring decimals)
 function findBiggestNumber(numbers) {
     return numbers.reduce((biggest, current) => {
@@ -142,14 +114,75 @@ function findBiggestNumber(numbers) {
     }, '');
 }
 
-// Function to update the grocery list displayed
-function updateGroceryList(list, item) {
-    const listItem = document.createElement("li");
-    listItem.textContent = item;
+// Function to display a popup window with the found number and an "Add" button
+function showPopup(foundNumber) {
+    // Create a modal overlay
+    const modalOverlay = document.createElement("div");
+    modalOverlay.classList.add("modal-overlay");
 
-    // Append the new grocery item to the list
-    list.querySelector(".shopping-list").appendChild(listItem);
+    // Create the popup content
+    const popupContent = document.createElement("div");
+    popupContent.classList.add("popup-content");
+    popupContent.style.display = "flex";
+    popupContent.style.flexDirection = "column";
+    popupContent.style.alignItems = "center";
+
+    // Display the found number in the popup
+    const numberDisplay = document.createElement("p");
+    numberDisplay.textContent = `Number Found: ${foundNumber}`;
+    numberDisplay.style.color = 'white';
+    numberDisplay.style.textAlign = 'center';
+    numberDisplay.style.backgroundColor = 'black';
+    popupContent.appendChild(numberDisplay);
+    numberDisplay.style.fontSize = '1.2rem';
+
+    // Create the "Add" button
+    const addButton = document.createElement("button");
+    addButton.textContent = "Add";
+    addButton.style.border = "1px solid black";
+    addButton.style.borderRadius = "15px";
+    addButton.style.margin = "auto";
+    addButton.style.padding = "5px";
+    addButton.style.fontSize = '1.2rem';
+
+    addButton.addEventListener("click", function () {
+        // Update the value in the cost-number-tracker element
+        updateCostNumberTracker(foundNumber);
+        // Close the popup
+        closeModal();
+
+        // Reset variables (do not resume recognition automatically)
+        biggestNumber = null;
+        stopRecognition();
+        shouldRecognize = false; // Set shouldRecognize to false to prevent automatic recognition
+
+        // Optionally, you can display a message or UI element to indicate that the user needs to click "Scan" to start scanning again.
+    });
+    popupContent.appendChild(addButton);
+
+    // Append the popup content to the modal overlay
+    modalOverlay.appendChild(popupContent);
+
+    // Append the modal overlay to the body
+    document.body.appendChild(modalOverlay);
 }
+
+// Function to update the value in the cost-number-tracker element
+function updateCostNumberTracker(value) {
+    const costNumberTracker = document.getElementById("cost-number-tracker");
+    totalExpenses += parseFloat(value); // Add the current value to the total
+    costNumberTracker.style.color = 'white'
+    costNumberTracker.style.textAlign = 'center'
+    costNumberTracker.textContent = `€ ${totalExpenses.toFixed(2)}`;
+}
+
+// Function to close the modal overlay
+function closeModal() {
+    const modalOverlay = document.querySelector(".modal-overlay");
+    modalOverlay.parentNode.removeChild(modalOverlay);
+}
+
+
 
 // Event listeners for buttons
 insightsButton.addEventListener("click", function () {
@@ -162,4 +195,196 @@ homeButton.addEventListener("click", function () {
 
 trackerButton.addEventListener("click", function () {
     window.location.href = 'tesseract.html';
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const createShoppingBtn = document.getElementById("createShoppingBtn");
+    const shoppingListPopup = document.getElementById("shopping-list-popup");
+    const addToShoppingListButton = document.getElementById("add-to-shopping-list-button");
+    const shoppingList = document.getElementById("shopping-list");
+    const newItemInput = document.getElementById("new-item-input");
+    const saveShoppingListButton = document.getElementById("save-shopping-list-button");
+
+    // Load the shopping list from local storage
+    const savedShoppingList = JSON.parse(localStorage.getItem("shoppingList")) || [];
+
+    // Function to save the shopping list to local storage
+    function saveToLocalStorage(list) {
+        localStorage.setItem("shoppingList", JSON.stringify(list));
+    }
+
+    // Function to update the display of the latest shopping lists
+    function updateLatestShoppingListDisplay() {
+        const displayLatestShoppingList = document.getElementById("display-latest-shopping-list");
+        const actionShoppingList = document.getElementById("action-shopping-list");
+    
+        // Function to update the displayed shopping list
+        function updateDisplayedShoppingList() {
+            displayLatestShoppingList.innerHTML = savedShoppingList.map(item => `<li>${item.listName}</li>`).join('');
+        }
+    
+        // Function to update the action shopping list
+        function updateActionShoppingList(clickedListItem) {
+            // Clear existing items in action shopping list
+            actionShoppingList.innerHTML = "";
+    
+            // Display items in the action shopping list
+            clickedListItem.items.forEach((item, itemIndex) => {
+                const listItem = document.createElement("li");
+                listItem.textContent = item.itemName;
+    
+                // Add a delete button to each item in action shopping list
+                const deleteButton = document.createElement("button");
+                deleteButton.textContent = "Delete";
+                deleteButton.addEventListener("click", function () {
+                    // Show the delete confirmation pop-up before deleting
+                    const confirmDelete = confirm("Are you sure you want to delete this item?");
+                    if (confirmDelete) {
+                        // Perform the delete operation here
+                        clickedListItem.items.splice(itemIndex, 1); // Remove the item from the array
+    
+                        // Update the saved shopping list in local storage
+                        saveToLocalStorage(savedShoppingList);
+    
+                        // Update both displayed and action shopping lists
+                        updateDisplayedShoppingList();
+                        updateActionShoppingList(clickedListItem);
+    
+                        console.log("Item deleted!");
+                    }
+                });
+    
+                listItem.appendChild(deleteButton);
+                actionShoppingList.appendChild(listItem);
+            });
+        }
+    
+        // Add click event listener to the <ul> element
+        displayLatestShoppingList.addEventListener("click", function (event) {
+            // Check if a <li> element is clicked
+            if (event.target.tagName === "LI") {
+                // Log the clicked item's text content
+                console.log("Clicked item: ", event.target.textContent);
+    
+                // Find the clicked shopping list item in the savedShoppingList array
+                const clickedListItemIndex = savedShoppingList.findIndex(item => item.listName === event.target.textContent);
+    
+                // Log details of items saved under the clicked shopping list item
+                if (clickedListItemIndex !== -1) {
+                    const clickedListItem = savedShoppingList[clickedListItemIndex];
+                    console.log("Items under clicked shopping list:", clickedListItem.items);
+    
+                    // Update both displayed and action shopping lists
+                    updateDisplayedShoppingList();
+                    updateActionShoppingList(clickedListItem);
+    
+                    // Make the "update-start-shoping-shopping-list-screen" element visible
+                    updateStartShoppingListScreen.style.display = "block";
+                }
+            }
+        });
+    
+        // Initial update of the displayed shopping list and action shopping list
+        updateDisplayedShoppingList();
+        updateActionShoppingList(savedShoppingList[0]); // Adjust this based on your initial state
+    }
+    
+
+    updateLatestShoppingListDisplay();
+    createShoppingBtn.addEventListener("click", function () {
+        // Toggle the display of the popup
+        shoppingListPopup.style.display = (shoppingListPopup.style.display === "block") ? "none" : "block";
+    });
+    closeActionScreen.addEventListener("click", function () {
+        // Toggle the display of the popup
+                    updateStartShoppingListScreen.style.display = "none";
+    });
+
+    addToShoppingListButton.addEventListener("click", function () {
+        // Get the value from the input field
+        const newItemText = newItemInput.value;
+
+        // Check if the input field is not empty
+        if (newItemText.trim() !== "") {
+            // Create a new list item
+            const newItem = document.createElement("li");
+            newItem.textContent = newItemText;
+
+            // Append the new item to the shopping list
+            shoppingList.appendChild(newItem);
+
+            // Clear the input field after adding to the list
+            newItemInput.value = "";
+        }
+    });
+
+    saveShoppingListButton.addEventListener("click", function () {
+        // Create a new popup container
+        const popupContainer = document.createElement("div");
+        popupContainer.className = "popup-window";
+        popupContainer.style.position = "fixed";
+        popupContainer.style.top = "50%";
+        popupContainer.style.left = "50%";
+        popupContainer.style.transform = "translate(-50%, -50%)";
+        popupContainer.style.background = "white";
+        popupContainer.style.padding = "20px";
+        popupContainer.style.border = "1px solid #ccc";
+        popupContainer.style.zIndex = "9999";
+
+        // Create an input field in the popup
+        const inputField = document.createElement("input");
+        inputField.type = "text";
+        inputField.placeholder = "Enter something";
+        inputField.style.marginBottom = "10px";
+        popupContainer.appendChild(inputField);
+
+        // Create a "Save" button in the popup
+        const saveButton = document.createElement("button");
+        saveButton.textContent = "Save";
+        saveButton.style.cursor = "pointer";
+        saveButton.addEventListener("click", function () {
+            // Perform the save operation (customize this part based on your needs)
+            const listName = inputField.value.trim();
+            if (listName !== "") {
+                const uniqueShoppingListID = Date.now().toString();
+                const timestamp = new Date().toLocaleString();
+                const shoppingListArray = [];
+
+                const currentItems = shoppingList.children;
+                for (const item of currentItems) {
+                    shoppingListArray.push({
+                        itemName: item.textContent,
+                        itemPrice: "",
+                    });
+                }
+
+                console.log("List Name:", listName);
+                console.log("Unique Shopping List ID:", uniqueShoppingListID);
+                console.log("Timestamp:", timestamp);
+                console.log("Shopping List Items:", shoppingListArray);
+
+                savedShoppingList.push({
+                    listName: listName,
+                    uniqueShoppingListID: uniqueShoppingListID,
+                    timestamp: timestamp,
+                    items: shoppingListArray,
+                });
+                saveToLocalStorage(savedShoppingList);
+
+                // Clear the existing list
+                shoppingList.innerHTML = "";
+
+                // Update the display of latest shopping lists
+                updateLatestShoppingListDisplay();
+
+                // Close the popup
+                document.body.removeChild(popupContainer);
+                shoppingListPopup.style.display = "none";
+            }
+        });
+        popupContainer.appendChild(saveButton);
+
+        // Append the popup container to the body
+        document.body.appendChild(popupContainer);
+    });
 });

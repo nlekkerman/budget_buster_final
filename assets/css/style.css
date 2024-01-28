@@ -336,7 +336,7 @@ h3 {
 footer {
 
     position: fixed;
-    background-color: #212529;
+    background-color: #88c1fa;
     color: white;
     bottom: 0;
     width: 100%;
@@ -942,7 +942,6 @@ input#file {
 #organizer-button-container{
     display: flex;
     flex-direction: row;
-    width: 100%;
 }
 .tracker-buttons {
     margin: 5px;
@@ -964,20 +963,84 @@ input#file {
     align-items: center;
 }
 
-
-
-#latestShoppingList, #latestNote {
-    margin-top: 20px;
-    padding: 20px;
-    background-color: #f2f2f2;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    width: 300px;
+#new-item-input {
+    padding: 8px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    width: 100%;
 }
 
-.h5-shopping-list, .h5-note-list {
+#add-to-shopping-list-button {
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 0 auto;
+    display: flex;
+    align-self: center;
+}
+
+#add-to-shopping-list-button:hover {
+    background-color: #45a049;
+}
+#shopping-list-popup{
+    display: none;
+}
+#shopping-list-popup,#latestShopingList, #latestNote {
+   margin: 10px;
+    padding: 20px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.8);
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 95%;
+}
+
+#save-shopping-list-button {
+    padding: 5px 10px;
+    width: 25%;
+    border-radius: 20px;
+   margin-left: 190px;
+   color: white;
+   border: 2px solid silver;
+   margin-bottom: 10px;
+   background-color: rgba(255, 0, 0, 0.4);
+}
+/*update-start-shoping-shopping-list styles*/
+#update-start-shoping-shopping-list{
+    display: none;
+}
+#update-start-shoping-shopping-list-screen {
+    display: none;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+#close-action-shopping-list-button {
+    position: absolute;
+    top: 10px; /* Adjust the top position as needed */
+    right: 10px; /* Adjust the right position as needed */
+    width: 20%;
+}
+
+#action-list-container{
+    display: flex;
+    flex-direction: row;
+}
+
+.h5-shopping-list, .h5-note-list,#latestShopingList h5,#update-start-shoping-shopping-list-screen h5 {
     text-align: center;
-    color: #333;
+    color:white;
     font-size: 1.2rem; /* Adjust the font size as needed */
 }
 
@@ -986,7 +1049,8 @@ input#file {
     padding: 0;
 }
 
-.shopping-list li, .note-list li {
+.shopping-list li, .note-list li{
+    background-color: #b3bfc3;
     padding: 8px;
     border-bottom: 1px solid #ddd;
 }
