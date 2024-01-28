@@ -11,6 +11,7 @@ const insightsButton = document.getElementById("nav-link-insights");
 const trackerButton = document.getElementById("nav-link-tracker");
 
 //initializeCamera();
+
 // Wait for the video to be ready
 video.addEventListener("canplay", function () {
     // Initialize camera
@@ -22,6 +23,7 @@ video.addEventListener("canplay", function () {
         captureFrameAndRecognize();
     });
 });
+
 // Check if the camera is already initialized
 if (!initializeCamera.isInitialized) {
     // Wait for the video to be ready
@@ -40,24 +42,64 @@ if (!initializeCamera.isInitialized) {
 }
 initializeCamera();
 
-// Function to find a number in the recognized text
-function findNumber(text) {
-    const numberRegex = /\d+/g; // Use the global flag to find all numbers
-    const matches = text.match(numberRegex);
+function captureFrameAndRecognize() {
+    if (!shouldRecognize) {
+        return; // Stop recognition if shouldRecognize is false
+    }
 
-    return matches || []; // Return an array of all numbers or an empty array
-}
+    const canvas = document.createElement("canvas"); // Create a new canvas element
+    const context = canvas.getContext("2d");
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-// Function to find the biggest number in terms of size
-function findBiggestNumber(numbers) {
-    return numbers.reduce((biggest, current) => {
-        return biggest.length < current.length ? current : biggest;
-    }, "");
+    Tesseract.recognize(
+        canvas,
+        'eng',
+        { logger: info => console.log(info) } // Optional logger for debugging
+    ).then(({ data: { text } }) => {
+        resultDiv.textContent = `Recognized text: ${text}`;
+
+        // Find all numbers (including decimals) in the recognized text
+        const foundNumbers = findAllNumbers(text);
+
+        if (foundNumbers.length > 0) {
+            // Find the biggest number in terms of size (ignoring decimals)
+            const currentBiggest = findBiggestNumber(foundNumbers);
+
+            // Update the biggest number if a larger one is found
+            if (biggestNumber === null || currentBiggest.length > biggestNumber.length) {
+                biggestNumber = currentBiggest;
+
+                // Display a popup window with the found number and an "Add" button
+                showPopup(biggestNumber);
+
+                // Automatically stop recognition when the biggest number is found
+                stopRecognition();
+            }
+        }
+
+        // Continue capturing frames and recognizing text
+        requestAnimationFrame(captureFrameAndRecognize);
+    });
 }
 
 // Function to stop recognition
 function stopRecognition() {
     shouldRecognize = false;
+}
+
+// Function to find all numbers (including decimals) in a given text
+function findAllNumbers(text) {
+    const numberRegex = /[-+]?\d*\.?\d+/g;
+    return text.match(numberRegex) || [];
+}
+
+// Function to find the biggest number in terms of size (ignoring decimals)
+function findBiggestNumber(numbers) {
+    return numbers.reduce((biggest, current) => {
+        return current.length > biggest.length ? current : biggest;
+    }, '');
 }
 
 // Function to display a popup window with the found number and an "Add" button
@@ -113,42 +155,6 @@ function showPopup(foundNumber) {
     document.body.appendChild(modalOverlay);
 }
 
-// Create the "Switch Camera" image element
-const switchCameraImage = document.createElement("img");
-switchCameraImage.src = "assets/images/switch-camera.png"; // Replace with the actual path to your switch camera image
-switchCameraImage.alt = "Switch Camera";
-switchCameraImage.style.width = '2em';
-switchCameraImage.style.height = '2em';
-switchCameraImage.style.cursor = 'pointer';
-switchCameraImage.style.position = 'absolute';
-switchCameraImage.style.top = '150px';
-switchCameraImage.style.right = '10px';
-switchCameraImage.style.border = '2px solid white';
-switchCameraImage.style.zIndex = '10000000';
-
-// Set an initial flag for the current facing mode
-let isFrontCamera = false;
-
-switchCameraImage.addEventListener("click", function () {
-    // Toggle between front and back cameras
-    isFrontCamera = !isFrontCamera;
-    const constraints = {
-        video: { facingMode: isFrontCamera ? 'user' : 'environment' }
-    };
-
-    // Reinitialize the camera with updated constraints
-    initializeCamera(constraints);
-});
-
-// Append the switch camera image to the body
-document.body.appendChild(switchCameraImage);
-
-
-// Append the switch camera image to the body
-document.body.appendChild(switchCameraImage);
-
-
-
 // Function to update the value in the cost-number-tracker element
 function updateCostNumberTracker(value) {
     const costNumberTracker = document.getElementById("cost-number-tracker");
@@ -164,47 +170,9 @@ function closeModal() {
     modalOverlay.parentNode.removeChild(modalOverlay);
 }
 
-function captureFrameAndRecognize() {
-    if (!shouldRecognize) {
-        return; // Stop recognition if shouldRecognize is false
-    }
 
-    const canvas = document.createElement("canvas");
-    const context = canvas.getContext("2d");
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-    Tesseract.recognize(
-        canvas,
-        'eng',
-        { logger: info => console.log(info) } // Optional logger for debugging
-    ).then(({ data: { text } }) => {
-        resultDiv.textContent = `Recognized text: ${text}`;
-
-        // Check if the recognized text contains a number
-        const foundNumbers = findNumber(text);
-
-        if (foundNumbers.length > 0) {
-            // Find the biggest number in terms of size
-            const currentBiggest = findBiggestNumber(foundNumbers);
-
-            // Update the biggest number if a larger one is found
-            if (biggestNumber === null || currentBiggest.length > biggestNumber.length) {
-                biggestNumber = currentBiggest;
-
-                // Display a popup window with the found number and an "Add" button
-                showPopup(biggestNumber);
-
-                // Automatically stop recognition when the biggest number is found
-                stopRecognition();
-            }
-        }
-
-        // Continue capturing frames and recognizing text
-        requestAnimationFrame(captureFrameAndRecognize);
-    });
-}
+// Event listeners for buttons
 insightsButton.addEventListener("click", function () {
     window.location.href = 'insights.html';
 });
@@ -212,6 +180,7 @@ insightsButton.addEventListener("click", function () {
 homeButton.addEventListener("click", function () {
     window.location.href = 'index.html';
 });
+
 trackerButton.addEventListener("click", function () {
     window.location.href = 'tesseract.html';
 });
