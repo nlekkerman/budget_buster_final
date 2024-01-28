@@ -217,78 +217,135 @@ document.addEventListener("DOMContentLoaded", function () {
     function updateLatestShoppingListDisplay() {
         const displayLatestShoppingList = document.getElementById("display-latest-shopping-list");
         const actionShoppingList = document.getElementById("action-shopping-list");
-    
         // Function to update the displayed shopping list
         function updateDisplayedShoppingList() {
-            displayLatestShoppingList.innerHTML = savedShoppingList.map(item => `<li>${item.listName}</li>`).join('');
-        }
-    
-        // Function to update the action shopping list
-        function updateActionShoppingList(clickedListItem) {
-            // Clear existing items in action shopping list
-            actionShoppingList.innerHTML = "";
-    
-            // Display items in the action shopping list
-            clickedListItem.items.forEach((item, itemIndex) => {
-                const listItem = document.createElement("li");
-                listItem.textContent = item.itemName;
-    
-                // Add a delete button to each item in action shopping list
-                const deleteButton = document.createElement("button");
-                deleteButton.textContent = "Delete";
-                deleteButton.addEventListener("click", function () {
+            displayLatestShoppingList.innerHTML = savedShoppingList.map(item =>
+                `<li>${item.listName} <button class="delete-list-button" data-listname="${item.listName}">Delete</button></li>`
+            ).join('');
+
+            // Add click event listener to each delete button in the displayed shopping list
+            const deleteListButtons = document.querySelectorAll('.delete-list-button');
+        
+            deleteListButtons.forEach(deleteButton => {
+                deleteButton.addEventListener('click', function () {
+                    const listNameToDelete = this.dataset.listname;
+
                     // Show the delete confirmation pop-up before deleting
-                    const confirmDelete = confirm("Are you sure you want to delete this item?");
+                    const confirmDelete = confirm(`Are you sure you want to delete the list "${listNameToDelete}"?`);
                     if (confirmDelete) {
                         // Perform the delete operation here
-                        clickedListItem.items.splice(itemIndex, 1); // Remove the item from the array
-    
-                        // Update the saved shopping list in local storage
-                        saveToLocalStorage(savedShoppingList);
-    
-                        // Update both displayed and action shopping lists
-                        updateDisplayedShoppingList();
-                        updateActionShoppingList(clickedListItem);
-    
-                        console.log("Item deleted!");
+                        const index = savedShoppingList.findIndex(list => list.listName === listNameToDelete);
+                        if (index !== -1) {
+                            savedShoppingList.splice(index, 1);
+
+                            // Update the saved shopping list in local storage
+                            saveToLocalStorage(savedShoppingList);
+
+                            // Update both displayed and action shopping lists
+                            updateDisplayedShoppingList();
+                            updateActionShoppingList(savedShoppingList[0]); // Update the action shopping list based on the current state
+
+                            console.log("List deleted!");
+                        }
                     }
                 });
-    
-                listItem.appendChild(deleteButton);
-                actionShoppingList.appendChild(listItem);
             });
         }
-    
+
+        // Function to update the action shopping list
+        function updateActionShoppingList(listName) {
+            // Clear existing items in action shopping list
+            actionShoppingList.innerHTML = "";
+
+            // Find the clicked shopping list item in the savedShoppingList array
+            const clickedListItemIndex = savedShoppingList.findIndex(item => item.listName === listName);
+
+            // Log details of items saved under the clicked shopping list item
+            if (clickedListItemIndex !== -1) {
+                const clickedListItem = savedShoppingList[clickedListItemIndex];
+
+                // Display items in the action shopping list
+                clickedListItem.items.forEach((item, itemIndex) => {
+                    const listItem = document.createElement("li");
+                    listItem.textContent = item.itemName;
+
+                    // Add a delete button to each item in action shopping list
+                    const deleteButton = document.createElement("button");
+                    deleteButton.textContent = "Delete";
+                    deleteButton.addEventListener("click", function () {
+                        // Show the delete confirmation pop-up before deleting
+                        const confirmDelete = confirm("Are you sure you want to delete this item?");
+                        if (confirmDelete) {
+                            // Perform the delete operation here
+                            clickedListItem.items.splice(itemIndex, 1); // Remove the item from the array
+
+                            // Update the saved shopping list in local storage
+                            saveToLocalStorage(savedShoppingList);
+
+                            // Update both displayed and action shopping lists
+                            updateDisplayedShoppingList();
+                            updateActionShoppingList(listName);
+
+                            console.log("Item deleted!");
+                        }
+                    });
+
+                    listItem.appendChild(deleteButton);
+                    actionShoppingList.appendChild(listItem);
+                });
+            }
+        }
+
+        // Add click event listener to the <ul> element
+        displayLatestShoppingList.addEventListener("click", function (event) {
+            // Check if a <li> element is clicked
+            if (event.target.tagName === "LI") {
+                // Log the clicked item's text content
+                const clickedListName = event.target.textContent.trim();
+
+                // Update both displayed and action shopping lists
+                updateDisplayedShoppingList();
+                updateActionShoppingList(clickedListName);
+
+                // Make the "update-start-shoping-shopping-list-screen" element visible
+                updateStartShoppingListScreen.style.display = "block";
+            }
+        });
+
+        // Initial update of the displayed shopping list and action shopping list
+        updateDisplayedShoppingList();
+        updateActionShoppingList(savedShoppingList[0] ? savedShoppingList[0].listName : ''); // Adjust this based on your initial state
+
         // Add click event listener to the <ul> element
         displayLatestShoppingList.addEventListener("click", function (event) {
             // Check if a <li> element is clicked
             if (event.target.tagName === "LI") {
                 // Log the clicked item's text content
                 console.log("Clicked item: ", event.target.textContent);
-    
+
                 // Find the clicked shopping list item in the savedShoppingList array
                 const clickedListItemIndex = savedShoppingList.findIndex(item => item.listName === event.target.textContent);
-    
+
                 // Log details of items saved under the clicked shopping list item
                 if (clickedListItemIndex !== -1) {
                     const clickedListItem = savedShoppingList[clickedListItemIndex];
                     console.log("Items under clicked shopping list:", clickedListItem.items);
-    
+
                     // Update both displayed and action shopping lists
                     updateDisplayedShoppingList();
                     updateActionShoppingList(clickedListItem);
-    
+
                     // Make the "update-start-shoping-shopping-list-screen" element visible
                     updateStartShoppingListScreen.style.display = "block";
                 }
             }
         });
-    
+
         // Initial update of the displayed shopping list and action shopping list
         updateDisplayedShoppingList();
         updateActionShoppingList(savedShoppingList[0]); // Adjust this based on your initial state
     }
-    
+
 
     updateLatestShoppingListDisplay();
     createShoppingBtn.addEventListener("click", function () {
@@ -297,7 +354,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     closeActionScreen.addEventListener("click", function () {
         // Toggle the display of the popup
-                    updateStartShoppingListScreen.style.display = "none";
+        updateStartShoppingListScreen.style.display = "none";
     });
 
     addToShoppingListButton.addEventListener("click", function () {
