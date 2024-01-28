@@ -4,7 +4,10 @@ let isCameraInitialized = false;
 async function initializeCamera() {
     if (!isCameraInitialized) {
         try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            const stream = await navigator.mediaDevices.getUserMedia({
+                video: { facingMode: 'user' } // Use front camera initially
+            });
+            
             video.srcObject = stream;
 
             // Wait for the video to be loaded
@@ -29,7 +32,6 @@ async function initializeCamera() {
     }
 }
 
-
 // Check for camera support and request permission
 if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices) {
     navigator.permissions.query({ name: 'camera' })
@@ -44,7 +46,9 @@ if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices) {
                         initializeCamera();
                     }
                 });
-                navigator.mediaDevices.getUserMedia({ video: true });
+                navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: 'user' } // Use front camera initially
+                });
             }
         })
         .catch(error => {
