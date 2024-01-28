@@ -108,7 +108,6 @@ switchCameraImage.style.top = '150px';
 switchCameraImage.style.right = '10px';
 switchCameraImage.style.border = '2px solid white';
 switchCameraImage.style.zIndex = '10000000';
-
 switchCameraImage.addEventListener("click", function () {
     // Log a message when the icon is clicked
     console.log("Switch Camera icon clicked");
@@ -117,14 +116,13 @@ switchCameraImage.addEventListener("click", function () {
     const video = document.getElementById("camera");
 
     const constraints = {
-        video: {
-            facingMode: (video.facingMode === 'user') ? 'environment' : 'user'
-        }
+        video: { facingMode: (video.facingMode === 'environment') ? 'user' : 'environment' }
     };
 
     // Reinitialize the camera with updated constraints
     initializeCamera(constraints);
 });
+
 
 // Append the switch camera image to the body
 document.body.appendChild(switchCameraImage);

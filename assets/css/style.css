@@ -1,17 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Tienne:wght@400;700;900&display=swap&family=Lato&family=Montserrat&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Tienne:wght@400;700;900&display=swap');
+
 /*<a href="https://www.freepik.com/free-ai-image/photorealistic-money-concept_94935424.htm#query=money%20bank&position=13&from_view=search&track=ais_ai_generated&uuid=89f916c5-971a-4198-9f48-2aef499a8c30">Image By freepik</a>
 <a href="https://www.freepik.com/icon/photo-camera_1298488#fromView=search&term=switch+camera&track=ais&page=1&position=54&uuid=083ac5eb-acb8-4b9b-9de2-b34e0f54152b">Icon by Freepik</a>
 */
 * {
-    
+
     color: #262828;
 }
+
 html {
-    
+
     margin: 0;
     padding: 0;
-   height: 100vh;
+    height: 100vh;
 }
+
 /* main element styles */
 main {
     margin: 0;
@@ -19,26 +22,24 @@ main {
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 48em;
-margin: 0 auto;
-max-
-height: 100%;
-border: 3px solid white;
+    max-width: 100%;
+    max-width: 100%;
     max-height: 100vh;
     overflow: scroll; /* Ensure the background image is not visible outside the main container */
 }
-
 /* Body styles */
 body {
     background: url('../images/expense-background.jpg') no-repeat center center/cover;
     margin: 0;
-    background-color: rgba(0, 0, 0, 1) !important; /* Set background color to transparent */
+    background-color: rgba(0, 0, 0, 1) !important;
+    /* Set background color to transparent */
 
     padding: 0;
     height: 100vh;
     display: flex;
     flex-direction: column;
 }
+
 /* fit to screen responsive div */
 .fit-to-screen-container {
     display: flex;
@@ -46,8 +47,10 @@ body {
     width: 100%;
     max-width: 64.5em;
     margin: 0;
-    padding: 1em; /* Add padding as needed */
-    box-sizing: border-box; /* Include padding in the total width */
+    padding: 1em;
+    /* Add padding as needed */
+    box-sizing: border-box;
+    /* Include padding in the total width */
 }
 
 .active {
@@ -74,7 +77,7 @@ h3 {
 
 .navbar-toggler {
     background-color: white !important;
-  
+
 }
 
 .navbar-nav .nav-link {
@@ -100,12 +103,14 @@ h3 {
     list-style: none;
 
 }
-#display-budget-container{
+
+#display-budget-container {
     margin-top: 0.5rem;
     margin-bottom: 1rem;
     width: 100%;
- 
+
 }
+
 /* expense section */
 #expense-section {
     flex: 1;
@@ -124,36 +129,42 @@ h3 {
 }
 
 
-#expense-section h3{
+#expense-section h3 {
     width: 100%;
     padding: 0.3rem;
 }
-#budget-display{
+
+#budget-display {
     width: 100%;
     padding: 0.6rem 0em;
     font-size: 1.5rem;
-    background-color:  rgba(0, 0, 0, 0.7);
-    border: 3px solid rgb(255, 255, 255);;
+    background-color: rgba(0, 0, 0, 0.7);
+    border: 3px solid rgb(255, 255, 255);
+    ;
 }
+
 #scrollable-container-display-data-conatiner {
-    overflow-Y: auto; 
+    overflow-Y: auto;
     width: 100%;
-    white-space: nowrap; /* Prevent text wrapping */
+    white-space: nowrap;
+    /* Prevent text wrapping */
 }
 
 #data-display-list {
     display: flex;
     flex-direction: column;
-    list-style-type: none; /* Remove default list styles */
+    list-style-type: none;
+    /* Remove default list styles */
     padding: 0;
     margin: 0;
-    display: flex; /* Use flexbox to arrange divs horizontally */
+    display: flex;
+    /* Use flexbox to arrange divs horizontally */
 }
 
 #analytics-popup-list {
     list-style: none;
     padding: 0;
-padding: 5px;
+    padding: 5px;
 }
 
 #analytics-popup-list li {
@@ -165,9 +176,11 @@ padding: 5px;
     text-align: center;
     font-weight: 500;
 }
+
 .highlight-text {
     background-color: rgb(227, 192, 102);
 }
+
 .highlight-text-popup {
     background-color: rgb(227, 192, 102);
 }
@@ -177,28 +190,36 @@ padding: 5px;
     position: fixed;
     top: 50%;
     width: 90%;
-    background-color:rgba(255, 255, 255, 0.9) ;
+    background-color: rgba(255, 255, 255, 0.9);
     left: 50%;
     z-index: 20202;
     border: 2px solid rgba(0, 0, 0, 1);
     transform: translate(-50%, -50%);
-    text-align: center; /* Center the content horizontally */
+    text-align: center;
+    /* Center the content horizontally */
 }
+
 #close-popup-insights {
-    margin: 10px auto;/* Adjust the margin from the top and center horizontally */
-    border:2px solid #212529;
+    margin: 10px auto;
+    /* Adjust the margin from the top and center horizontally */
+    border: 2px solid #212529;
 }
-#close-popup{
+
+#close-popup {
     border: 2px solid black;
     background-color: rgba(255, 255, 255, 0.3);
 }
-#data-display-list > div {
+
+#data-display-list>div {
     /* Adjust styles for each individual div */
-    border: 2px solid silver; /* Updated border style */
-    border-radius: 5px; /* Added border radius */
+    border: 2px solid silver;
+    /* Updated border style */
+    border-radius: 5px;
+    /* Added border radius */
     padding: 10px;
     margin-top: 10px;
-    box-shadow: 2px 2px 5px #888888; /* Added box shadow */
+    box-shadow: 2px 2px 5px #888888;
+    /* Added box shadow */
     text-align: center;
 
 }
@@ -212,6 +233,7 @@ padding: 5px;
     display: flex;
     text-align: center;
 }
+
 #goals-display-list {
     display: flex;
     flex-wrap: wrap;
@@ -219,13 +241,13 @@ padding: 5px;
     padding: 0;
 }
 
-#goals-display-list > div {
+#goals-display-list>div {
     width: 100%;
     margin: 5px;
     margin-bottom: 2px;
     padding: 10px;
     box-sizing: border-box;
-    border:3px solid #2b5783;
+    border: 3px solid #2b5783;
 }
 
 
@@ -261,6 +283,7 @@ padding: 5px;
     min-height: 3em;
     background: #EEB533;
 }
+
 /*display budget input*/
 #update-budget-container {
 
@@ -277,18 +300,25 @@ padding: 5px;
     align-items: center;
 }
 
-#basic-needs-buttons, #luxury-buttons{
+#basic-needs-buttons,
+#luxury-buttons {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between; /* Adjust as needed */
-    max-width: 600px; /* Set a maximum width to control button distribution */
-    margin: 0 auto; 
+    justify-content: space-between;
+    /* Adjust as needed */
+    max-width: 600px;
+    /* Set a maximum width to control button distribution */
+    margin: 0 auto;
     margin-top: 1rem;
-   
+
 }
-.basic-needs-buttons, .luxury-buttons {
-    width: 30%; /* Adjust width as needed */
-    margin-bottom: 10px; /* Adjust margin as needed */
+
+.basic-needs-buttons,
+.luxury-buttons {
+    width: 30%;
+    /* Adjust width as needed */
+    margin-bottom: 10px;
+    /* Adjust margin as needed */
 }
 
 
@@ -304,7 +334,7 @@ padding: 5px;
 
 /* Footer styles */
 footer {
-   
+
     position: fixed;
     background-color: #212529;
     color: white;
@@ -336,7 +366,7 @@ footer {
 /* Additional styles for the footer paragraph */
 footer p {
     margin-top: 10px;
-color: white;
+    color: white;
     font-size: 14px;
 
 }
@@ -354,14 +384,14 @@ color: white;
 h3,
 .card td {
     background-color: #B8F3D9;
-   
+
 }
 
 
 .card-container {
-  height: 100%;
+    height: 100%;
     justify-content: center;
-  display: flex;
+    display: flex;
     overflow-x: scroll;
 }
 
@@ -369,7 +399,7 @@ h3,
 
 
 .card table {
-    max-width:100%;
+    max-width: 100%;
     border-collapse: collapse;
 }
 
@@ -377,14 +407,15 @@ h3,
     padding: 6px;
     text-align: center;
 }
+
 /* filter buttons*/
 .card button {
-  
+
     margin: 5px 0;
     box-shadow: 4px 4px 10px 0 rgba(38, 40, 40, 0);
     border-radius: 15px;
     border: 2px solid #262828;
-   
+
 }
 
 .card button:hover {
@@ -402,7 +433,7 @@ h3,
     text-align: center;
     justify-content: center;
     align-items: center;
-  margin-top: 15px;
+    margin-top: 15px;
 
 }
 
@@ -411,7 +442,7 @@ textarea#message {
     padding: 5px;
     border-radius: 5px;
     border: 3px solid #3D946E;
-    
+
 }
 
 /* Apply styles based on goal status */
@@ -419,8 +450,10 @@ textarea#message {
     background-color: #555988;
     color: white;
     text-align: center;
-    line-height: 1.5; /* Adjusted line height for better vertical alignment */
-    margin-bottom: 8px; /* Increased margin for better spacing */
+    line-height: 1.5;
+    /* Adjusted line height for better vertical alignment */
+    margin-bottom: 8px;
+    /* Increased margin for better spacing */
     border: 2px solid #333;
     border-radius: 10px;
 }
@@ -436,25 +469,30 @@ textarea#message {
     border-radius: 8px;
     cursor: pointer;
 }
+
 #dropdown-goal-list {
-    align-items: flex-start; /* Add this line to make items start from the top */
-   border: 2px solid silver;
+    align-items: flex-start;
+    /* Add this line to make items start from the top */
+    border: 2px solid silver;
     position: absolute;
     top: 50%;
     left: 50%;
     display: none;
     transform: translate(-50%, -50%);
     background-color: rgba(0, 0, 0, 0.7);
-    padding: 20px; /* Adjust padding as needed */
+    padding: 20px;
+    /* Adjust padding as needed */
 }
+
 /* Hover effect */
 #dropdown-goal-list div:hover {
     background-color: #7388A6;
 }
+
 /*delect goal duration*/
 #duration {
     border: 1px solid #EEB533;
-    
+
 }
 
 
@@ -465,39 +503,43 @@ input {
 textarea {
     height: 150px;
 }
-#budget-goal-buttons{
+
+#budget-goal-buttons {
     display: flex;
     flex-direction: row;
-    justify-content:center;
+    justify-content: center;
 }
+
 #goal-deposit-button {
     margin: 5px;
     padding: 7px 2px;
     background-color: rgba(7, 124, 3, 0.7);
     border: 3px solid rgb(255, 255, 255);
     box-shadow: 2px 2px 8px 0 rgba(255, 255, 255, 0.3);
-    color:white;
+    color: white;
     text-align: center;
     font-weight: 700;
     border-radius: 26px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    
+
 }
-#update-budget-button{
+
+#update-budget-button {
     margin: 5px;
     padding: 7px 2px;
     background-color: rgba(7, 124, 3, 0.7);
     border: 3px solid rgb(255, 255, 255);
     box-shadow: 2px 2px 8px 0 rgba(255, 255, 255, 0.3);
-    color:white;
+    color: white;
     text-align: center;
     font-weight: 700;
     border-radius: 26px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    
+
 }
+
 #main-input-value {
     width: 300px;
     text-align: center;
@@ -506,8 +548,9 @@ textarea {
 
 /*styles top regulate color displayed budget*/
 .positive-budget {
-    color:  rgba(7, 124, 3, 0.9);
-    border: 3px solid rgb(255, 255, 255);;
+    color: rgba(7, 124, 3, 0.9);
+    border: 3px solid rgb(255, 255, 255);
+    ;
     font-family: 'Tienne', sans-serif;
     font-size: 1.1rem;
     text-align: center;
@@ -638,23 +681,25 @@ form {
     display: flex;
     flex-direction: column;
 }
-#contact-wraper{
+
+#contact-wraper {
     display: none;
-color: white;
-align-items: center;
-justify-content: center;
-max-width: 100%;
-overflow: scroll;
-z-index: 100;
-width: 100%;
-height: 100%;
-position: absolute;
+    color: white;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+    overflow: scroll;
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+    position: absolute;
 }
+
 form #contact-form {
     font-family: 'Tienne', sans-serif;
-    font-size: 16px;  
+    font-size: 16px;
 
-    
+
 }
 
 label {
@@ -687,34 +732,35 @@ input#file {
 }
 
 /*navigation container*/
-#navigation-container{
+#navigation-container {
     display: none;
 }
+
 /*contact container*/
-#contact-container{
-   
+#contact-container {
+
     display: block;
     color: white;
-  
+
     max-width: 100%;
     overflow: scroll;
     z-index: 100;
     width: 100%;
- 
+
     position: absolute;
 }
 
-#about-section-wraper{
-display: none;
-color: white;
-align-items: center;
-justify-content: center;
-max-width: 100%;
-overflow: scroll;
-z-index: 100;
-width: 100%;
-height: 100%;
-position: absolute;
+#about-section-wraper {
+    display: none;
+    color: white;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+    overflow: scroll;
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+    position: absolute;
 }
 
 /*INSIGHT SCREEN SECTION*/
@@ -748,26 +794,32 @@ position: absolute;
     display: flex;
     flex-direction: column;
     overflow-y: scroll;
-    height: 100%; /* Make it fill the entire screen height */
-  }
-  
-  /* Make both children equally share the available space */
-  #tracker-body-container, #display-goals {
-   
+    height: 100%;
+    /* Make it fill the entire screen height */
+}
+
+/* Make both children equally share the available space */
+#tracker-body-container,
+#display-goals {
+
     border-bottom: 4PX solid grey;
-    padding: 5px; /* Add padding as needed */
-  }
-  
+    padding: 5px;
+    /* Add padding as needed */
+}
+
 /* Align #tracker-body-container to the top of its parent and set column layout */
 
 .goals-list-item {
-    margin-bottom: 8px; /* Adjust the margin as needed */
+    margin-bottom: 8px;
+    /* Adjust the margin as needed */
 }
 
 /* Add more styles as needed */
 .achieved-button {
-    background-color: #4caf50; /* Green background color */
-    color: white; /* White text color */
+    background-color: #4caf50;
+    /* Green background color */
+    color: white;
+    /* White text color */
     border: none;
     padding: 10px 15px;
     text-align: center;
@@ -780,7 +832,8 @@ position: absolute;
 
 .goals-list-item strong {
     font-weight: bold;
-    margin-right: 5px; /* Adjust the margin as needed */
+    margin-right: 5px;
+    /* Adjust the margin as needed */
 }
 
 .goals-list-item span {
@@ -796,11 +849,13 @@ position: absolute;
     color: red;
     border: 1px solid red;
 }
-#tracker-body-container{
+
+#tracker-body-container {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
+
 #insights-buttons-container {
     display: block;
     width: 100%;
@@ -809,7 +864,7 @@ position: absolute;
     font-size: 0.6rem;
     margin: 0;
     justify-content: space-evenly;
-   
+
 }
 
 /* Style the data-analytics-title */
@@ -827,9 +882,10 @@ position: absolute;
     margin-bottom: 20px;
 }
 
-#goals-display-list > li {
-   /* Set the font size to 23px for each list item */
-    margin: 0; /* Remove any margins */
+#goals-display-list>li {
+    /* Set the font size to 23px for each list item */
+    margin: 0;
+    /* Remove any margins */
     /* Add other styles as needed */
 }
 
@@ -845,7 +901,7 @@ position: absolute;
     font-size: 18px;
     font-weight: 700;
     cursor: pointer;
-  
+
 }
 
 #close-goals-button {
@@ -869,20 +925,22 @@ position: absolute;
     border: 3px solid #EEB533;
 
 }
-.insights-buttons{
-     margin: 5px;
-     padding: 7px 0px;
-     background-color: rgba(255, 255, 255, 0.7);
-     border: 3px solid rgb(255, 255, 255);
-     box-shadow: 2px 2px 8px 0 rgba(255, 255, 255, 0.3);
-     color:black;
-     text-align: center;
-     font-weight: 600;
-     border-radius: 26px;
-     cursor: pointer;
-     transition: background-color 0.3s ease;
+
+.insights-buttons {
+    margin: 5px;
+    padding: 7px 0px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border: 3px solid rgb(255, 255, 255);
+    box-shadow: 2px 2px 8px 0 rgba(255, 255, 255, 0.3);
+    color: black;
+    text-align: center;
+    font-weight: 600;
+    border-radius: 26px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
-nav{
+
+nav {
     background-color: rgba(0, 0, 0, 0.4);
 }
 
@@ -895,9 +953,9 @@ nav{
     flex-direction: row;
     background-color: rgba(0, 0, 0, 0.6);
     padding: 10px 0px;
-    
 
-    
+
+
 }
 
 .nav-link {
@@ -912,19 +970,20 @@ nav{
 }
 
 .nav-link:hover {
-    background-color: #EEB533; 
+    background-color: #EEB533;
 
 }
 
 /* Active button style */
 .nav-link.active {
-    background-color: white; 
+    background-color: white;
 
 }
 
-#nav-buttons-container{
+#nav-buttons-container {
     width: 90%;
 }
+
 .contact-section {
     margin-bottom: 80px;
 }
@@ -951,14 +1010,16 @@ nav{
     position: fixed;
     z-index: 4444444;
 }
-#goal-form{
+
+#goal-form {
     padding: 0px;
     justify-content: center;
     display: flex;
     align-self: center;
 }
+
 /*dosplay goals container*/
-#create-goal-form{
+#create-goal-form {
     transform: translate(-50%, -50%);
     z-index: 999999;
     border: 0.3rem solid #3D946E;
@@ -973,34 +1034,39 @@ nav{
     justify-content: center;
 
 }
+
 .delete-button {
     /* Add your styles here */
     /* For example: */
     cursor: pointer;
     font-weight: bold;
 }
-#submit-goal-button{
+
+#submit-goal-button {
     margin: 0 auto;
     margin-bottom: 10px;
 }
-#display-goals{
+
+#display-goals {
     z-index: 1;
     display: flex;
     display: block;
     flex-direction: column;
     top: 0;
     width: 100%;
-   
-}
-#display-goals h3{
-    margin-top: 20px;
-    width: 100%;
-   
+
 }
 
-#goals-analytics-title{
+#display-goals h3 {
+    margin-top: 20px;
+    width: 100%;
+
+}
+
+#goals-analytics-title {
     font-size: 1.3rem;
 }
+
 #goals-menu-title {
     text-align: center;
 }
@@ -1012,7 +1078,7 @@ nav{
 }
 
 button#create-goal-button {
- 
+
     background-color: #EEB533;
     border: 2px solid #262828;
     justify-content: center;
@@ -1035,15 +1101,18 @@ camera styles ****/
     width: 90%;
     margin: 0 auto;
     margin-bottom: 20px;
-    max-width: 640px; /* Adjust the maximum width as needed */
+    max-width: 640px;
+    /* Adjust the maximum width as needed */
 
 }
 
 #camera {
     width: 100%;
-margin: 0 auto;
-    border: 2px solid #ccc; /* Border color */
-    border-radius: 5px; /* Border radius */
+    margin: 0 auto;
+    border: 2px solid #ccc;
+  
+    border-radius: 5px;
+max-height: 350px;
     background-color: rgba(0, 0, 0, 0.4);
     color: white;
 }
@@ -1056,23 +1125,28 @@ margin: 0 auto;
 #title-cost-tracker-container {
     display: flex;
     justify-content: center;
-    align-items: center; /* Center vertically as well */
+    align-items: center;
+    /* Center vertically as well */
 }
 
 #title-cost-tracker-container h3 {
-    margin-right: 10px; /* Adjust margin as needed for spacing between elements */
+    margin-right: 10px;
+    /* Adjust margin as needed for spacing between elements */
     color: white;
     background-color: rgba(0, 0, 0, 1);
 }
+
 #start-camera-scan {
     padding: 10px;
-    width: 60%; /* Adjust the width as needed */
+    width: 60%;
+    /* Adjust the width as needed */
     background-color: black;
     color: white;
     border: 2px solid white;
     border-radius: 5px;
     cursor: pointer;
-    margin: 0 auto; /* Center horizontally */
+    margin: 0 auto;
+    /* Center horizontally */
     margin-top: 100px;
 
 }
@@ -1087,8 +1161,10 @@ margin: 0 auto;
 }
 
 #number-found {
-    border: 2px solid #ccc; /* Border color */
-    border-radius: 5px; /* Border radius */
+    border: 2px solid #ccc;
+    /* Border color */
+    border-radius: 5px;
+    /* Border radius */
     padding: 10px;
     color: #008CBA;
     background-color: rgba(0, 0, 0, 0.7);
@@ -1096,8 +1172,10 @@ margin: 0 auto;
 
 #add-to-chart {
     padding: 10px;
-    background-color: #008CBA; /* Blue background color */
-    color: white; /* Text color */
+    background-color: #008CBA;
+    /* Blue background color */
+    color: white;
+    /* Text color */
     border: none;
     border-radius: 5px;
     cursor: pointer;

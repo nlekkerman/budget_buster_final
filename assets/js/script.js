@@ -13,7 +13,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const contactScreen = document.getElementById('contact-wraper');
     const aboutScreen = document.getElementById('about-section-wraper');
     const goalDepositButton = document.getElementById("goal-deposit-button");
-    const goToTesseractButton = document.getElementById("go-to-tesseract");
 
    
 
@@ -33,11 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
         insinghstScreen.style.display = 'none';
         openExpensesScreen.style.display = 'none';
     });
-    goToTesseractButton.addEventListener("click", function () {
-        window.location.href = 'tesseract.html';
-        console.log("HSHHS")
-
-    });
+   
        // Add click event listeners to the buttons
        homeButton.addEventListener("click", function () {
         window.location.href = 'index.html';
