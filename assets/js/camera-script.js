@@ -5,7 +5,7 @@ async function initializeCamera() {
     if (!isCameraInitialized) {
         try {
             const stream = await navigator.mediaDevices.getUserMedia({
-                video: { facingMode: 'user' } // Use front camera initially
+                video: { facingMode: 'environment' } // Use the main (rear) camera initially
             });
 
             video.srcObject = stream;

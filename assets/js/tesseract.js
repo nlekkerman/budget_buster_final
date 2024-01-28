@@ -22,7 +22,22 @@ video.addEventListener("canplay", function () {
         captureFrameAndRecognize();
     });
 });
+// Check if the camera is already initialized
+if (!initializeCamera.isInitialized) {
+    // Wait for the video to be ready
+    video.addEventListener("canplay", function () {
+        // Initialize camera with the main camera
+        initializeCamera({ video: { facingMode: 'environment' } });
 
+        // Set up click event for the "Scan" button
+        scanButton.addEventListener("click", function () {
+            shouldRecognize = true;
+            captureFrameAndRecognize();
+        });
+    });
+
+    initializeCamera.isInitialized = true; // Mark as initialized
+}
 initializeCamera();
 
 // Function to find a number in the recognized text
@@ -110,21 +125,20 @@ switchCameraImage.style.top = '150px';
 switchCameraImage.style.right = '10px';
 switchCameraImage.style.border = '2px solid white';
 switchCameraImage.style.zIndex = '10000000';
+
+// Set an initial flag for the current facing mode
+let isFrontCamera = false;
+
 switchCameraImage.addEventListener("click", function () {
-    // Log a message when the icon is clicked
-    console.log("Switch Camera icon clicked");
-
     // Toggle between front and back cameras
-    const video = document.getElementById("camera");
-
+    isFrontCamera = !isFrontCamera;
     const constraints = {
-        video: { facingMode: (video.facingMode === 'environment') ? 'user' : 'environment' }
+        video: { facingMode: isFrontCamera ? 'user' : 'environment' }
     };
 
     // Reinitialize the camera with updated constraints
     initializeCamera(constraints);
 });
-
 
 // Append the switch camera image to the body
 document.body.appendChild(switchCameraImage);
