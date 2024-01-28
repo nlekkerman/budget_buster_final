@@ -24,4 +24,28 @@ async function initializeCamera() {
     }
 }
 
+// Check for camera support and request permission
+if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices) {
+    navigator.permissions.query({ name: 'camera' })
+        .then(permissionStatus => {
+            if (permissionStatus.state === 'granted') {
+                // Permission already granted, initialize the camera
+                initializeCamera();
+            } else {
+                // Request permission from the user
+                permissionStatus.addEventListener('change', () => {
+                    if (permissionStatus.state === 'granted') {
+                        initializeCamera();
+                    }
+                });
+                navigator.mediaDevices.getUserMedia({ video: true });
+            }
+        })
+        .catch(error => {
+            console.error("Error checking camera permission:", error);
+        });
+} else {
+    console.error("Camera not supported on this device.");
+}
+
 export { video, initializeCamera };
