@@ -1,10 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tesseract Example</title>
+    <title>Budget Wise | Home</title>
+
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
+    <!--Calendar-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <!-- Bootstrap JavaScript and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
     <!-- Tesseract.js script -->
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js/dist/tesseract.min.js" type="module"></script>
@@ -13,12 +29,44 @@
     <!-- Your other scripts and styles go here -->
     <!-- For example, you might include your camera-script.js file -->
     <script src="assets/js/tesseract.js" type="module" defer></script>
+    <!-- FAVICON -->
+    <link rel="shortcut icon" href="assets/images/favicon-new.png" type="image/x-icon" />
+    <!-- INSTALL EMAIL JS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js">
+    </script>
+    <script type="text/javascript">
+        (function () {
+            emailjs.init("RWaSLQKXIbSTBLpY2");
+        })();
+    </script>
 
-
-    <!-- Add any other stylesheets or scripts your project needs -->
 </head>
 
 <body>
+
+       <!-- Nav Bar -->
+       <nav class="navbar navbar-expand-lg navbar-light">
+
+
+        <img class="logo-image" src="assets/images/logo-new.png" alt="Budget Wise logo" />
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <div class="navbar-nav" id="navbar-nav">
+                    <button class="nav-link home" id="homeButton">Home</button>
+                    <button class="nav-link insights" id="nav-link-insights">Insights</button>
+                    <button class="nav-link tracker" id="nav-link-tracker">Tracker</button>
+                    <button class="nav-link about" id="aboutButton">About</button>
+                    <button class="nav-link contact" id="contactButton">Contact</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
     <div id="title-cost-tracker-container">
         <h3>basket:</h3>
         <p id="cost-number-tracker">0</p>

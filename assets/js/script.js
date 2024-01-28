@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     const homeButton = document.getElementById("homeButton");
     const insightsButton = document.getElementById("nav-link-insights");
+    const trackerButton = document.getElementById("nav-link-tracker");
     const aboutButton = document.getElementById("aboutButton");
     const contactButton = document.getElementById("contactButton");
 
@@ -18,23 +19,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let dropdownGoalList = document.getElementById("dropdown-goal-list");
 
-  
-    /** NAvigation */
-    // Add click event listeners to the buttons
-    homeButton.addEventListener("click", function () {
-        openExpensesScreen.style.display = 'block';
-        aboutScreen.style.display = 'none';
-        contactScreen.style.display = 'none'
-        insinghstScreen.style.display = 'none';
-
-
-    });
-
+ 
     insightsButton.addEventListener("click", function () {
         window.location.href = 'insights.html';
     });
 
-
+    trackerButton.addEventListener("click", function () {
+        window.location.href = 'tesseract.html';
+    });
     aboutButton.addEventListener("click", function () {
         aboutScreen.style.display = 'block';
         contactScreen.style.display = 'none'
@@ -46,7 +38,12 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("HSHHS")
 
     });
-    
+       // Add click event listeners to the buttons
+       homeButton.addEventListener("click", function () {
+        window.location.href = 'index.html';
+
+
+    });
 
     contactButton.addEventListener("click", function () {
         contactScreen.style.display = 'block'

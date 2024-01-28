@@ -6,7 +6,9 @@ const scanButton = document.getElementById("start-camera-scan");
 let shouldRecognize = false; // Variable to control recognition
 let biggestNumber = null; // Variable to store the biggest number
 let totalExpenses = 0; // Variable to store the running total of expenses
-
+const homeButton = document.getElementById("homeButton");
+const insightsButton = document.getElementById("nav-link-insights");
+const trackerButton = document.getElementById("nav-link-tracker");
 // Wait for the video to be ready
 video.addEventListener("canplay", function () {
     // Initialize camera
@@ -151,3 +153,10 @@ function captureFrameAndRecognize() {
         requestAnimationFrame(captureFrameAndRecognize);
     });
 }
+insightsButton.addEventListener("click", function () {
+    window.location.href = 'insights.html';
+});
+
+homeButton.addEventListener("click", function () {
+    window.location.href = 'index.html';
+});

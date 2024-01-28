@@ -2,6 +2,8 @@ document.addEventListener("DOMContentLoaded", function () {
     let insightsLink = document.getElementById("nav-link-insights");
     const homeButton = document.getElementById("homeButton");
     const insightsButton = document.getElementById("nav-link-insights");
+    const trackerButton = document.getElementById("nav-link-tracker");
+
     const closePopupInsights = document.getElementById("close-popup-insights");
     const contactButton = document.getElementById("contactButton");
     const analyticsPopupList = document.getElementById("analytics-popup-list");
@@ -360,7 +362,9 @@ document.addEventListener("DOMContentLoaded", function () {
         window.location.href = 'insights.html';
     });
 
-
+    trackerButton.addEventListener("click", function () {
+        window.location.href = 'tesseract.html';
+    });
     closePopupInsights.addEventListener("click", function () {
         trackPopupContainer.style.display = 'none'
 
