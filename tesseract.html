@@ -74,30 +74,68 @@
 
 
         <!-- shopping lists list-->
-        <div id="shopping-list-popup">
+        <div id="shopping-list-popup" class="popup">
             <button id="save-shopping-list-button">Save</button>
             <ul class="shopping-list" id="shopping-list"></ul>
 
             <input type="text" id="new-item-input" placeholder="Add new item">
             <button id="add-to-shopping-list-button">Add to List</button>
         </div>
+
+        <!-- save list to storage popup-->
+        <div id="save-shopping-list-to-storage-popup" class="popup">
+          
+
+            <input type="text" id="save-list-to-storage-input" placeholder="Save your shopping list">
+            <button id="commit-shopping-list-to-storage-button">save</button>
+        </div>
+     
+     
+        <div id="update-shopping-list-popup">
+            <button id="active-update-shopping-list-button">Update</button>
+            <ul id="update-shopping-list-list"></ul>
+
+            <input type="text" id="update-input" placeholder="Add new item">
+            <button id="add-to-update-shopping-list-button">Add to List</button>
+        </div>
         <!-- creating shopping lists list-->
         <div id="latestShopingList">
             <h5 class="h5-shoping-list">Your Lists</h5>
-            <ul id="display-latest-shopping-list" class="shopping-list">
+            <ul id="shopping-list-lists" class="shopping-list">
             </ul>
         </div>
 
+        <!-- Edit Popup -->
+<div id="edit-shopping-list-popup">
+    <!-- Edit List Items -->
+    <ul id="edit-list-items"></ul>
+
+    <!-- Edit New Item Input -->
+    <input type="text" id="edit-new-item-input" placeholder="Enter new item">
+
+    <!-- Add New Item Button -->
+    <button id="add-new-item-to-edit-list-button">Add New Item</button>
+
+    <!-- Update List Button -->
+    <button id="update-edit-list-button">Update List</button>
+    <button id="delete-edit-list-button">Delete</button>
+</div>
         <div id="update-start-shoping-shopping-list-screen">
+            <div id="display-container">
             <button id="close-action-shopping-list-button" class="tracker-buttons">close</button>
 
             <h5 class="h5-shoping-list">Lists</h5>
             <ul id="action-shopping-list" class="shopping-list">
             </ul>
+            <h5 id="shopping-list-title"></h5>
             <div id="action-list-container">
                 <button id="update-shopping-list-button" class="tracker-buttons">Update List</button>
                 <button id="start-shopping-button" class="tracker-buttons">Start Shopping</button>
             </div>
+
+        </div>
+
+        
         </div>
         <div id="latestNote">
             <h5 class="h5-note-list">Latest Note</h5>

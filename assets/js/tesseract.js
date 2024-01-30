@@ -11,7 +11,7 @@ const insightsButton = document.getElementById("nav-link-insights");
 const trackerButton = document.getElementById("nav-link-tracker");
 const closeActionScreen = document.getElementById('close-action-shopping-list-button')
 const updateStartShoppingListScreen = document.getElementById("update-start-shoping-shopping-list-screen");
-
+//localStorage.removeItem("shoppingList")
 //initializeCamera();
 
 // Wait for the video to be ready
@@ -196,252 +196,331 @@ homeButton.addEventListener("click", function () {
 trackerButton.addEventListener("click", function () {
     window.location.href = 'tesseract.html';
 });
-
-document.addEventListener("DOMContentLoaded", function () {
+     //localStorage.removeItem('shoppingLists');
+  document.addEventListener("DOMContentLoaded", function () {
     const createShoppingBtn = document.getElementById("createShoppingBtn");
     const shoppingListPopup = document.getElementById("shopping-list-popup");
-    const addToShoppingListButton = document.getElementById("add-to-shopping-list-button");
-    const shoppingList = document.getElementById("shopping-list");
-    const newItemInput = document.getElementById("new-item-input");
-    const saveShoppingListButton = document.getElementById("save-shopping-list-button");
+    const newItemInput = document.getElementById('new-item-input');
+    const addToShoppingListButton = document.getElementById('add-to-shopping-list-button');
+    const shoppingList = document.getElementById('shopping-list');
+    const saveShoppingListButton = document.getElementById('save-shopping-list-button');
+    const commitShoppingListButton = document.getElementById('commit-shopping-list-to-storage-button');
+    const savePopup = document.getElementById('save-shopping-list-to-storage-popup');
+    const shoppingListLists = document.getElementById('shopping-list-lists');
+      const editPopup = document.getElementById('edit-shopping-list-popup');
 
-    // Load the shopping list from local storage
-    const savedShoppingList = JSON.parse(localStorage.getItem("shoppingList")) || [];
-
-    // Function to save the shopping list to local storage
-    function saveToLocalStorage(list) {
-        localStorage.setItem("shoppingList", JSON.stringify(list));
+    addToShoppingListButton.addEventListener('click', function () {
+      const newItemText = newItemInput.value;
+  
+      if (newItemText.trim() !== '') {
+        const newItem = document.createElement('li');
+        newItem.textContent = newItemText;
+        shoppingList.appendChild(newItem);
+        newItemInput.value = '';
+  
+        // Log what is added to the list
+        console.log('Added to list:', newItemText);
+      }
+    });
+  
+    saveShoppingListButton.addEventListener('click', function () {
+      // Display the popup when Save button is clicked
+      savePopup.style.display = 'block';
+    });
+  
+    commitShoppingListButton.addEventListener('click', function () {
+      // Log what is saved to local storage
+      console.log('Commit button clicked - Saving to local storage...');
+  
+      // Function to save and close the popup
+      saveAndClosePopup();
+    });
+  
+    // Function to close the popup
+    function closePopup() {
+      savePopup.style.display = 'none';
     }
-
-    // Function to update the display of the latest shopping lists
-    function updateLatestShoppingListDisplay() {
-        const displayLatestShoppingList = document.getElementById("display-latest-shopping-list");
-        const actionShoppingList = document.getElementById("action-shopping-list");
-        // Function to update the displayed shopping list
-        function updateDisplayedShoppingList() {
-            displayLatestShoppingList.innerHTML = savedShoppingList.map(item =>
-                `<li>${item.listName} <button class="delete-list-button" data-listname="${item.listName}">Delete</button></li>`
-            ).join('');
-
-            // Add click event listener to each delete button in the displayed shopping list
-            const deleteListButtons = document.querySelectorAll('.delete-list-button');
-        
-            deleteListButtons.forEach(deleteButton => {
-                deleteButton.addEventListener('click', function () {
-                    const listNameToDelete = this.dataset.listname;
-
-                    // Show the delete confirmation pop-up before deleting
-                    const confirmDelete = confirm(`Are you sure you want to delete the list "${listNameToDelete}"?`);
-                    if (confirmDelete) {
-                        // Perform the delete operation here
-                        const index = savedShoppingList.findIndex(list => list.listName === listNameToDelete);
-                        if (index !== -1) {
-                            savedShoppingList.splice(index, 1);
-
-                            // Update the saved shopping list in local storage
-                            saveToLocalStorage(savedShoppingList);
-
-                            // Update both displayed and action shopping lists
-                            updateDisplayedShoppingList();
-                            updateActionShoppingList(savedShoppingList[0]); // Update the action shopping list based on the current state
-
-                            console.log("List deleted!");
-                        }
-                    }
-                });
-            });
-        }
-
-        // Function to update the action shopping list
-        function updateActionShoppingList(listName) {
-            // Clear existing items in action shopping list
-            actionShoppingList.innerHTML = "";
-
-            // Find the clicked shopping list item in the savedShoppingList array
-            const clickedListItemIndex = savedShoppingList.findIndex(item => item.listName === listName);
-
-            // Log details of items saved under the clicked shopping list item
-            if (clickedListItemIndex !== -1) {
-                const clickedListItem = savedShoppingList[clickedListItemIndex];
-
-                // Display items in the action shopping list
-                clickedListItem.items.forEach((item, itemIndex) => {
-                    const listItem = document.createElement("li");
-                    listItem.textContent = item.itemName;
-
-                    // Add a delete button to each item in action shopping list
-                    const deleteButton = document.createElement("button");
-                    deleteButton.textContent = "Delete";
-                    deleteButton.addEventListener("click", function () {
-                        // Show the delete confirmation pop-up before deleting
-                        const confirmDelete = confirm("Are you sure you want to delete this item?");
-                        if (confirmDelete) {
-                            // Perform the delete operation here
-                            clickedListItem.items.splice(itemIndex, 1); // Remove the item from the array
-
-                            // Update the saved shopping list in local storage
-                            saveToLocalStorage(savedShoppingList);
-
-                            // Update both displayed and action shopping lists
-                            updateDisplayedShoppingList();
-                            updateActionShoppingList(listName);
-
-                            console.log("Item deleted!");
-                        }
-                    });
-
-                    listItem.appendChild(deleteButton);
-                    actionShoppingList.appendChild(listItem);
-                });
-            }
-        }
-
-        // Add click event listener to the <ul> element
-        displayLatestShoppingList.addEventListener("click", function (event) {
-            // Check if a <li> element is clicked
-            if (event.target.tagName === "LI") {
-                // Log the clicked item's text content
-                const clickedListName = event.target.textContent.trim();
-
-                // Update both displayed and action shopping lists
-                updateDisplayedShoppingList();
-                updateActionShoppingList(clickedListName);
-
-                // Make the "update-start-shoping-shopping-list-screen" element visible
-                updateStartShoppingListScreen.style.display = "block";
-            }
-        });
-
-        // Initial update of the displayed shopping list and action shopping list
-        updateDisplayedShoppingList();
-        updateActionShoppingList(savedShoppingList[0] ? savedShoppingList[0].listName : ''); // Adjust this based on your initial state
-
-        // Add click event listener to the <ul> element
-        displayLatestShoppingList.addEventListener("click", function (event) {
-            // Check if a <li> element is clicked
-            if (event.target.tagName === "LI") {
-                // Log the clicked item's text content
-                console.log("Clicked item: ", event.target.textContent);
-
-                // Find the clicked shopping list item in the savedShoppingList array
-                const clickedListItemIndex = savedShoppingList.findIndex(item => item.listName === event.target.textContent);
-
-                // Log details of items saved under the clicked shopping list item
-                if (clickedListItemIndex !== -1) {
-                    const clickedListItem = savedShoppingList[clickedListItemIndex];
-                    console.log("Items under clicked shopping list:", clickedListItem.items);
-
-                    // Update both displayed and action shopping lists
-                    updateDisplayedShoppingList();
-                    updateActionShoppingList(clickedListItem);
-
-                    // Make the "update-start-shoping-shopping-list-screen" element visible
-                    updateStartShoppingListScreen.style.display = "block";
-                }
-            }
-        });
-
-        // Initial update of the displayed shopping list and action shopping list
-        updateDisplayedShoppingList();
-        updateActionShoppingList(savedShoppingList[0]); // Adjust this based on your initial state
+  
+   // Function to save and close the popup
+function saveAndClosePopup() {
+    const saveListInput = document.getElementById('save-list-to-storage-input');
+    const shoppingListItems = document.querySelectorAll('#shopping-list li');
+    const savedItems = Array.from(shoppingListItems).map(item => ({
+      itemName: item.textContent,
+      itemPrice: 0
+    }));
+    const listName = saveListInput.value.trim();
+    const listStatus = 'active';
+    const timestamp = new Date().toLocaleString();
+    const listsUniqueID = generateUniqueID(); // Generate a unique ID
+  
+    // Log the stored information
+    console.log('List Name:', listName);
+    console.log('List Status:', listStatus);
+    console.log('Timestamp:', timestamp);
+    console.log('Lists Unique ID:', listsUniqueID);
+    console.log('Saved Items:', savedItems);
+  
+    // Retrieve existing lists from local storage
+    const existingLists = JSON.parse(localStorage.getItem('shoppingLists')) || [];
+  
+    // Create new shopping list data
+    const shoppingListData = {
+      listName: listName,
+      listStatus: listStatus,
+      timestamp: timestamp,
+      listsUniqueID: listsUniqueID,
+      items: savedItems
+    };
+  
+    // Add the new shopping list to the existing lists
+    existingLists.push(shoppingListData);
+  
+    // Save the updated lists to local storage
+    localStorage.setItem('shoppingLists', JSON.stringify(existingLists));
+  
+    // Close the popup
+    closePopup();
+  }
+  // Function to log names of all saved lists
+function logAllListNames() {
+    // Retrieve existing lists from local storage
+    const existingLists = JSON.parse(localStorage.getItem('shoppingLists')) || [];
+  
+    // Log names of all saved lists
+    existingLists.forEach(list => {
+      console.log('List Name:', list.listName);
+    });
+  }
+  
+  // Call this function wherever you need to log the names of all saved lists
+  logAllListNames();
+    // Function to generate a unique ID
+    function generateUniqueID() {
+      // Simple implementation, you may need a more robust solution in a real-world application
+      return Math.random().toString(36).substr(2, 9);
     }
-
-
-    updateLatestShoppingListDisplay();
-    createShoppingBtn.addEventListener("click", function () {
-        // Toggle the display of the popup
-        shoppingListPopup.style.display = (shoppingListPopup.style.display === "block") ? "none" : "block";
+// Function to edit a shopping list
+// Function to edit a shopping list
+function editList(listUniqueID) {
+    const updateShoppingListPopup = document.getElementById('update-shopping-list-popup');
+    const updateShoppingListList = document.getElementById('update-shopping-list-list');
+    const updateInput = document.getElementById('update-input');
+    const addToUpdateShoppingListButton = document.getElementById('add-to-update-shopping-list-button');
+    const activeUpdateShoppingListButton = document.getElementById('active-update-shopping-list-button');
+    const editPopup = document.getElementById('update-shopping-list-popup');
+  
+    // Clear existing content in the update shopping list popup
+    updateShoppingListList.innerHTML = '';
+    updateInput.value = ''; // Clear the input field
+  
+    // Retrieve existing lists from local storage
+    const existingLists = JSON.parse(localStorage.getItem('shoppingLists')) || [];
+  
+    // Find the selected list using the unique ID
+    const selectedListIndex = existingLists.findIndex(list => list.listsUniqueID === listUniqueID);
+  
+    if (selectedListIndex === -1) {
+      console.error('List not found for editing.');
+      return;
+    }
+  
+    const selectedList = existingLists[selectedListIndex];
+  
+    // Populate the update shopping list popup with items from the selected list
+    selectedList.items.forEach(item => {
+      const listItem = document.createElement('li');
+      listItem.textContent = item.itemName;
+  
+      // Add a "Remove" button for each list item
+      const removeButton = document.createElement('button');
+      removeButton.textContent = 'Remove';
+      removeButton.addEventListener('click', () => removeItemAndUpdateList(item.itemName, selectedList));
+  
+      // Append the list item and remove button to the ul element
+      listItem.appendChild(removeButton);
+      updateShoppingListList.appendChild(listItem);
     });
-    closeActionScreen.addEventListener("click", function () {
-        // Toggle the display of the popup
-        updateStartShoppingListScreen.style.display = "none";
-    });
-
-    addToShoppingListButton.addEventListener("click", function () {
-        // Get the value from the input field
-        const newItemText = newItemInput.value;
-
-        // Check if the input field is not empty
-        if (newItemText.trim() !== "") {
-            // Create a new list item
-            const newItem = document.createElement("li");
-            newItem.textContent = newItemText;
-
-            // Append the new item to the shopping list
-            shoppingList.appendChild(newItem);
-
-            // Clear the input field after adding to the list
-            newItemInput.value = "";
-        }
-    });
-
-    saveShoppingListButton.addEventListener("click", function () {
-        // Create a new popup container
-        const popupContainer = document.createElement("div");
-        popupContainer.className = "popup-window";
-        popupContainer.style.position = "fixed";
-        popupContainer.style.top = "50%";
-        popupContainer.style.left = "50%";
-        popupContainer.style.transform = "translate(-50%, -50%)";
-        popupContainer.style.background = "white";
-        popupContainer.style.padding = "20px";
-        popupContainer.style.border = "1px solid #ccc";
-        popupContainer.style.zIndex = "9999";
-
-        // Create an input field in the popup
-        const inputField = document.createElement("input");
-        inputField.type = "text";
-        inputField.placeholder = "Enter something";
-        inputField.style.marginBottom = "10px";
-        popupContainer.appendChild(inputField);
-
-        // Create a "Save" button in the popup
-        const saveButton = document.createElement("button");
-        saveButton.textContent = "Save";
-        saveButton.style.cursor = "pointer";
-        saveButton.addEventListener("click", function () {
-            // Perform the save operation (customize this part based on your needs)
-            const listName = inputField.value.trim();
-            if (listName !== "") {
-                const uniqueShoppingListID = Date.now().toString();
-                const timestamp = new Date().toLocaleString();
-                const shoppingListArray = [];
-
-                const currentItems = shoppingList.children;
-                for (const item of currentItems) {
-                    shoppingListArray.push({
-                        itemName: item.textContent,
-                        itemPrice: "",
-                    });
-                }
-
-                console.log("List Name:", listName);
-                console.log("Unique Shopping List ID:", uniqueShoppingListID);
-                console.log("Timestamp:", timestamp);
-                console.log("Shopping List Items:", shoppingListArray);
-
-                savedShoppingList.push({
-                    listName: listName,
-                    uniqueShoppingListID: uniqueShoppingListID,
-                    timestamp: timestamp,
-                    items: shoppingListArray,
-                });
-                saveToLocalStorage(savedShoppingList);
-
-                // Clear the existing list
-                shoppingList.innerHTML = "";
-
-                // Update the display of latest shopping lists
-                updateLatestShoppingListDisplay();
-
-                // Close the popup
-                document.body.removeChild(popupContainer);
-                shoppingListPopup.style.display = "none";
-            }
+  
+    // Show the update shopping list popup
+    editPopup.style.display = 'block';
+  
+    // Add functionality for adding new items to the list
+    addToUpdateShoppingListButton.addEventListener('click', () => {
+      const newItemName = updateInput.value.trim();
+  
+      if (newItemName !== '') {
+        // Add the new item to the displayed list
+        const newItem = document.createElement('li');
+        newItem.textContent = newItemName;
+  
+        // Add a "Remove" button for the new item
+        const removeButton = document.createElement('button');
+        removeButton.textContent = 'Remove';
+        removeButton.addEventListener('click', () => removeItemAndUpdateList(newItemName, selectedList));
+  
+        // Append the new item and remove button to the ul element
+        newItem.appendChild(removeButton);
+        updateShoppingListList.appendChild(newItem);
+  
+        // Add the new item to the selected list in memory
+        selectedList.items.push({
+          itemName: newItemName,
+          itemPrice: 0 // You can set the price as needed
         });
-        popupContainer.appendChild(saveButton);
-
-        // Append the popup container to the body
-        document.body.appendChild(popupContainer);
+  
+        // Clear the input field
+        updateInput.value = '';
+      }
     });
-});
+  
+    // Add functionality for updating the list
+    activeUpdateShoppingListButton.addEventListener('click', () => {
+      // Update the selected list in the local storage
+      existingLists[selectedListIndex] = selectedList;
+      localStorage.setItem('shoppingLists', JSON.stringify(existingLists));
+  
+      // Close the update shopping list popup
+      editPopup.style.display = 'none';
+  
+      // Optionally, you can call a function to re-populate the list of saved lists
+      populateShoppingListLists();
+    });
+  
+   // Function to remove an item from the list and update the selected list
+// Function to remove an item from the list and update the selected list
+function removeItemAndUpdateList(itemName, list) {
+    // Find the index of the item in the list
+    const itemIndex = list.items.findIndex(item => item.itemName === itemName);
+  
+    if (itemIndex !== -1) {
+      // Remove the item from the displayed list
+      const listItems = updateShoppingListList.getElementsByTagName('li');
+      for (let i = 0; i < listItems.length; i++) {
+        if (listItems[i].textContent === itemName) {
+          listItems[i].remove();
+          break;
+        }
+      }
+  
+      // Remove the item from the selected list in memory
+      list.items.splice(itemIndex, 1);
+
+      // Update local storage
+      updateLocalStorage(list);
+
+      // Update the displayed list
+      updateDisplayedList(list);
+    }
+}
+
+// Function to update the displayed list
+function updateDisplayedList(list) {
+    const updateShoppingListList = document.getElementById('update-shopping-list-list');
+    const listItems = updateShoppingListList.getElementsByTagName('li');
+    
+    // Clear existing content
+    updateShoppingListList.innerHTML = '';
+  
+    // Repopulate the list with updated items
+    list.items.forEach(item => {
+      const listItem = document.createElement('li');
+      listItem.textContent = item.itemName;
+  
+      // Add a "Remove" button for each list item
+      const removeButton = document.createElement('button');
+      removeButton.textContent = 'Remove';
+      removeButton.addEventListener('click', () => removeItemAndUpdateList(item.itemName, list));
+  
+      // Append the list item and remove button to the ul element
+      listItem.appendChild(removeButton);
+      updateShoppingListList.appendChild(listItem);
+    });
+  
+    // Show an alert if the array of items is empty
+    if (list.items.length === 0) {
+      const deleteList = confirm('The list is empty. Do you want to delete the entire list?');
+      if (deleteList) {
+        deleteEntireList(list);
+      }
+    }
+  }
+  
+  // Function to delete the entire list
+  function deleteEntireList(list) {
+    const existingLists = JSON.parse(localStorage.getItem('shoppingLists')) || [];
+    const updatedLists = existingLists.filter(existingList => existingList.listsUniqueID !== list.listsUniqueID);
+  
+    localStorage.setItem('shoppingLists', JSON.stringify(updatedLists));
+  
+    // Optionally, you can add any additional logic or UI updates after deleting the list
+  }
+  
+// Function to add an item to the list
+function addItemToList(itemName, list) {
+    // Code to add the item to the list
+    list.items.push({
+      itemName: itemName,
+      itemPrice: 0
+    });
+  
+    // Update local storage
+    updateLocalStorage(list);
+  
+    // Optionally, update the displayed list or perform any additional tasks
+  }
+  
+  // Function to update local storage with the modified list
+  function updateLocalStorage(list) {
+    const existingLists = JSON.parse(localStorage.getItem('shoppingLists')) || [];
+    const updatedLists = existingLists.map(existingList => {
+      if (existingList.listsUniqueID === list.listsUniqueID) {
+        return list;
+      } else {
+        return existingList;
+      }
+    });
+  
+    localStorage.setItem('shoppingLists', JSON.stringify(updatedLists));
+  }
+
+  }
+  
+      
+    // Button to open shopping list popup
+    createShoppingBtn.addEventListener('click', function () {
+      // Toggle the display of the shopping list popup
+      shoppingListPopup.style.display = (shoppingListPopup.style.display === 'none' || shoppingListPopup.style.display === '') ? 'block' : 'none';
+    });
+  
+   // Function to populate the list of saved lists
+function populateShoppingListLists() {
+    // Retrieve existing lists from local storage
+    const existingLists = JSON.parse(localStorage.getItem('shoppingLists')) || [];
+    const shoppingListLists = document.getElementById('shopping-list-lists');
+  
+    // Clear existing content in the ul element
+    shoppingListLists.innerHTML = '';
+  
+    // Populate the ul element with list names and Edit buttons
+    existingLists.forEach(list => {
+      const listItem = document.createElement('li');
+      listItem.textContent = list.listName;
+  
+      // Create an Edit button for each list
+      const editButton = document.createElement('button');
+      editButton.textContent = 'Edit';
+      editButton.addEventListener('click', () => editList(list.listsUniqueID)); // Assuming you have an editList function
+      editButton.style.float = 'right'
+     
+      // Append the list item and edit button to the ul element
+      listItem.appendChild(editButton);
+      shoppingListLists.appendChild(listItem);
+    });
+  }
+  
+  // Call this function wherever you need to populate the list of saved lists
+  populateShoppingListLists();
+  });
+  
+   

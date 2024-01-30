@@ -142,7 +142,9 @@ h3 {
     border: 3px solid rgb(255, 255, 255);
     ;
 }
-
+#save-shopping-list-to-storage-popup{
+    display: none;
+}
 #scrollable-container-display-data-conatiner {
     overflow-Y: auto;
     width: 100%;
@@ -185,6 +187,17 @@ h3 {
     background-color: rgb(227, 192, 102);
 }
 
+#update-shopping-list-popup{
+    display: flex;
+    display: none;
+    z-index: 10000;
+    border: 1px solid white;
+    background-color: rgba(0, 0, 0, 0.9);
+    justify-content: center;
+    text-align: center;
+    width: 95%;
+
+}
 #track-popup {
     display: none;
     position: fixed;
@@ -1014,8 +1027,8 @@ input#file {
 #update-start-shoping-shopping-list{
     display: none;
 }
-#update-start-shoping-shopping-list-screen {
-    display: none;
+#display-container {
+    display: flex;
     justify-content: space-around;
     align-items: center;
     flex-direction: column;
@@ -1026,11 +1039,21 @@ input#file {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.8);
 }
+#update-start-shoping-shopping-list-screen {
+    display: none;
+  
+}
 #close-action-shopping-list-button {
     position: absolute;
-    top: 10px; /* Adjust the top position as needed */
-    right: 10px; /* Adjust the right position as needed */
+    top: 10px;
+    right: 10px; 
     width: 20%;
+}
+
+#action-shopping-list{
+    width: 90%;
+    background-color: rgba(0, 0, 0, 0.8);
+   
 }
 
 #action-list-container{
@@ -1044,7 +1067,7 @@ input#file {
     font-size: 1.2rem; /* Adjust the font size as needed */
 }
 
-.shopping-list, .note-list {
+.shopping-list, .note-list,#update-shopping-list-list {
     list-style-type: none;
     padding: 0;
 }
@@ -1054,6 +1077,36 @@ input#file {
     padding: 8px;
     border-bottom: 1px solid #ddd;
 }
+#update-shopping-list-list li{
+    background-color: #b3bfc3;
+margin-bottom: 2px;
+padding: 8px;
+}
+.popup {
+   
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid #ccc;
+    padding: 20px;
+    background-color: #fff;
+    z-index: 1;
+
+}
+
+.custom-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
 
 /* Remove bottom border for the last item in the list */
 .shopping-list li:last-child, .note-list li:last-child {
@@ -1116,7 +1169,9 @@ nav {
     display: flex;
     justify-content: center;
 }
-
+#edit-shopping-list-popup{
+    display: none;
+}
 /*DEPOSIT AND GOALS STYLES*/
 #goals-popup {
     top: 50%;
