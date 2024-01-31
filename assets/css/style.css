@@ -187,17 +187,59 @@ h3 {
     background-color: rgb(227, 192, 102);
 }
 
-#update-shopping-list-popup{
+#update-shopping-list-popup {
     display: flex;
-    display: none;
     z-index: 10000;
     border: 1px solid white;
     background-color: rgba(0, 0, 0, 0.9);
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center; /* Align center vertically */
     text-align: center;
-    width: 95%;
-
+    position: fixed; /* Use fixed position to cover the entire viewport */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
 }
+
+
+#close-update-shopping-popup {
+    position: absolute;
+    top: 5px; /* Adjust the top position as needed */
+    right: 5px; /* Position it to the right */
+    width: 10%;
+    background-color: rgba(233, 155, 155, 0.2);
+    color: white;
+    border: 1px solid white;
+}
+
+  #update-input{
+    background-color: rgba(23, 0, 0, 0.9);
+    color: white;
+    border: 1px solid white;
+    width: 90%;
+    margin: 0 auto;
+  }
+#add-to-update-shopping-list-button{
+    margin: 0 auto;
+}
+
+
+#update-shopping-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    background-color: rgba(1, 6, 51, 0.2);
+    height: 50%;
+    width: 95%; /* Optional: Adjust the width as needed */
+    border: 2px solid red;
+}
+
 #track-popup {
     display: none;
     position: fixed;
@@ -1012,7 +1054,16 @@ input#file {
     border-radius: 8px;
     width: 95%;
 }
-
+#camera-shopping-list {
+    margin: 10px;
+     padding: 20px;
+     color: white;
+     display: none;
+     background-color: rgba(0, 0, 0, 0.8);
+     border: 1px solid #ddd;
+     border-radius: 8px;
+     width: 95%;
+ }
 #save-shopping-list-button {
     padding: 5px 10px;
     width: 25%;
@@ -1072,14 +1123,20 @@ input#file {
     padding: 0;
 }
 
-.shopping-list li, .note-list li{
+.shopping-list li, .note-list li,#camera-shopping-list{
     background-color: #b3bfc3;
     padding: 8px;
     border-bottom: 1px solid #ddd;
 }
 #update-shopping-list-list li{
-    background-color: #b3bfc3;
-margin-bottom: 2px;
+    background-color: rgba(0, 0, 0, 0.8);
+color: white;
+display: flex;
+border: 1px solid white;
+width: 90%;
+margin: 0 auto;
+justify-content: space-between;
+margin-bottom: 5px;
 padding: 8px;
 }
 .popup {
@@ -1268,13 +1325,30 @@ button#create-goal-button {
     text-align: inherit;
 }
 
+#start-shopping-delete-popup{
+    border: 1px solid rgb(255, 0, 0);
+    background-color: rgba(0, 0, 0, 0.9);
+    display: none;
+    justify-content: center;
+    width: 90%;
+    height: 5em;
+    align-items: center;
+    border-radius: 20px;
+    position: absolute;
+    top: 50%;
+ 
+    margin: 0 auto;
+  
+}
 /***
 camera styles ****/
 
 #camera-container {
-    position: relative;
-    width: 90%;
+    position: absolute;
+    width: 100%;
     display: none;
+    background-color: rgba(0, 0, 0, 0.9);
+    height:100% ;
     margin: 0 auto;
     margin-bottom: 20px;
     max-width: 640px;
@@ -1331,8 +1405,9 @@ max-height: 350px;
 
 #result {
     margin-top: 10px;
+    color: white;
     display: flex;
-    display: none;
+    display: block;
     justify-content: space-between;
 }
 

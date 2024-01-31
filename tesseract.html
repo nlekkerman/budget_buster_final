@@ -90,13 +90,26 @@
             <button id="commit-shopping-list-to-storage-button">save</button>
         </div>
      
-     
-        <div id="update-shopping-list-popup">
-            <button id="active-update-shopping-list-button">Update</button>
+     <!-- -->
+     <div id="start-shopping-delete-popup">
+        <div>
+        <button id="start-shopping-button"  style="background-color: green;">START SHOPPING</button>
+    <button id="delete-lists-list"  style="background-color: red;">DELETE</button>
+</div>
+    
+
+
+</div>
+        <!-- update shoppingList container-->
+        <div id="update-shopping-list-popup" >
+            <div id="update-shopping-container">
+                <button id="close-update-shopping-popup">X</button>
+            <button id="active-update-shopping-list-button" class="basic-needs-buttons insights-buttons" style="background-color: greenyellow;">Update</button>
             <ul id="update-shopping-list-list"></ul>
 
             <input type="text" id="update-input" placeholder="Add new item">
-            <button id="add-to-update-shopping-list-button">Add to List</button>
+            <button id="add-to-update-shopping-list-button" class="basic-needs-buttons insights-buttons">Add to List</button>
+        </div>
         </div>
         <!-- creating shopping lists list-->
         <div id="latestShopingList">
@@ -107,16 +120,10 @@
 
         <!-- Edit Popup -->
 <div id="edit-shopping-list-popup">
-    <!-- Edit List Items -->
     <ul id="edit-list-items"></ul>
-
-    <!-- Edit New Item Input -->
     <input type="text" id="edit-new-item-input" placeholder="Enter new item">
-
-    <!-- Add New Item Button -->
     <button id="add-new-item-to-edit-list-button">Add New Item</button>
 
-    <!-- Update List Button -->
     <button id="update-edit-list-button">Update List</button>
     <button id="delete-edit-list-button">Delete</button>
 </div>
@@ -159,6 +166,9 @@
             <button type="button" id="add-to-chart">Add</button>
         </div>
         <button type="button" id="start-camera-scan">Scan</button>
+
+        <ul id="camera-shopping-list"></ul>
+
 
     </section>
 
