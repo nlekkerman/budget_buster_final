@@ -65,11 +65,17 @@
         </div>
     </nav>
 
+    <div id="display-budget-container">
 
+        <!-- Text to display planned budget-->
+        <p id="budget-display"></p>
+        <p id="input-animation-value-display" class="fadeout-animation"></p>
+    </div>
     <div id="tracker-organizer-section">
         <div id="organizer-button-container">
             <button id="createShoppingBtn" class="tracker-buttons">Create Shopping</button>
             <button id="createNoteBtn" class="tracker-buttons">Create Note</button>
+            <button id="go-to-archive-button" class="tracker-buttons">Shopping History</button>
         </div>
 
 
@@ -83,66 +89,62 @@
         </div>
 
         <!-- save list to storage popup-->
-        <div id="save-shopping-list-to-storage-popup" class="popup">
-          
+        <div id="save-shopping-list-to-storage-popup">
 
-            <input type="text" id="save-list-to-storage-input" placeholder="Save your shopping list">
-            <button id="commit-shopping-list-to-storage-button">save</button>
+
+            <input type="text" id="save-list-to-storage-input" placeholder="Save sopping list...">
+            <button id="commit-shopping-list-to-storage-button" class="tracker-buttons">save</button>
         </div>
-     
-     <!-- -->
-     <div id="start-shopping-delete-popup">
-        <div>
-        <button id="start-shopping-button"  style="background-color: green;">START SHOPPING</button>
-    <button id="delete-lists-list"  style="background-color: red;">DELETE</button>
-</div>
-    
+<!-- Confirmation Popup -->
 
-
-</div>
+        <!-- -->
+        <div id="start-shopping-delete-popup">
+            <div>
+                <button id="start-shopping-button" style="background-color: green;">START SHOPPING</button>
+            </div>
+        </div>
         <!-- update shoppingList container-->
-        <div id="update-shopping-list-popup" >
+        <div id="update-shopping-list-popup">
             <div id="update-shopping-container">
                 <button id="close-update-shopping-popup">X</button>
-            <button id="active-update-shopping-list-button" class="basic-needs-buttons insights-buttons" style="background-color: greenyellow;">Update</button>
-            <ul id="update-shopping-list-list"></ul>
+                <div id="update-buttons-container">
+                <button id="delete-lists-list" class="tracker-buttons" style="background-color: red;">DELETE</button>
+                <button id="active-update-shopping-list-button" class="basic-needs-buttons insights-buttons"
+                    style="background-color: greenyellow;">Update</button>
+                </div>
+                <ul id="update-shopping-list-list"></ul>
 
-            <input type="text" id="update-input" placeholder="Add new item">
-            <button id="add-to-update-shopping-list-button" class="basic-needs-buttons insights-buttons">Add to List</button>
-        </div>
+                <input type="text" id="update-input" placeholder="Add new item....">
+                <button id="add-to-update-shopping-list-button" class="basic-needs-buttons insights-buttons">Add to list
+                </button>
+            </div>
         </div>
         <!-- creating shopping lists list-->
         <div id="latestShopingList">
             <h5 class="h5-shoping-list">Your Lists</h5>
+            <p id="no-lists-text">You don't have any list click "Create Shoping" buton to make one.</p>
             <ul id="shopping-list-lists" class="shopping-list">
             </ul>
         </div>
 
-        <!-- Edit Popup -->
-<div id="edit-shopping-list-popup">
-    <ul id="edit-list-items"></ul>
-    <input type="text" id="edit-new-item-input" placeholder="Enter new item">
-    <button id="add-new-item-to-edit-list-button">Add New Item</button>
 
-    <button id="update-edit-list-button">Update List</button>
-    <button id="delete-edit-list-button">Delete</button>
-</div>
         <div id="update-start-shoping-shopping-list-screen">
             <div id="display-container">
-            <button id="close-action-shopping-list-button" class="tracker-buttons">close</button>
+                <button id="close-action-shopping-list-button" class="tracker-buttons">close</button>
 
-            <h5 class="h5-shoping-list">Lists</h5>
-            <ul id="action-shopping-list" class="shopping-list">
-            </ul>
-            <h5 id="shopping-list-title"></h5>
-            <div id="action-list-container">
-                <button id="update-shopping-list-button" class="tracker-buttons">Update List</button>
-                <button id="start-shopping-button" class="tracker-buttons">Start Shopping</button>
+                <h5 class="h5-shoping-list">Lists</h5>
+                <ul id="action-shopping-list" class="shopping-list">
+                </ul>
+                <h5 id="shopping-list-title"></h5>
+                <div id="action-list-container">
+                    <button id="update-shopping-list-button" class="tracker-buttons">Update List</button>
+                    <button id="start-shopping-button" class="tracker-buttons">Start Shopping</button>
+                </div>
+
             </div>
 
-        </div>
 
-        
+
         </div>
         <div id="latestNote">
             <h5 class="h5-note-list">Latest Note</h5>
@@ -163,15 +165,23 @@
 
         <div id="result">
             <p id="number-found"></p>
-            <button type="button" id="add-to-chart">Add</button>
         </div>
         <button type="button" id="start-camera-scan">Scan</button>
 
         <ul id="camera-shopping-list"></ul>
+        <div id="save-shopping-list-arhive-container">
+            <h5 id="archive-list-title">Your shopping is complete.<br> Save list to the Archive</h5>
+            <button type="button" id="archive-button" class="tracker-buttons">Save and Exit</button>
 
+        </div>
 
     </section>
 
+    <section id="archive-section">
+        <ul id="archive-shopping-list"></ul>
+        <button type="button" id="exit-archive-button" class="tracker-buttons">Exit</button>
+
+    </section>
 
     <!-- Footer -->
     <footer class="footer">

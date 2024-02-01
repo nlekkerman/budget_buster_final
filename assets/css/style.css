@@ -22,8 +22,9 @@ main {
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 100%;
-    max-width: 100%;
+    max-width: 1020px;
+  margin: 0 auto;
+  border: 1px solid white;
     max-height: 100vh;
     overflow: scroll; /* Ensure the background image is not visible outside the main container */
 }
@@ -113,15 +114,15 @@ h3 {
 
 /* expense section */
 #expense-section {
-    flex: 1;
+   
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
     width: 95%;
     max-width: 100%;
-    overflow-y: scroll;
-    max-height: 100%;
+ background-color: rgba(0, 0, 0, 0.5);
+    height: 100vh;
     margin: 0 auto;
     padding-bottom: 3rem;
     box-sizing: border-box;
@@ -132,18 +133,46 @@ h3 {
 #expense-section h3 {
     width: 100%;
     padding: 0.3rem;
+    margin-top: -370px;
 }
 
 #budget-display {
     width: 100%;
-    padding: 0.6rem 0em;
+    padding: 0.3rem 0;
     font-size: 1.5rem;
     background-color: rgba(0, 0, 0, 0.7);
     border: 3px solid rgb(255, 255, 255);
-    ;
+  
 }
-#save-shopping-list-to-storage-popup{
+
+#save-shopping-list-to-storage-popup {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center the children horizontally */
+    align-items: center; /* Center the children vertically */
     display: none;
+    z-index: 209320934893024;
+    width: 90%;
+    height: 10em;
+    background-color: rgba(0, 0, 0, 0.9);
+    border: 2px solid white;
+}
+
+#commit-shopping-list-to-storage-button {
+    width: 50%;
+}
+
+#save-list-to-storage-input {
+    width: 70%; /* Adjust the width as needed */
+    border: 2px solid white;
+    margin-right: 10px; /* Add some space between input and button */
+}
+
+
+#commit-shopping-list-to-storage-button{
+    width: 50%;
+    margin-top: 10px;
+    margin: 0 auto;
 }
 #scrollable-container-display-data-conatiner {
     overflow-Y: auto;
@@ -201,6 +230,7 @@ h3 {
     width: 100%;
     height: 100%;
     display: none;
+  
 }
 
 
@@ -215,17 +245,25 @@ h3 {
 }
 
   #update-input{
-    background-color: rgba(23, 0, 0, 0.9);
+    background-color: rgba(187, 249, 209, 0.9);
     color: white;
     border: 1px solid white;
     width: 90%;
     margin: 0 auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
   }
 #add-to-update-shopping-list-button{
     margin: 0 auto;
+    margin-bottom: 10px;
 }
 
+#update-buttons-container{
+    margin-top: 50px;
+    margin-bottom: 20px;
 
+  
+}
 #update-shopping-container {
     position: absolute;
     top: 50%;
@@ -235,7 +273,6 @@ h3 {
     flex-direction: column;
     justify-content: space-evenly;
     background-color: rgba(1, 6, 51, 0.2);
-    height: 50%;
     width: 95%; /* Optional: Adjust the width as needed */
     border: 2px solid red;
 }
@@ -1014,8 +1051,11 @@ input#file {
 }
 #tracker-organizer-section {
     display: flex;
+    max-height: 100%;
+    overflow-y: scroll;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 50px;
 }
 
 #new-item-input {
@@ -1028,7 +1068,7 @@ input#file {
 }
 
 #add-to-shopping-list-button {
-    padding: 10px;
+ 
     background-color: #4CAF50;
     color: white;
     border: none;
@@ -1059,6 +1099,8 @@ input#file {
      padding: 20px;
      color: white;
      display: none;
+     overflow-y: scroll;
+     max-height: 13em;
      background-color: rgba(0, 0, 0, 0.8);
      border: 1px solid #ddd;
      border-radius: 8px;
@@ -1118,15 +1160,30 @@ input#file {
     font-size: 1.2rem; /* Adjust the font size as needed */
 }
 
-.shopping-list, .note-list,#update-shopping-list-list {
+.shopping-list, .note-list {
     list-style-type: none;
     padding: 0;
+    overflow-y: scroll;
+ 
+
+}
+#update-shopping-list-list {
+    list-style-type: none;
+    padding: 0;
+    overflow-y: scroll;
+ 
+height: 14em;
 }
 
-.shopping-list li, .note-list li,#camera-shopping-list{
-    background-color: #b3bfc3;
+.shopping-list li, .note-list li,#camera-shopping-list li{
+    background-color: rgba(198, 208, 177, 0.8);
+    color: white;
     padding: 8px;
-    border-bottom: 1px solid #ddd;
+    list-style: none;
+    border: 1px solid #ddd;
+    text-align: center;
+    font-weight: 500;
+    margin-bottom: 5px;
 }
 #update-shopping-list-list li{
     background-color: rgba(0, 0, 0, 0.8);
@@ -1149,9 +1206,25 @@ padding: 8px;
     padding: 20px;
     background-color: #fff;
     z-index: 1;
-
 }
-
+/* Popup Styles */
+.editOrDeleteCustomPopup {
+  width: 90%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.9);
+    border: 1px solid white;
+    z-index: 10000000009999990234234242340;
+  }
+  
+  .popupContent {
+    text-align: center;
+  }
 .custom-popup {
     display: none;
     position: fixed;
@@ -1344,13 +1417,13 @@ button#create-goal-button {
 camera styles ****/
 
 #camera-container {
-  position: absolute;
     width: 100%;
     display: none;
     background-color: rgba(0, 0, 0, 0.9);
- height: 100%;
+
     margin: 0 auto;
-    margin-bottom: 20px;
+ overflow-y: scroll;
+ margin-top: -30px;
     max-width: 640px;
     /* Adjust the maximum width as needed */
 
@@ -1388,17 +1461,15 @@ max-height: 350px;
 
 #start-camera-scan {
     padding: 10px;
-    
     display: flex;
-   
-    /* Adjust the width as needed */
+  margin-top:-100px;
     background-color: black;
     color: white;
     border: 2px solid white;
     border-radius: 5px;
     cursor: pointer;
     margin: 0 auto;
-    margin-top: 70px;
+   
    
 }
 
@@ -1429,6 +1500,55 @@ max-height: 350px;
     background-color: rgba(0, 0, 0, 0.7);
 }
 
+/** no lists text*/
+#no-lists-text{
+    color: white;
+    text-align: center;
+}
+#archive-shopping-list {
+    list-style: none;
+    overflow-y: scroll;
+    margin: 0 auto; 
+  width: 90%;
+  max-height: 12em;
+    padding: 0px;
+    text-align: center;
+}
+#exit-archive-button{
+    width: 30%;
+    margin: 0 auto;
+}
+#archive-section{
+    display: none;
+   
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 100%;
+    margin-top: 100px;
+    min-height: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+
+    position: absolute;
+}
+#save-shopping-list-arhive-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.9);
+    text-align: center;
+    z-index: 77777777777;
+    color: white;
+    width: 90%;
+    padding: 10px;
+    border-radius: 15px;
+    border: 1px solid white;
+    display: none;
+}
+#archive-list-title{
+    color: #008CBA;
+}
 #add-to-chart {
     padding: 10px;
     background-color: green;
