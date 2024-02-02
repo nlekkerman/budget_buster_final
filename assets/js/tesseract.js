@@ -1,7 +1,7 @@
 // Import necessary elements and functions
 import { video, initializeCamera } from './camera-script.js';
-localStorage.removeItem('shoppingLists');
-localStorage.removeItem('shoppingArchive');
+//localStorage.removeItem('shoppingLists');
+//localStorage.removeItem('shoppingArchive');
 document.addEventListener("DOMContentLoaded", function () {
 
     const numberThatIsFound = document.getElementById("number-found");
@@ -822,6 +822,7 @@ document.addEventListener("DOMContentLoaded", function () {
         trackerOrganizerSection.style.display = 'flex'
         readInitialBudget();
         startShoppingButonsDiv.style.display = 'none'
+        populateArchiveShoppingList();
 
     });
     document.getElementById('go-to-archive-button').addEventListener('click', function () {
@@ -842,60 +843,71 @@ document.addEventListener("DOMContentLoaded", function () {
     function handleArchivedListClick(archivedList) {
         // Create a new list container dynamically
         const newListContainer = document.createElement('div');
-        
+    
         newListContainer.classList.add('archived-list-container');
-        newListContainer.style.zIndex = '23472347284728947294'
-        newListContainer.style.position = 'absolute'
-        newListContainer.style.display = 'flex'
-        newListContainer.style.justifyContent = 'center'
-        newListContainer.style.flexDirection = 'column'
-
-        newListContainer.style.backgroundColor = 'rgba(0, 0, 0, 1)'; // Replace with your desired RGBA values for the list
-
-        newListContainer.style.height = '100%'
-        newListContainer.style.width = '100%'
+        newListContainer.style.zIndex = '23472347284728947294';
+        newListContainer.style.position = 'absolute';
+        newListContainer.style.display = 'flex';
+        newListContainer.style.justifyContent = 'center';
+        newListContainer.style.flexDirection = 'column';
+        newListContainer.style.backgroundColor = 'rgba(0, 0, 0, 1)';
+        newListContainer.style.height = '100%';
+        newListContainer.style.width = '100%';
     
         // Create a header for the list with the list name and date
         const listHeader = document.createElement('h5');
-        listHeader.style.backgroundColor = 'rgba(134, 144, 222, 1)'
-        listHeader.style.textAlign= 'center'
-        
-        listHeader.style.color = 'white'
-
-        listHeader.textContent = `${archivedList.listName} - ${archivedList.date}`;
+        listHeader.style.backgroundColor = 'rgba(233, 244, 222, 0.5)';
+        listHeader.style.padding = '5px';
+        listHeader.style.borderTop = '1px solid white';
+        listHeader.style.borderBottom = '1px solid white';
+        listHeader.style.textAlign = 'center';
+        listHeader.style.width = '100%';
+        listHeader.style.margin = '0 auto';
+        listHeader.style.color = 'white';
+        listHeader.style.marginBottom = '1rem';
+        listHeader.textContent = `${archivedList.listName} <br> ${archivedList.date}`;
         newListContainer.appendChild(listHeader);
     
         // Create an unordered list for items
         const itemList = document.createElement('ul');
-        itemList.style.listStyle = 'none'
-        itemList.style.marginLeft = '0px'
-        itemList.style.width = '90%'
-        itemList.style.padding = '0px'
-        itemList.style.margin = '0 auto'
-        itemList.style.backgroundColor = 'rgba(14, 0, 22, 1)'
-
+        itemList.style.listStyle = 'none';
+        itemList.style.marginLeft = '0px';
+        itemList.style.width = '90%';
+        itemList.style.padding = '0px';
+        itemList.style.margin = '0 auto';
+        itemList.style.backgroundColor = 'rgba(14, 0, 22, 1)';
+    
         archivedList.items.forEach(item => {
-            
             // Create a list item for each item with its name and price
             const listItem = document.createElement('li');
-
             listItem.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
             listItem.style.padding = '8px';
-            listItem.style.textAlign = 'start'
+            listItem.style.textAlign = 'start';
             listItem.style.marginBottom = '8px';
-            listItem.style.borderRadius = '5px';
+            listItem.style.borderRadius = '10px';
             listItem.style.border = '1px solid white';
             listItem.innerHTML = `<span style="color: white;">${item.itemName}</span>  <span style="color: red; float:right">€ ${item.itemPrice}</span>`;
             itemList.appendChild(listItem);
         });
-        
     
         // Append the item list to the new list container
         newListContainer.appendChild(itemList);
     
+        // Display shoppingExpense
+        const shoppingExpenseParagraph = document.createElement('p');
+        shoppingExpenseParagraph.style.color = 'white';
+        shoppingExpenseParagraph.style.textAlign = 'center';
+        shoppingExpenseParagraph.textContent = `Shopping Expense: € ${archivedList.shoppingExpense.toFixed(2)}`;
+        newListContainer.appendChild(shoppingExpenseParagraph);
+    
         // Create a button to exit the list
         const exitButton = document.createElement('button');
         exitButton.textContent = 'Exit List';
+        exitButton.style.width = '40%';
+        exitButton.style.borderRadius = '5px';
+        exitButton.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+        exitButton.style.color = 'white';
+        exitButton.style.margin = '0 auto';
         exitButton.addEventListener('click', function () {
             // Remove the dynamically created list container when the exit button is clicked
             newListContainer.remove();
