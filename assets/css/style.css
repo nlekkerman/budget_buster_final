@@ -106,22 +106,20 @@ h3 {
 }
 
 #display-budget-container {
+    margin: 0 auto;
     margin-top: 0.5rem;
     margin-bottom: 1rem;
-    width: 100%;
+    width: 80%;
+    
+ 
 
 }
 
 /* expense section */
 #expense-section {
-   
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
     width: 95%;
     max-width: 100%;
- background-color: rgba(0, 0, 0, 0.5);
     height: 100vh;
     margin: 0 auto;
     padding-bottom: 3rem;
@@ -185,7 +183,6 @@ h3 {
     display: flex;
     flex-direction: column;
     list-style-type: none;
-    /* Remove default list styles */
     padding: 0;
     margin: 0;
     display: flex;
@@ -392,19 +389,28 @@ h3 {
     align-items: center;
 }
 
-#basic-needs-buttons,
 #luxury-buttons {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    /* Adjust as needed */
     max-width: 600px;
-    /* Set a maximum width to control button distribution */
     margin: 0 auto;
-    margin-top: 1rem;
-
+    margin-top: 2em;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding-top: 1em;
+    padding-bottom: 1em;
 }
-
+#basic-needs-buttons{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background-color: rgba(0, 0, 0, 0.5);
+    max-width: 600px;
+    margin: 0 auto;
+    margin-top: 1em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
 .basic-needs-buttons,
 .luxury-buttons {
     width: 30%;
@@ -525,7 +531,7 @@ h3,
     text-align: center;
     justify-content: center;
     align-items: center;
-    margin-top: 15px;
+    margin-top: 2em;
 
 }
 
@@ -564,7 +570,6 @@ textarea#message {
 
 #dropdown-goal-list {
     align-items: flex-start;
-    /* Add this line to make items start from the top */
     border: 2px solid silver;
     position: absolute;
     top: 50%;
@@ -573,7 +578,6 @@ textarea#message {
     transform: translate(-50%, -50%);
     background-color: rgba(0, 0, 0, 0.7);
     padding: 20px;
-    /* Adjust padding as needed */
 }
 
 /* Hover effect */
@@ -903,15 +907,12 @@ input#file {
 
 .goals-list-item {
     margin-bottom: 8px;
-    /* Adjust the margin as needed */
 }
 
 /* Add more styles as needed */
 .achieved-button {
     background-color: #4caf50;
-    /* Green background color */
     color: white;
-    /* White text color */
     border: none;
     padding: 10px 15px;
     text-align: center;
@@ -946,6 +947,7 @@ input#file {
     display: flex;
     flex-direction: column;
     align-items: center;
+    
 }
 
 #insights-buttons-container {
@@ -1403,7 +1405,7 @@ button#create-goal-button {
     background-color: rgba(0, 0, 0, 0.9);
     display: none;
     justify-content: center;
-    width: 90%;
+    width: 10em;
     height: 5em;
     align-items: center;
     border-radius: 20px;

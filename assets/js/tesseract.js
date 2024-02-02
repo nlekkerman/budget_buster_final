@@ -1,6 +1,7 @@
 // Import necessary elements and functions
 import { video, initializeCamera } from './camera-script.js';
-//localStorage.removeItem('shoppingLists');
+localStorage.removeItem('shoppingLists');
+localStorage.removeItem('shoppingArchive');
 document.addEventListener("DOMContentLoaded", function () {
 
     const numberThatIsFound = document.getElementById("number-found");
@@ -19,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const budgetDisplay = document.getElementById("budget-display");
     const archiveButtonContainer = document.getElementById("save-shopping-list-arhive-container");
     const exitArchiveButton = document.getElementById("exit-archive-button");
-   
+
     let budget = parseInt(localStorage.getItem('budget')) || 0;
 
     readInitialBudget();
@@ -74,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         initializeCamera.isInitialized = true; // Mark as initialized
     }
-    initializeCamera();
+
 
     function captureFrameAndRecognize() {
         if (!shouldRecognize) {
@@ -207,7 +208,7 @@ document.addEventListener("DOMContentLoaded", function () {
         cameraShoppingList.style.display = 'block';
 
 
-
+        initializeCamera();
 
         // Update the isShopping variable
         isShopping = true;
@@ -331,8 +332,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const addToUpdateShoppingListButton = document.getElementById('add-to-update-shopping-list-button');
         const activeUpdateShoppingListButton = document.getElementById('active-update-shopping-list-button');
         const editPopup = document.getElementById('update-shopping-list-popup');
-     
-        
+
+
         // Clear existing content in the update shopping list popup
         updateShoppingListList.innerHTML = '';
         updateInput.value = ''; // Clear the input field
@@ -372,8 +373,8 @@ document.addEventListener("DOMContentLoaded", function () {
             const popupContent = document.createElement('div');
             popupContent.classList.add('editOrDeletePopupContent'); // Updated class
             const confirmationMessage = document.createElement('p');
-            confirmationMessage.style.color ='white'
-            confirmationMessage.style.textAlign ='center'
+            confirmationMessage.style.color = 'white'
+            confirmationMessage.style.textAlign = 'center'
             confirmationMessage.textContent = 'Are you sure you want to delete this list?';
             const confirmButton = document.createElement('button');
             confirmButton.id = 'editOrDeleteConfirmButton'; // Updated ID
@@ -388,16 +389,16 @@ document.addEventListener("DOMContentLoaded", function () {
             cancelButton.style.borderRadius = "25px"
             cancelButton.style.color = "white"
             cancelButton.style.backgroundColor = "rgba( 255, 0, 42, 0.7)"
-        
+
             // Append elements to the confirmation popup
             popupContent.appendChild(confirmationMessage);
             popupContent.appendChild(confirmButton);
             popupContent.appendChild(cancelButton);
             confirmationPopup.appendChild(popupContent);
-        
+
             // Append the confirmation popup to the body
             document.body.appendChild(confirmationPopup);
-        
+
             // Add event listeners to buttons
             confirmButton.addEventListener('click', function () {
                 // Execute deleteEntireList function on confirmation
@@ -418,7 +419,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             });
         });
-        
+
         // Show the update shopping list popup
         editPopup.style.display = 'block';
 
@@ -454,7 +455,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('close-update-shopping-popup').addEventListener('click', function () {
             editPopup.style.display = 'none';
             startShoppingButonsDiv.style.display = 'none';
-           
+
         });
         // Add functionality for updating the list
         activeUpdateShoppingListButton.addEventListener('click', () => {
@@ -539,7 +540,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
-    
+
         // Function to add an item to the list
         function addItemToList(itemName, list) {
             // Code to add the item to the list
@@ -555,7 +556,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
-      
+
 
 
     }
@@ -688,7 +689,7 @@ document.addEventListener("DOMContentLoaded", function () {
             cameraShoppingList.appendChild(itemElement);
         });
 
-       
+
 
         // Check if all items are inactive
         if (allItemsInactive) {
@@ -709,15 +710,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Clear existing content in the ul element
         shoppingListLists.innerHTML = '';
-        
-    // Check if there are no lists
-    if (existingLists.length === 0) {
-        // Hide the no-lists-text element
-        noListsText.style.display = 'block';
-    } else {
-        // Show the no-lists-text element
-        noListsText.style.display = 'none';
-    }
+
+        // Check if there are no lists
+        if (existingLists.length === 0) {
+            // Hide the no-lists-text element
+            noListsText.style.display = 'block';
+        } else {
+            // Show the no-lists-text element
+            noListsText.style.display = 'none';
+        }
         console.log('Existing Lists:', existingLists);
         // Iterate through each existing list
         existingLists.forEach(list => {
@@ -743,9 +744,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 editButton.addEventListener('click', (event) => {
                     event.preventDefault(); // Prevent the default behavior of the click event
                     editList(list.listsUniqueID);
-                });                editButton.style.float = 'right';
+                }); editButton.style.float = 'right';
                 listItem.appendChild(editButton);
-               
+
             }
 
             // Add a click event listener to each shopping list item
@@ -785,7 +786,8 @@ document.addEventListener("DOMContentLoaded", function () {
             shoppingArchive.push({
                 listName: completedList.listName,
                 items: completedList.items,
-                date: formattedDate
+                date: formattedDate,
+                shoppingExpense: totalExpenses
             });
             localStorage.setItem('shoppingArchive', JSON.stringify(shoppingArchive));
 
@@ -815,14 +817,15 @@ document.addEventListener("DOMContentLoaded", function () {
         // Save the updated budget to local storage
         localStorage.setItem('budget', budget);
         displayAnimationValue(totalExpenses, "red", "-");
-cameraContainer.style.display ='none'
-trackerOrganizerSection.style.display = 'block'
-trackerOrganizerSection.style.display = 'flex'
+        cameraContainer.style.display = 'none'
+        trackerOrganizerSection.style.display = 'block'
+        trackerOrganizerSection.style.display = 'flex'
         readInitialBudget();
+        startShoppingButonsDiv.style.display = 'none'
 
     });
     document.getElementById('go-to-archive-button').addEventListener('click', function () {
-       
+
 
         const archiveScreen = document.getElementById('archive-section')
         archiveScreen.style.display = 'block'
@@ -835,6 +838,77 @@ trackerOrganizerSection.style.display = 'flex'
         cameraContainer.style.display = 'none'
 
     });
+
+    function handleArchivedListClick(archivedList) {
+        // Create a new list container dynamically
+        const newListContainer = document.createElement('div');
+        
+        newListContainer.classList.add('archived-list-container');
+        newListContainer.style.zIndex = '23472347284728947294'
+        newListContainer.style.position = 'absolute'
+        newListContainer.style.display = 'flex'
+        newListContainer.style.justifyContent = 'center'
+        newListContainer.style.flexDirection = 'column'
+
+        newListContainer.style.backgroundColor = 'rgba(0, 0, 0, 1)'; // Replace with your desired RGBA values for the list
+
+        newListContainer.style.height = '100%'
+        newListContainer.style.width = '100%'
+    
+        // Create a header for the list with the list name and date
+        const listHeader = document.createElement('h5');
+        listHeader.style.backgroundColor = 'rgba(134, 144, 222, 1)'
+        listHeader.style.textAlign= 'center'
+        
+        listHeader.style.color = 'white'
+
+        listHeader.textContent = `${archivedList.listName} - ${archivedList.date}`;
+        newListContainer.appendChild(listHeader);
+    
+        // Create an unordered list for items
+        const itemList = document.createElement('ul');
+        itemList.style.listStyle = 'none'
+        itemList.style.marginLeft = '0px'
+        itemList.style.width = '90%'
+        itemList.style.padding = '0px'
+        itemList.style.margin = '0 auto'
+        itemList.style.backgroundColor = 'rgba(14, 0, 22, 1)'
+
+        archivedList.items.forEach(item => {
+            
+            // Create a list item for each item with its name and price
+            const listItem = document.createElement('li');
+
+            listItem.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+            listItem.style.padding = '8px';
+            listItem.style.textAlign = 'start'
+            listItem.style.marginBottom = '8px';
+            listItem.style.borderRadius = '5px';
+            listItem.style.border = '1px solid white';
+            listItem.innerHTML = `<span style="color: white;">${item.itemName}</span>  <span style="color: red; float:right">€ ${item.itemPrice}</span>`;
+            itemList.appendChild(listItem);
+        });
+        
+    
+        // Append the item list to the new list container
+        newListContainer.appendChild(itemList);
+    
+        // Create a button to exit the list
+        const exitButton = document.createElement('button');
+        exitButton.textContent = 'Exit List';
+        exitButton.addEventListener('click', function () {
+            // Remove the dynamically created list container when the exit button is clicked
+            newListContainer.remove();
+        });
+    
+        // Append the exit button to the new list container
+        newListContainer.appendChild(exitButton);
+    
+        // Append the new list container to the body or a specific container in your HTML
+        document.body.appendChild(newListContainer);
+    }
+    
+    
 
     function populateArchiveShoppingList() {
         // Retrieve archived lists from local storage
@@ -856,8 +930,7 @@ trackerOrganizerSection.style.display = 'flex'
             // Add a click event listener to each archived list item
             listItem.addEventListener('click', function () {
                 console.log('Clicked Archived List:', archivedList);
-                // Call a function to handle what happens when an archived list is clicked
-                // You can implement this function based on your requirements
+
                 handleArchivedListClick(archivedList);
             });
 
@@ -881,7 +954,7 @@ trackerOrganizerSection.style.display = 'flex'
         animationDisplay.classList.add("fadeout-animation");
     }
 
-    
+
 });
 
 
