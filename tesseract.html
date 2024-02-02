@@ -66,11 +66,24 @@
     </nav>
 
     <div id="display-budget-container">
-
-        <!-- Text to display planned budget-->
         <p id="budget-display"></p>
         <p id="input-animation-value-display" class="fadeout-animation"></p>
     </div>
+
+       <!-- create note-->
+       <div id="create-note-popup">
+        <h5>Create Note</h5>
+       
+        <input type="text" id="note-input" placeholder="Enter note text...">
+        <button id="create-note-popup-button" class="tracker-buttons">Create Note</button>
+    </div>
+ <!-- create note-->
+ <div id="give-note-name-popup">
+
+   
+    <input type="text" id="save-note-name-input" placeholder="Enter note name...">
+    <button id="save-note-name-popup-button" class="tracker-buttons">Save</button>
+</div>
     <div id="tracker-organizer-section">
         <div id="organizer-button-container">
             <button id="createShoppingBtn" class="tracker-buttons">Create Shopping</button>
@@ -88,6 +101,7 @@
             <button id="add-to-shopping-list-button">Add to List</button>
         </div>
 
+      
         <!-- save list to storage popup-->
         <div id="save-shopping-list-to-storage-popup">
 
@@ -149,9 +163,10 @@
         <div id="latestNote">
             <h5 class="h5-note-list">Latest Note</h5>
             <ul class="note-list">
-                <li>Note Item 1</li>
-                <li>Note Item 2</li>
+
             </ul>
+            <p id="no-note-text">You don't have any note yet click "Create note" buton to make one.</p>
+
         </div>
 
     </div>

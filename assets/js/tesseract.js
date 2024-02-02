@@ -20,7 +20,207 @@ document.addEventListener("DOMContentLoaded", function () {
     const budgetDisplay = document.getElementById("budget-display");
     const archiveButtonContainer = document.getElementById("save-shopping-list-arhive-container");
     const exitArchiveButton = document.getElementById("exit-archive-button");
+    const createNoteButton = document.getElementById("createNoteBtn");
 
+    // JavaScript to handle the button click and display the popup
+    createNoteButton.addEventListener('click', function () {
+        // Display the create note popup
+        document.getElementById('create-note-popup').style.display = 'block';
+        document.getElementById('create-note-popup').style.display = 'flex';
+    });
+
+    // Optionally, add an event listener to close the popup when the "Create Note" button inside the popup is clicked
+    document.getElementById('create-note-popup-button').addEventListener('click', function () {
+      
+        document.getElementById('give-note-name-popup').style.display = 'block';
+        document.getElementById('give-note-name-popup').style.display = 'flex';
+        document.getElementById('create-note-popup').style.display = 'none';
+
+    });
+
+    document.getElementById('save-note-name-popup-button').addEventListener('click', function () {
+        saveNote();
+        document.getElementById('give-note-name-popup').style.display = 'none';
+    });
+// Function to update the note list
+function updateNoteList() {
+    // Retrieve existing notes from local storage
+    const notesDB = JSON.parse(localStorage.getItem('notesDB')) || [];
+    
+    // Get the ul element
+    const noteList = document.querySelector('.note-list');
+
+    // Get the no-note-text element
+    const noNoteText = document.getElementById('no-note-text');
+
+    // Clear existing content
+    noteList.innerHTML = '';
+
+    // If there are no notes, display the no-note-text
+    if (notesDB.length === 0) {
+        noNoteText.style.display = 'block';
+    } else {
+        noNoteText.style.display = 'none';
+    }
+    // Populate the ul element with note names
+    notesDB.forEach(note => {
+        const listItem = document.createElement('li');
+        listItem.textContent = note.noteName;
+
+        // Add a click event listener to each note item
+        listItem.addEventListener('click', function () {
+            // Call the function to display detailed note information
+            displayDetailedNote(note);
+        });
+
+        // Append the note item to the ul element
+        noteList.appendChild(listItem);
+    });
+}
+// Function to display detailed information about a selected note
+function displayDetailedNote(note) {
+    // Create a new container dynamically
+    const detailedNoteContainer = document.createElement('div');
+    detailedNoteContainer.classList.add('detailed-note-container');
+    detailedNoteContainer.style.position = 'fixed';
+    detailedNoteContainer.style.top = '50%';
+    detailedNoteContainer.style.left = '50%';
+    detailedNoteContainer.style.transform = 'translate(-50%, -50%)';
+    detailedNoteContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+    detailedNoteContainer.style.padding = '20px';
+    detailedNoteContainer.style.border = '2px solid white';
+    detailedNoteContainer.style.borderRadius = '10px';
+    detailedNoteContainer.style.width = '90%';
+    
+    // Create a header for the detailed note with the note name
+    const noteTitle = document.createElement('h5');
+    noteTitle.textContent = note.noteName;
+    noteTitle.style.color = 'white';
+    noteTitle.style.width = '100%';
+    noteTitle.style.margin = '0 auto';
+    noteTitle.style.textAlign = 'center';
+    noteTitle.style.marginBottom = '1em';
+    noteTitle.style.backgroundColor = 'rgba(25, 100, 15, 0.5)';
+
+    // Create a paragraph for the note date
+    const noteDate = document.createElement('p');
+    noteDate.textContent = ` ${note.date}`;
+    noteDate.style.color = 'white';
+    noteDate.style.width = '50%';
+    noteDate.style.margin = '0 auto';
+    noteDate.style.textAlign = 'center';
+    noteDate.style.fontSize = '10px';
+    noteDate.style.marginBottom = '1em';
+    noteDate.style.backgroundColor = 'rgba(125, 0, 150, 0.4)';
+
+    // Create a paragraph for the note content
+    const noteContent = document.createElement('p');
+    noteContent.textContent = `Content: ${note.noteContent}`;
+    noteContent.style.color = 'white';
+    noteContent.style.width = '100%';
+    noteContent.style.margin = '0 auto';
+    noteContent.style.textAlign = 'center';
+    noteContent.style.marginBottom = '1em';
+    noteContent.style.border = '1px solid white';
+    noteContent.style.borderRadius = '20px';
+    noteContent.style.padding = '5px';
+    noteContent.style.backgroundColor = 'rgba(0, 0, 0, 0.4)';
+
+    // Create a button to close the detailed note
+    const closeButton = createButton('Close', 'rgba(255, 200, 242, 0.7)', 'white', '25px', 'flex', 'center', '0 auto', function () {
+        // Remove the dynamically created detailed note container
+        detailedNoteContainer.remove();
+    });
+
+    // Create a button to delete the note
+    const deleteButton = createButton('Delete', 'rgba(255, 0, 0, 0.7)', 'white', '25px', 'flex', 'center', '0 auto', function () {
+        // Delete the note
+        deleteNote(note.uniqueId);
+
+        // Update the note list dynamically
+        updateNoteList();
+
+        // Remove the detailed note container
+        detailedNoteContainer.remove();
+    });
+
+    // Add the elements to the detailed note container
+    detailedNoteContainer.appendChild(noteTitle);
+    detailedNoteContainer.appendChild(noteDate);
+    detailedNoteContainer.appendChild(noteContent);
+    detailedNoteContainer.appendChild(closeButton);
+    detailedNoteContainer.appendChild(deleteButton);
+
+    // Append the detailed note container to the body or a specific container in your HTML
+    document.body.appendChild(detailedNoteContainer);
+}
+
+// Function to delete a note by uniqueId
+function deleteNote(uniqueId) {
+    // Retrieve existing notes from local storage
+    const notesDB = JSON.parse(localStorage.getItem('notesDB')) || [];
+
+    // Filter out the note with the specified uniqueId
+    const updatedNotes = notesDB.filter(note => note.uniqueId !== uniqueId);
+
+    // Save the updated notes to local storage
+    localStorage.setItem('notesDB', JSON.stringify(updatedNotes));
+}
+
+// Function to create a button with specified styles and click event listener
+function createButton(text, backgroundColor, color, borderRadius, display, textAlign, margin, clickHandler) {
+    const button = document.createElement('button');
+    button.textContent = text;
+    button.style.backgroundColor = backgroundColor;
+    button.style.color = color;
+    button.style.borderRadius = borderRadius;
+    button.style.display = display;
+    button.style.textAlign = textAlign;
+    button.style.margin = margin;
+    button.addEventListener('click', clickHandler);
+    return button;
+}
+
+// Call the updateNoteList function initially to populate the list
+updateNoteList();
+function saveNote() {
+    // Get input values
+    const noteName = document.getElementById('save-note-name-input').value.trim();
+    const noteContent = document.getElementById('note-input').value.trim();
+
+    // Validate input
+    if (noteName === "") {
+        alert('Note name cannot be empty!');
+        return;
+    }
+
+    // Create a new note object
+    const newNote = {
+        noteName: noteName,
+        noteContent: noteContent,
+        date: new Date().toLocaleString(),
+        uniqueId: generateUniqueID() // Assuming you have a function to generate a unique ID
+    };
+
+    // Retrieve existing notes from local storage
+    const notesDB = JSON.parse(localStorage.getItem('notesDB')) || [];
+
+    // Add the new note to the existing notes
+    notesDB.push(newNote);
+    console.log('Updated Notes Data:', notesDB);
+
+    // Save the updated notes to local storage
+    localStorage.setItem('notesDB', JSON.stringify(notesDB));
+
+    // Hide the create note popup
+    document.getElementById('create-note-popup').style.display = 'none';
+
+    // Optionally, you can update the note list dynamically here
+    updateNoteList();
+
+    document.getElementById('save-note-name-input').value = '';
+    document.getElementById('note-input').value = '';
+}
     let budget = parseInt(localStorage.getItem('budget')) || 0;
 
     readInitialBudget();
@@ -843,7 +1043,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function handleArchivedListClick(archivedList) {
         // Create a new list container dynamically
         const newListContainer = document.createElement('div');
-    
+
         newListContainer.classList.add('archived-list-container');
         newListContainer.style.zIndex = '23472347284728947294';
         newListContainer.style.position = 'absolute';
@@ -853,7 +1053,16 @@ document.addEventListener("DOMContentLoaded", function () {
         newListContainer.style.backgroundColor = 'rgba(0, 0, 0, 1)';
         newListContainer.style.height = '100%';
         newListContainer.style.width = '100%';
-    
+
+        const listTitle = document.createElement('h4');
+        listTitle.textContent = 'Archived list';
+        listTitle.style.textAlign = 'center';
+        listTitle.style.color = 'white';
+        listTitle.style.marginTop = '-13em';
+        listTitle.style.marginBottom = '7em';
+        newListContainer.appendChild(listTitle);
+
+
         // Create a header for the list with the list name and date
         const listHeader = document.createElement('h5');
         listHeader.style.backgroundColor = 'rgba(233, 244, 222, 0.5)';
@@ -864,10 +1073,10 @@ document.addEventListener("DOMContentLoaded", function () {
         listHeader.style.width = '100%';
         listHeader.style.margin = '0 auto';
         listHeader.style.color = 'white';
-        listHeader.style.marginBottom = '1rem';
+        listHeader.style.marginBottom = '6rem';
         listHeader.textContent = `${archivedList.listName} <br> ${archivedList.date}`;
         newListContainer.appendChild(listHeader);
-    
+
         // Create an unordered list for items
         const itemList = document.createElement('ul');
         itemList.style.listStyle = 'none';
@@ -876,7 +1085,7 @@ document.addEventListener("DOMContentLoaded", function () {
         itemList.style.padding = '0px';
         itemList.style.margin = '0 auto';
         itemList.style.backgroundColor = 'rgba(14, 0, 22, 1)';
-    
+
         archivedList.items.forEach(item => {
             // Create a list item for each item with its name and price
             const listItem = document.createElement('li');
@@ -889,17 +1098,17 @@ document.addEventListener("DOMContentLoaded", function () {
             listItem.innerHTML = `<span style="color: white;">${item.itemName}</span>  <span style="color: red; float:right">€ ${item.itemPrice}</span>`;
             itemList.appendChild(listItem);
         });
-    
+
         // Append the item list to the new list container
         newListContainer.appendChild(itemList);
-    
+
         // Display shoppingExpense
         const shoppingExpenseParagraph = document.createElement('p');
         shoppingExpenseParagraph.style.color = 'white';
         shoppingExpenseParagraph.style.textAlign = 'center';
         shoppingExpenseParagraph.textContent = `Shopping Expense: € ${archivedList.shoppingExpense.toFixed(2)}`;
         newListContainer.appendChild(shoppingExpenseParagraph);
-    
+
         // Create a button to exit the list
         const exitButton = document.createElement('button');
         exitButton.textContent = 'Exit List';
@@ -912,15 +1121,15 @@ document.addEventListener("DOMContentLoaded", function () {
             // Remove the dynamically created list container when the exit button is clicked
             newListContainer.remove();
         });
-    
+
         // Append the exit button to the new list container
         newListContainer.appendChild(exitButton);
-    
+
         // Append the new list container to the body or a specific container in your HTML
         document.body.appendChild(newListContainer);
     }
-    
-    
+
+
 
     function populateArchiveShoppingList() {
         // Retrieve archived lists from local storage

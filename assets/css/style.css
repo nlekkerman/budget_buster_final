@@ -1563,3 +1563,50 @@ max-height: 350px;
     margin-top: 10px;
     cursor: pointer;
 }
+/* note styles */
+#create-note-popup{
+    display: none;
+    position: absolute;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    height: 100vh;
+ 
+    flex-direction: column;
+    justify-content: center;
+    
+}
+
+#note-input{
+    width: 95%;
+    margin: 0 auto;
+margin-top: -300px;
+margin-bottom: 5em;
+}
+#create-note-popup-button{
+    width: 90%;
+    margin: 0 auto;
+}
+#no-note-text{
+    color: white;
+}
+#give-note-name-popup{
+    display: none;
+    position: absolute;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    height: 100vh;
+ 
+    flex-direction: column;
+    justify-content: center;
+    z-index: 398453498534985;
+}
+
+#create-note-popup h5{
+    color: white;
+   text-align: center;
+  position: fixed;
+  top: 5px;
+  width: 100%;
+  padding: 1em;
+  background-color: rgba(18, 111, 154, 0.6);
+}
